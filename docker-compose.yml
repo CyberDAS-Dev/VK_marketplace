@@ -1,0 +1,15 @@
+version: "3.9"
+services:
+  backend:
+    image: "vkmarket_backend:${TAG-latest}"
+    env_file:
+      - .env
+    build:
+      context: ./backend
+      args:
+        INSTALL_DEV: ${INSTALL_DEV-false}
+
+  frontend:
+    image: "vkmarket_frontend:${TAG-latest}"
+    build:
+      context: ./frontend

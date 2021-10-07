@@ -1,0 +1,15 @@
+version: "3.9"
+services:
+  backend:
+    ports:
+      - "8888:8888"
+    volumes:
+      - ./backend:/app
+    build:
+      args:
+        INSTALL_DEV: true
+    command: /start.sh
+
+  frontend:
+    ports:
+      - "3000:3000"

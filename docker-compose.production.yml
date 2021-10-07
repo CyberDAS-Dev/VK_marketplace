@@ -1,0 +1,19 @@
+version: "3.9"
+services:
+  backend:
+    expose:
+      - 8888
+    labels:
+      - traefik.enable=true
+      - traefik.http.routers.vkmarket-backend.rule=(Host(`vkmarket.cyberdas.net`) && (PathPrefix(`/api`) || PathPrefix(`/docs`) || PathPrefix(`/redoc`))
+
+  frontend:
+    expose:
+      - 3000
+    labels:
+      - traefik.enable=true
+      - traefik.http.routers.vkmarket-frontend.rule=Host(`vkmarket.cyberdas.net`)
+
+networks:
+  proxy:
+    external: true
