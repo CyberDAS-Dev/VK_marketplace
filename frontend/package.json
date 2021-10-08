@@ -14,9 +14,6 @@
     "license": "MIT",
     "devDependencies": {
         "cross-env": "^7.0.3",
-        "eruda": "^2.4.1",
-        "eruda-code": "^2.0.0",
-        "eruda-dom": "^2.0.0",
         "eslint-config-airbnb": "^18.2.1",
         "eslint-config-prettier": "^8.3.0",
         "eslint-import-resolver-jsconfig": "^1.1.0",
@@ -28,6 +25,9 @@
         "react-scripts": "^4.0.3"
     },
     "dependencies": {
+        "eruda": "^2.4.1",
+        "eruda-code": "^2.0.0",
+        "eruda-dom": "^2.0.0",
         "@vkontakte/icons": "^1.129.0",
         "@vkontakte/vk-bridge": "^2.4.8",
         "@vkontakte/vkjs": "^0.22.1",
