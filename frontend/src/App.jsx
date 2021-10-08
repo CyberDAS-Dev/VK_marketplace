@@ -13,13 +13,13 @@ import {
 } from '@vkontakte/vkui'
 import {
     Icon28ServicesOutline,
-    Icon28MessageOutline,
     Icon28MenuOutline,
     Icon28AddSquareOutline,
     Icon28UserSquareOutline,
 } from '@vkontakte/icons'
 import '@vkontakte/vkui/dist/vkui.css'
 import AdsView from './views/ads/Ads'
+import ProfileView from './views/profile/Profile'
 
 function App() {
     const [activeStory, setActiveStory] = React.useState('ads')
@@ -67,14 +67,7 @@ function App() {
                         </Group>
                     </Panel>
                 </View>
-                <View id="profile" activePanel="profile">
-                    <Panel id="profile">
-                        <PanelHeader left={<PanelHeaderBack />}>Сообщения</PanelHeader>
-                        <Group style={{ height: '1000px' }}>
-                            <Placeholder icon={<Icon28MessageOutline width={56} height={56} />} />
-                        </Group>
-                    </Panel>
-                </View>
+                <ProfileView id="profile" />
             </Epic>
         </AppRoot>
     )
