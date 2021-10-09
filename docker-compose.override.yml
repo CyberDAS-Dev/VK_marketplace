@@ -12,7 +12,7 @@ services:
   pgadmin:
     image: dpage/pgadmin4
     ports:
-      - "5050:5050"
+      - "127.0.0.1:5050:5050"
     depends_on:
       - db
     env_file:
@@ -22,8 +22,7 @@ services:
     build:
       target: prod
     ports:
-      - "80:80"
-      - "8888:8888"
+      - "127.0.0.1:8888:8888"
     volumes:
       - ./backend:/app
     command: /start-reload.sh
