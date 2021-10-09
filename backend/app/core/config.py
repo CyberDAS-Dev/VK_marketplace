@@ -4,7 +4,7 @@ from pydantic import AnyHttpUrl, BaseSettings, PostgresDsn, validator
 
 
 class Settings(BaseSettings):
-    API_V1_STR: str = "/api/v1"
+    BASE_PREFIX: str = "/v1"
     MINI_APP_SECRET_KEY: str
     BACKEND_CORS_ORIGINS: List[AnyHttpUrl] = []
 
