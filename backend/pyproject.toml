@@ -1,5 +1,6 @@
 [tool.poetry]
 name = "CyberDAS VK Marketplace"
+description = "Барахолка CyberDAS"
 version = "0.1.0"
 license = "MIT"
 authors = ["Ivan Akostelov <payne@cyberdas.net>"]
@@ -7,18 +8,17 @@ authors = ["Ivan Akostelov <payne@cyberdas.net>"]
 [tool.poetry.dependencies]
 python = "^3.7"
 uvicorn = "^0.11.3"
-fastapi = "^0.54.1"
+fastapi = "^0.68.1"
 requests = "^2.23.0"
-passlib = {extras = ["bcrypt"], version = "^1.7.2"}
 tenacity = "^6.1.0"
 pydantic = "^1.4"
 gunicorn = "^20.0.4"
-jinja2 = "^2.11.2"
 psycopg2-binary = "^2.8.5"
 alembic = "^1.4.2"
 sqlalchemy = "^1.3.16"
+sqlalchemy-utils = "^v0.37.3"
 pytest = "^5.4.1"
-python-jose = {extras = ["cryptography"], version = "^3.1.0"}
+toml = "^0.10.2"
 
 [tool.poetry.dev-dependencies]
 mypy = "^0.770"
