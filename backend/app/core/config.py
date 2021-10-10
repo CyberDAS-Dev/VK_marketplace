@@ -2,11 +2,16 @@ from typing import Any, Dict, List, Optional, Union
 
 from pydantic import AnyHttpUrl, BaseSettings, PostgresDsn, validator
 
+from app.utils.package_info import get_metadata
+
 
 class Settings(BaseSettings):
+    APP_NAME: str = get_metadata()["title"]
+    APP_VERSION: str = get_metadata()["version"]
     BASE_PREFIX: str = "/v1"
     MINI_APP_SECRET_KEY: str
     BACKEND_CORS_ORIGINS: List[AnyHttpUrl] = []
+    JSON_LOGGING: bool = False
 
     @validator("BACKEND_CORS_ORIGINS", pre=True)
     def assemble_cors_origins(cls, v: Union[str, List[str]]) -> Union[List[str], str]:

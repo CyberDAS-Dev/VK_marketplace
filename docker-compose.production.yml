@@ -3,6 +3,9 @@ services:
   backend:
     expose:
       - 8888
+    environment: 
+      JSON_LOGGING: "True"
+      LOG_LEVEL: "warning"
     labels:
       - traefik.enable=true
       - traefik.http.routers.vkmarket-backend.rule=(Host(`vkmarket.cyberdas.net`) && (PathPrefix(`/api`) || PathPrefix(`/docs`) || PathPrefix(`/redoc`))
