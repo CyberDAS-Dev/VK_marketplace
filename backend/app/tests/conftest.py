@@ -22,9 +22,7 @@ def test_db():
     другие тесты.
     """
     # Создаем соединени с тестовой базой данных
-    engine = create_engine(
-        get_test_db_url(),
-    )
+    engine = create_engine(get_test_db_url())
 
     connection = engine.connect()
     trans = connection.begin()

@@ -13,8 +13,5 @@ def get_metadata():
         "description": poetry_info["description"],
         "version": poetry_info["version"],
         "license_info": {"name": poetry_info["license"]},
-        "contact": {
-            "name": author_name,
-            "email": author_email,
-        },
+        "contact": {"name": author_name, "email": author_email},
     }
