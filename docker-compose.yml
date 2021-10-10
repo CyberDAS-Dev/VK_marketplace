@@ -4,8 +4,6 @@ services:
     image: "vkmarket_backend:${TAG-latest}"
     env_file:
       - .env
-    environment:
-      PORT: 8888
     build:
       context: ./backend
 

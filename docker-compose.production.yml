@@ -2,13 +2,23 @@ version: "3.9"
 services:
   backend:
     expose:
-      - 8888
-    environment: 
+      - 80
+    networks:
+      - proxy
+    environment:
+      ROOT_PATH: "/api"
       JSON_LOGGING: "True"
       LOG_LEVEL: "warning"
     labels:
       - traefik.enable=true
-      - traefik.http.routers.vkmarket-backend.rule=(Host(`vkmarket.cyberdas.net`) && (PathPrefix(`/api`) || PathPrefix(`/docs`) || PathPrefix(`/redoc`))
+      - traefik.http.routers.vkmarket-backend.rule=(Host(`vkmarket.cyberdas.net`) && PathPrefix(`/api`))
+      - traefik.http.middlewares.vkmarket-backend-stripprefix.stripprefix.prefixes=/api
+      - traefik.http.routers.vkmarket-backend.middlewares=vkmarket-backend-stripprefix
+    logging:
+      driver: "fluentd"
+      options:
+        fluentd-address: localhost:24224
+        tag: app.vkmarket-backend
 
   frontend:
     expose:

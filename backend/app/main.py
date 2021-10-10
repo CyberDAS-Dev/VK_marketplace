@@ -1,3 +1,5 @@
+import os
+
 import structlog
 import uvicorn
 from fastapi import FastAPI, Request, Response
@@ -18,6 +20,7 @@ app = FastAPI(
     openapi_url=f"{prefix}/openapi.json",
     docs_url=f"{prefix}/docs",
     redoc_url=f"{prefix}/redoc",
+    root_path=os.environ.get("ROOT_PATH", ""),
 )
 
 
