@@ -11,8 +11,6 @@ import {
     ModalPage,
     ModalPageHeader,
     PanelHeaderButton,
-    Header,
-    SimpleCell,
     FormLayout,
     FormItem,
     Select,
@@ -20,19 +18,7 @@ import {
     RangeSlider,
     Checkbox,
 } from '@vkontakte/vkui'
-import {
-    Icon24Filter,
-    Icon24Dismiss,
-    Icon28UserOutline,
-    Icon28GridLayoutOutline,
-    Icon28CoffeeSteamOutline,
-    Icon28AppleOutline,
-    Icon28HangerOutline,
-    Icon28BookOutline,
-    Icon28LaptopOutline,
-    Icon28WasherOutline,
-    Icon28ArmchairOutline,
-} from '@vkontakte/icons'
+import { Icon24Filter, Icon24Dismiss } from '@vkontakte/icons'
 import logo from '../../images/logo.svg'
 
 export default function AdsView({ id }) {
@@ -187,7 +173,7 @@ export default function AdsView({ id }) {
                         </FormItem>
                         <FormItem>
                             <Button type="submit" size="l" stretched>
-                                Зарегистрироваться
+                                Применить
                             </Button>
                         </FormItem>
                     </FormLayout>
@@ -205,7 +191,7 @@ export default function AdsView({ id }) {
                         after={null}
                         placeholder="Поиск"
                         icon={<Icon24Filter />}
-                        onIconClick={(e) => setActiveModal('categories')}
+                        onIconClick={() => setActiveModal('categories')}
                     />
                     <CardGrid size="l">
                         <ContentCard

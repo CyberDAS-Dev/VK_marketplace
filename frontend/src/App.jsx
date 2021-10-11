@@ -1,18 +1,6 @@
 import React, { useState, useEffect } from 'react'
+import { AppRoot, Epic, Tabbar, TabbarItem } from '@vkontakte/vkui'
 import {
-    View,
-    Panel,
-    PanelHeader,
-    PanelHeaderBack,
-    Group,
-    Placeholder,
-    AppRoot,
-    Epic,
-    Tabbar,
-    TabbarItem,
-} from '@vkontakte/vkui'
-import {
-    Icon28ServicesOutline,
     Icon28MenuOutline,
     Icon28AddSquareOutline,
     Icon28UserSquareOutline,
@@ -20,6 +8,7 @@ import {
 import '@vkontakte/vkui/dist/vkui.css'
 import AdsView from './views/ads/Ads'
 import ProfileView from './views/profile/Profile'
+import AddNewView from './views/addNew/AddNew'
 
 function App() {
     const [activeStory, setActiveStory] = React.useState('ads')
@@ -59,14 +48,7 @@ function App() {
                 }
             >
                 <AdsView id="ads" />
-                <View id="addNew" activePanel="addNew">
-                    <Panel id="addNew">
-                        <PanelHeader left={<PanelHeaderBack />}>Сервисы</PanelHeader>
-                        <Group style={{ height: '1000px' }}>
-                            <Placeholder icon={<Icon28ServicesOutline width={56} height={56} />} />
-                        </Group>
-                    </Panel>
-                </View>
+                <AddNewView id="addNew" />
                 <ProfileView id="profile" />
             </Epic>
         </AppRoot>
