@@ -1,4 +1,4 @@
-FROM python:3.9 as deps
+FROM python:3.9-slim as deps
 
 WORKDIR /tmp
 RUN pip install poetry
