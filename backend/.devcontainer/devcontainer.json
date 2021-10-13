@@ -1,0 +1,16 @@
+{
+	"name": "CyberDAS VK Marketplace Backend",
+	"dockerComposeFile": "docker-compose.yml",
+	"service": "app",
+	"workspaceFolder": "/workspace/backend",
+	"settings": {
+		"terminal.integrated.defaultProfile.linux": "/bin/bash",
+	},
+	"extensions": [
+		"ms-python.python",
+		"ms-python.vscode-pylance",
+		"bungcip.better-toml",
+	],
+	"postCreateCommand": "poetry install; ln -sf /usr/bin/python3.9 .venv/bin/python",
+	"remoteUser": "vscode"
+}
