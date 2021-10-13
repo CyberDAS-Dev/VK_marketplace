@@ -26,9 +26,9 @@
       <a href="#приступаем-к-работе">Приступаем к работе</a>
       <ul>
         <li><a href="#необходимое-по">Необходимое ПО</a></li>
-        <li><a href="#установка">Установка</a></li>
+        <li><a href="#установка-с-vs-code">Установка с VS Code</a></li>
+        <li><a href="#установка-без-vs-code">Установка без VS Code</a></li>
         <li><a href="#скрипты">Скрипты</a></li>
-        <li><a href="#настройка-vs-code">Настройка VS Code</a></li>        
       </ul>
     </li>
     <li><a href="#развертывание">Развертывание</a></li>
@@ -47,7 +47,7 @@
   </a>
   <a href="https://www.python.org/">
     <img src="https://img.shields.io/static/v1?style=for-the-badge&message=Python&color=3776AB&logo=Python&logoColor=FFFFFF&label=" alt="Python">
-  </a>  
+  </a>
   <a href="https://fastapi.tiangolo.com">
     <img src="https://img.shields.io/badge/FastAPI-005571?style=for-the-badge&logo=fastapi" alt="FastAPI">
   </a>
@@ -73,11 +73,47 @@
 
 ### Необходимое ПО
 
-[Docker](https://docs.docker.com/engine/install/) и [Docker Compose](https://docs.docker.com/compose/install/) последних версий
+- [Docker](https://docs.docker.com/engine/install/) и [Docker Compose](https://docs.docker.com/compose/install/) последних версий
+- Для добавления\обновления зависимостей понадобится [Poetry](https://python-poetry.org/)
+- [VS Code](https://code.visualstudio.com/) для более удобной работы (есть вариант установки и без него)
 
-Для добавления\обновления зависимостей понадобится [Poetry](https://python-poetry.org/)
+### Установка с VS Code
 
-### Установка
+1. Скопируйте репозиторий
+   ```bash
+   git clone https://github.com/CyberDAS-Dev/API.git
+   ```
+2. Откройте VS Code в папке "backend"
+    ```bash
+    code backend
+    ```
+3. Установите расширение "Remote - Containers" ("`ms-vscode-remote.remote-containers`"); всплывающая подсказка с предложением установить его будет доступна в правом нижнем углу экрана редактора.
+4. В подсказке в правом нижнем углу экрана редактора нажмите "Reopen in Container" или нажмите `Ctrl+Shift+P` и выберите "Reopen in Container".
+5. Для запуска приложения нажмите `F5`.
+
+В итоге вы получите окружение со всеми установленными зависимостями, полноценным дебаггингом и тестированием, автоформатированием, линтингом и правильно проставленным рулером (все эти настройки хранятся в ".vscode/settings.json").
+
+#### Без Dev Container
+Если вы не хотите разворачивать [Dev Container](https://code.visualstudio.com/docs/remote/containers), но хотите пользоваться автоформатированием и линтингом, то следуйте этим альтернативным шагам:
+1. Установите линтеры, форматтеры и прочее
+   ```bash
+    cd backend
+    poetry install
+   ```
+2. Зарегистрируйте [pre-commit](https://pre-commit.com/) хук
+   ```bash
+    ./.venv/bin/pre-commit install
+   ```
+3. Откройте [VS Code](https://code.visualstudio.com/) в папке "backend"
+   ```bash
+    code .
+   ```
+
+К сожалению, для запуска приложения необходима база данных PostgreSQL. Поэтому, встроенный в редактор дебаггинг и запуск тестов не будут работать. Если вам нужны эти инструменты, используйте первый вариант установки.
+
+### Установка без VS Code
+
+Если вы не используете VS Code, вы можете развернуть обычный контейнер с приложением
 
 1. Скопируйте репозиторий
    ```bash
@@ -91,13 +127,7 @@
     ```bash
     docker-compose up -d
     ```
-
-4. API будет доступно по адресу http://127.0.0.1:8888. При этом, все вносимые в код проекта 
-изменения сразу отражаются в работающем приложении.
-
-5. По адресу http://127.0.0.1:5050 можно будет получить доступ к управлению базой данных. 
-Нужно ввести адрес почты и пароль, указанные в файле `.env` (`PGADMIN_DEFAULT_...`) в 
-корневой директории проекта
+4. Приложение будет доступно по адресу http://127.0.0.1:8888. При этом, все вносимые в код проекта изменения сразу отражаются в работающем приложении.
 
 ### Скрипты
 
@@ -111,36 +141,12 @@
     ```
 3. Автоматическое исправление ошибок и сортировка импортов
     ```bash
-    docker-compose exec backend ./scripts/format.sh 
+    docker-compose exec backend ./scripts/format.sh
     ```
 4. Создание новой миграции базы данных
     ```bash
     docker-compose exec backend alembic revision --autogenerate
     ```
-
-### Настройка VS Code
-
-Для более удобной работы с кодом (автоформатирование, линтинг), рекомендую использовать 
-следующие настройки в `.vscode/settings.json`:
-```json
-{
-    "python.linting.enabled": true,
-    "python.linting.pylintEnabled": false,
-    "python.linting.flake8Enabled": true,
-    "python.formatting.provider": "black",
-    "python.linting.lintOnSave": true,
-    "editor.formatOnSave": true
-}
-```
-
-Также, для того что бы VS Code прочитал все настройки из `pyproject.toml` и других файлов,
-нужно сделать следующее:
-1. Создать виртуальное окружение с помощью Poetry
-    ```bash
-    poetry shell
-    ```
-2. Выбрать в качестве интепрератора Python (в нижней панели интерфейса VS Code) тот,
-у которого в названии будет `cyberdas_vk_marketplace`
 
 ## Развертывание
 
@@ -152,11 +158,11 @@
 
 При этом ожидается, что:
 1. На хосте присутствует Docker network с названием proxy, в которой находится `traefik`.
-2. Если приложение размещается не в корне домена, то дополнительный путь (к 'папке' с приложением) 
+2. Если приложение размещается не в корне домена, то дополнительный путь (к 'папке' с приложением)
 должен быть указан в переменной окружения `ROOT_PATH`.
 3. На 24224 порте на хосте находится `fluentd`, принимающий логи.
 
-Также, в файле `docker-compose.production.yml` можно объявить некоторые переменные окружения для того, 
+Также, в файле `docker-compose.production.yml` можно объявить некоторые переменные окружения для того,
 чтобы поменять настройки ASGI. Найти их список можно здесь: https://github.com/tiangolo/uvicorn-gunicorn-fastapi-docker
 
 В файле `prestart.sh` находятся команды, которые выполняются до запуска сервера. Обычно
