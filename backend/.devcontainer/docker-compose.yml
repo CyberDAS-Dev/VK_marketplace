@@ -6,7 +6,11 @@ services:
       context: ..
       dockerfile: .devcontainer/Dockerfile
     volumes:
+      # монтаж в контейнер всего репозитория (необходимо для работы git)
       - ../..:/workspace
+      # т.к пути в venv'е - абсолютные, то при переносе на основную ОС он становится бесполезным
+      # поэтому он изолирован
+      - venv:/workspace/backend/.venv
     env_file:
       - ../../.env
     command: sleep infinity
@@ -23,3 +27,4 @@ services:
 
 volumes:
   postgres-data:
+  venv:

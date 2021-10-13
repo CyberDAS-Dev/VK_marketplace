@@ -11,6 +11,6 @@
 		"ms-python.vscode-pylance",
 		"bungcip.better-toml",
 	],
-	"postCreateCommand": "poetry install; ln -sf /usr/bin/python3.9 .venv/bin/python",
+	"postCreateCommand": "sudo poetry install",
 	"remoteUser": "vscode"
 }
