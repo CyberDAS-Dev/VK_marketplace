@@ -7,7 +7,7 @@ from starlette.middleware.cors import CORSMiddleware
 from app.api.router import api_router
 from app.core.config import settings
 from app.core.logging import setup_logging
-from app.middleware.logging import LoggingMiddleware
+from app.middleware.logger import LoggingMiddleware
 from app.utils.package_info import get_metadata
 
 prefix = settings.BASE_PREFIX

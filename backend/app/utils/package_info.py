@@ -1,7 +1,7 @@
 import toml
 
 
-def get_metadata():
+def get_metadata() -> dict:
     with open("./pyproject.toml") as pyproject:
         poetry_info = toml.loads(pyproject.read())["tool"]["poetry"]
     author = poetry_info["authors"][0].split(" ")

@@ -1,4 +1,3 @@
-import logging
 from logging.config import dictConfig
 from typing import Callable, List
 
@@ -95,7 +94,7 @@ LOGGING = {
 }
 
 
-def setup_logging() -> logging.Logger:
+def setup_logging() -> structlog.stdlib.AsyncBoundLogger:
     setup_structlog()
     if not settings.JSON_LOGGING:
         LOGGING["loggers"]["root"]["handlers"] = ["default"]  # type: ignore

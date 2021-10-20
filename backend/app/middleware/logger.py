@@ -1,14 +1,14 @@
 import time
 import uuid
-from logging import Logger  # type: ignore
 from typing import Callable
 
 from fastapi import Request, Response
 from structlog.contextvars import bind_contextvars, clear_contextvars
+from structlog.stdlib import AsyncBoundLogger
 
 
-class LoggingMiddleware:
-    def __init__(self, logger: Logger) -> None:
+class LoggerMiddleware:
+    def __init__(self, logger: AsyncBoundLogger) -> None:
         self.logger = logger
 
     async def __call__(self, request: Request, call_next: Callable) -> Response:
@@ -24,7 +24,7 @@ class LoggingMiddleware:
         try:
             response = await call_next(request)
         except Exception as e:
-            await self.logger.exception(e)
+            await self.logger.exception(str(e))
             return Response(
                 "Internal Server Error", status_code=500, media_type="text/plain"
             )
