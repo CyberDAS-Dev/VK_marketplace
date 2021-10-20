@@ -13,6 +13,9 @@ services:
       - venv:/workspace/backend/.venv
     env_file:
       - ../../.env
+    environment:
+      # необходимо для того, что бы pre-commit не скачивал заново хуки после остановки контейнера
+      - PRE_COMMIT_HOME=/workspace/backend/.venv/pre-commit
     command: sleep infinity
     network_mode: service:db
 

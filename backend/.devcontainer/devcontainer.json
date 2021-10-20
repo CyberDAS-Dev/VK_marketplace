@@ -11,6 +11,6 @@
 		"ms-python.vscode-pylance",
 		"bungcip.better-toml",
 	],
-	"postCreateCommand": "sudo poetry install; ./.venv/bin/pre-commit install",
+	"postCreateCommand": "sudo chown -R vscode:vscode ./.venv; poetry install; ./.venv/bin/pre-commit install",
 	"remoteUser": "vscode"
 }
