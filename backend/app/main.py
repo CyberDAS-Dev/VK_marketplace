@@ -1,19 +1,16 @@
 import os
 
-import structlog
 import uvicorn
-from fastapi import FastAPI, Request, Response
+from fastapi import FastAPI
 from starlette.middleware.cors import CORSMiddleware
 
 from app.api.router import api_router
 from app.core.config import settings
 from app.core.logging import setup_logging
+from app.middleware.logger import LoggingMiddleware
 from app.utils.package_info import get_metadata
 
-setup_logging()
-
 prefix = settings.BASE_PREFIX
-
 
 app = FastAPI(
     **get_metadata(),
@@ -24,18 +21,8 @@ app = FastAPI(
 )
 
 
-logger = structlog.get_logger("app")
-
-
-@app.middleware("http")
-async def exception_logging_middleware(request: Request, call_next):
-    try:
-        return await call_next(request)
-    except Exception as e:
-        await logger.exception(e)
-        return Response(
-            "Internal Server Error", status_code=500, media_type="text/plain"
-        )
+logger = setup_logging()
+app.middleware("http")(LoggingMiddleware(logger=logger))
 
 
 # Set all CORS enabled origins
