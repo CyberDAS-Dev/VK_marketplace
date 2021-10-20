@@ -1,8 +1,10 @@
+import logging
 from logging.config import dictConfig
 from typing import Callable, List
 
 import structlog
 from pythonjsonlogger import jsonlogger
+from structlog.contextvars import merge_contextvars
 
 from app.core.config import settings
 
@@ -19,6 +21,7 @@ def add_app_info(
 # Настройка логгинга
 def setup_structlog() -> None:
     processors: List[Callable] = [
+        merge_contextvars,
         structlog.stdlib.filter_by_level,
         structlog.stdlib.add_logger_name,
         structlog.stdlib.add_log_level,
@@ -33,7 +36,7 @@ def setup_structlog() -> None:
     else:
         processors += [
             structlog.processors.ExceptionPrettyPrinter(),
-            structlog.stdlib.render_to_log_kwargs,
+            structlog.processors.KeyValueRenderer(),
         ]
     structlog.configure(
         processors=processors,
@@ -92,8 +95,9 @@ LOGGING = {
 }
 
 
-def setup_logging() -> None:
+def setup_logging() -> logging.Logger:
     setup_structlog()
     if not settings.JSON_LOGGING:
         LOGGING["loggers"]["root"]["handlers"] = ["default"]  # type: ignore
     dictConfig(LOGGING)
+    return structlog.get_logger("app_root")
