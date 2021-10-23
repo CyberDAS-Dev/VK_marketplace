@@ -1,4 +1,4 @@
-from typing import List
+from typing import List, Optional
 
 from fastapi.encoders import jsonable_encoder
 from sqlalchemy.orm import Session
@@ -25,6 +25,21 @@ class CRUDAdvert(CRUDBase[Advert, AdvertCreate, AdvertUpdate]):
         return (
             db.query(self.model)
             .filter(Advert.owner_id == owner_id)
+            .offset(skip)
+            .limit(limit)
+            .all()
+        )
+
+    def search(self, db: Session, term: str) -> Optional[Advert]:
+        return db.query(self.model).filter(Advert.title.ilike(f"%{term}%")).first()
+
+    def search_multi(
+        self, db: Session, term: str, *, skip: int = 0, limit: int = 100
+    ) -> List[Advert]:
+        return (
+            db.query(self.model)
+            .filter(Advert.title.ilike(f"%{term}%"))
+            .order_by(Advert.title.ilike(f"%{term}%").desc(), Advert.title)
             .offset(skip)
             .limit(limit)
             .all()

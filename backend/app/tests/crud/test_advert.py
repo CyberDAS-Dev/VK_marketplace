@@ -113,3 +113,26 @@ def test_delete_advert(test_db: Session) -> None:
     assert deleted_advert.title == title
     assert deleted_advert.description == description
     assert deleted_advert.owner_id == user.id
+
+
+def test_search_advert(test_db: Session) -> None:
+    title = "мужская куртка XL"
+    description = "продается куртка мужская"
+    advert_in = AdvertCreate(
+        type=Type.sell,
+        category=Category.clothes,
+        title=title,
+        description=description,
+        images=[],
+        semi_free=False,
+    )
+    user = random_user(test_db)
+    created_advert = crud.advert.create_with_owner(
+        db=test_db, obj_in=advert_in, owner_id=user.id
+    )
+
+    search_result = crud.advert.search(test_db, "кУрТ")
+
+    assert search_result
+    assert created_advert.id == search_result.id
+    assert created_advert.owner_id == search_result.owner_id

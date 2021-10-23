@@ -1,6 +1,7 @@
 from __future__ import with_statement
 
 import os
+import sys
 from logging.config import fileConfig
 
 from sqlalchemy import engine_from_config, pool
@@ -22,9 +23,12 @@ fileConfig(config.config_file_name)
 # target_metadata = mymodel.Base.metadata
 # target_metadata = None
 
+sys.path.append(".")
+
 from app.db.base import Base  # noqa
 
 target_metadata = Base.metadata
+
 
 # other values from the config, defined by the needs of env.py,
 # can be acquired:
