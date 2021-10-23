@@ -10,6 +10,7 @@ from sqlalchemy import (
     ForeignKey,
     Integer,
     String,
+    Text,
 )
 from sqlalchemy.orm import relationship
 from sqlalchemy.sql import func
@@ -42,7 +43,7 @@ class Advert(Base):
     type = Column(Enum(Type), nullable=False)
     category = Column(Enum(Category), nullable=False)
     title = Column(String, index=True, nullable=False)
-    description = Column(String, index=True, nullable=True)
+    description = Column(Text, nullable=True)
     cost = Column(Integer, nullable=True)
     semi_free = Column(Boolean, nullable=False)
     images = Column(ARRAY(String, dimensions=1), nullable=False)
