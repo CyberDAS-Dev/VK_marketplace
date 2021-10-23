@@ -29,6 +29,8 @@ class AdvertUpdate(AdvertBase):
 # Properties shared by models stored in DB
 class AdvertInDBBase(AdvertBase):
     id: int
+    type: Type
+    category: Category
     views: int
     owner_id: int
 
