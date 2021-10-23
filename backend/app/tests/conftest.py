@@ -55,9 +55,8 @@ def create_test_db():
     test_db_url = get_test_db_url()
 
     # Создаем тестовую базу данных
-    assert not database_exists(
-        test_db_url
-    ), "База данных уже существует. Тесты прерваны."
+    if database_exists(test_db_url):
+        drop_database(test_db_url)
     create_database(test_db_url)
     test_engine = create_engine(test_db_url)
     Base.metadata.create_all(test_engine)
