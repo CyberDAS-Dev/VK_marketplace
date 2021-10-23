@@ -17,13 +17,17 @@ def vk_auth(header: str) -> bool:
     if "Bearer " not in header:
         return False
 
-    param_list = [item.split("=") for item in header.lstrip("Bearer ").split("&")]
-    params = {key: value for key, value in param_list}
+    try:
+        param_list = [item.split("=") for item in header.lstrip("Bearer ").split("&")]
+        params = {key: value for key, value in param_list}
+    except Exception:
+        return False
 
     if not params.get("sign"):
         return False
 
     ordered = {k: params[k] for k in sorted(params)}
+    ordered.pop("sign")
 
     secret = settings.MINI_APP_SECRET_KEY
     hash_code = b64encode(

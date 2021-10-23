@@ -1,8 +1,9 @@
 from datetime import datetime
 from typing import List
 
-from advert import Advert
 from pydantic import BaseModel
+
+from .advert import Advert
 
 
 # Shared properties
