@@ -31,8 +31,8 @@ def user_auth_header(id: int) -> str:
 
     vk_params.update({"sign": fixed_sign})
 
-    header_string = "&".join([f"{key}={value}" for key, value in vk_params.items()])
-    return f"Bearer {header_string}"
+    params_string = "&".join([f"{key}={value}" for key, value in vk_params.items()])
+    return params_string
 
 
 def random_user(db: Session) -> User:

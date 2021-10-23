@@ -3,27 +3,30 @@ from hashlib import sha256
 from hmac import HMAC
 from urllib.parse import urlencode
 
+from structlog import get_logger
+
 from app.core.config import settings
 
+logger = get_logger("security")
 
-def vk_auth(header: str) -> bool:
+
+def vk_auth(raw_params: str) -> bool:
     """
     Проверяем сигнатуру, переданную из VK
 
-    :param dict header: Словарь с параметрами запуска
+    :param dict header: Строка с параметрами запуска
     :returns: Результат проверки подписи
     :rtype: bool
     """
-    if "Bearer " not in header:
-        return False
-
     try:
-        param_list = [item.split("=") for item in header.lstrip("Bearer ").split("&")]
+        param_list = [item.split("=") for item in raw_params.split("&")]
         params = {key: value for key, value in param_list}
     except Exception:
+        logger.debug("bad params")
         return False
 
     if not params.get("sign"):
+        logger.debug("sign absent")
         return False
 
     ordered = {k: params[k] for k in sorted(params)}
