@@ -41,7 +41,7 @@ def setup_structlog() -> None:
         processors=processors,
         context_class=structlog.threadlocal.wrap_dict(dict),
         logger_factory=structlog.stdlib.LoggerFactory(),
-        wrapper_class=structlog.stdlib.AsyncBoundLogger,
+        wrapper_class=structlog.stdlib.BoundLogger,
         cache_logger_on_first_use=True,
     )
 
@@ -87,14 +87,13 @@ LOGGING = {
         },
     },
     "loggers": {
-        "app": {"handlers": ["default"], "level": "DEBUG", "propagate": False},
         "uvicorn": {"error": {"propagate": "true"}},
-        "root": {"handlers": ["jsonizer"]},
+        "root": {"handlers": ["jsonizer"], "level": "DEBUG"},
     },
 }
 
 
-def setup_logging() -> structlog.stdlib.AsyncBoundLogger:
+def setup_logging() -> structlog.stdlib.BoundLogger:
     setup_structlog()
     if not settings.JSON_LOGGING:
         LOGGING["loggers"]["root"]["handlers"] = ["default"]  # type: ignore
