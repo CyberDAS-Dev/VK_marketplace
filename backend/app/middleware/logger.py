@@ -15,6 +15,7 @@ class LoggerMiddleware:
         clear_contextvars()
         bind_contextvars(
             view=request.url.path,
+            method=request.method,
             request_id=str(uuid.uuid4()),
             peer=request.client.host,
         )
