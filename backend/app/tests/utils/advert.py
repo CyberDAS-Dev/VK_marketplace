@@ -18,6 +18,9 @@ def create_random_advert(
     if owner_id is None:
         user = random_user(db)
         owner_id = user.id
+    else:
+        if not crud.user.get(db, owner_id):
+            random_user(db, owner_id)
     title = random_string()
     description = random_string()
     advert_in = AdvertCreate(

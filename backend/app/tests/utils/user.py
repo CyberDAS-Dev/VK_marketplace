@@ -2,6 +2,7 @@ import random
 from base64 import b64encode
 from hashlib import sha256
 from hmac import HMAC
+from typing import Optional
 from urllib.parse import urlencode
 
 from sqlalchemy.orm import Session
@@ -35,7 +36,7 @@ def user_auth_header(id: int) -> str:
     return params_string
 
 
-def random_user(db: Session) -> User:
-    user_in = UserCreate(id=random.randint(1, 1000))
+def random_user(db: Session, id: Optional[int] = None) -> User:
+    user_in = UserCreate(id=id or random.randint(1, 1000))
     user = crud.user.create(db=db, obj_in=user_in)
     return user
