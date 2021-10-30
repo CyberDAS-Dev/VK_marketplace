@@ -2,6 +2,7 @@ import os
 
 import uvicorn
 from fastapi import FastAPI
+from fastapi.staticfiles import StaticFiles
 from starlette.middleware.cors import CORSMiddleware
 
 from app.api.router import api_router
@@ -36,6 +37,9 @@ if settings.BACKEND_CORS_ORIGINS:
     )
 
 app.include_router(api_router, prefix=prefix)
+
+# Находится не в роутере картинок из-за https://github.com/tiangolo/fastapi/issues/1469
+app.mount(f"{prefix}/images", StaticFiles(directory=settings.IMAGE_DIR), name="images")
 
 if __name__ == "__main__":
     uvicorn.run("main:app", host="0.0.0.0", reload=True, port=8888)
