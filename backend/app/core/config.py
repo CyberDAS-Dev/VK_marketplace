@@ -1,3 +1,4 @@
+from pathlib import Path
 from typing import Any, Dict, List, Optional, Union
 
 from pydantic import AnyHttpUrl, BaseSettings, PostgresDsn, validator
@@ -38,6 +39,20 @@ class Settings(BaseSettings):
             host=values.get("POSTGRES_SERVER"),
             path=f"/{values.get('POSTGRES_DB') or ''}",
         )
+
+    IMAGE_DIR: str = "images"
+
+    @validator("IMAGE_DIR", pre=True)
+    def assemble_image_dir(cls, v: str, values: Dict[str, Any]) -> Any:
+        if not Path.exists(Path(v)):
+            Path.mkdir(Path(v))
+        return v
+
+    IMAGE_ALLOWED_TYPES: List[str] = ["JPEG", "PNG"]
+    IMAGE_MIN_PIXEL: int = 375
+    IMAGE_MAX_PIXEL: int = 3840
+    IMAGE_QUALITY: Union[int, str] = "web_high"
+    IMAGE_GOOD_PIXEL: int = 1080
 
     class Config:
         case_sensitive = True
