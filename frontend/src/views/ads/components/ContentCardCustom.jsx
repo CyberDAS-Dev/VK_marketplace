@@ -11,6 +11,8 @@ import {
 } from '@vkontakte/vkui'
 import { hasReactNode, isArray } from '@vkontakte/vkjs'
 import './ContentCardCustom.css'
+import { Icon28ChevronDownOutline } from '@vkontakte/icons'
+import ExpandableText from './ExpandableText'
 
 const ContentCard = (props) => {
     const {
@@ -38,9 +40,12 @@ const ContentCard = (props) => {
         referrerPolicy,
         sizes,
         useMap,
+        expandable,
+        limit,
         ...restProps
     } = props
     const platform = usePlatform()
+    const [isExpanded, toggleIsExpanded] = React.useState(false)
 
     const disabled = restProps.disabled || typeof restProps.onClick !== 'function'
 
@@ -95,12 +100,32 @@ const ContentCard = (props) => {
         imageElement = false
     }
 
+    let textElement
+    if (hasReactNode(text)) {
+        if (expandable) {
+            textElement = (
+                <ExpandableText className="ContentCard__text" isExpanded={isExpanded} limit={limit}>
+                    {text}
+                </ExpandableText>
+            )
+        } else {
+            textElement = (
+                <Text className="ContentCard__text" weight="regular">
+                    {text}
+                </Text>
+            )
+        }
+    } else {
+        textElement = null
+    }
+
     return (
         <Card
             mode={mode}
             getRootRef={getRootRef}
             className={getClassName('ContentCard', platform)}
             style={style}
+            onClick={() => toggleIsExpanded(!isExpanded)}
         >
             <Tappable {...restProps} disabled={disabled} className="ContentCard__tappable">
                 {imageElement}
@@ -115,15 +140,21 @@ const ContentCard = (props) => {
                             {header}
                         </Title>
                     )}
-                    {hasReactNode(text) && (
-                        <Text className="ContentCard__text" weight="regular">
-                            {text}
-                        </Text>
-                    )}
+                    {textElement}
                     {hasReactNode(caption) && (
                         <Caption className="ContentCard__text" weight="regular" level="1">
                             {caption}
                         </Caption>
+                    )}
+                    {expandable && (
+                        <Icon28ChevronDownOutline
+                            style={{
+                                position: 'absolute',
+                                right: '5px',
+                                bottom: '5px',
+                                color: '#3f8ae0',
+                            }}
+                        />
                     )}
                 </div>
             </Tappable>
