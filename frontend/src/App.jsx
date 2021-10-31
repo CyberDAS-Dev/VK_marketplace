@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from 'react'
+import React from 'react'
 import { AppRoot, Epic, Tabbar, TabbarItem } from '@vkontakte/vkui'
 import {
     Icon28MenuOutline,
