@@ -191,8 +191,10 @@ export default function AdsView({ id }) {
                     {
                         id: '1',
                         title: 'abc',
-                        description:
-                            'FSdfdsfsdf fd sdfsd fsdfds fsd fsd fdsf sdf dsf sdf sdf sdfdsfdsfsdfds fsdfdsf sdf sdf sd ',
+                        description: `Продам:
+                            Пальто (s) — 1000 р. Надевалось два раза.
+                            Платья (м) на фото 2-4 практически новые — по 700 рублей.
+                            Остальные платья — по 500 рублей:`,
                         cost: 200,
                         image: [
                             'https://images.unsplash.com/photo-1603988492906-4fb0fb251cf8?ixlib=rb-1.2.1&ixid=eyJhcHBfaWQiOjEyMDd9&auto=format&fit=crop&w=1600&q=80',

@@ -8,9 +8,9 @@ export default function AdCard({ data }) {
             src={data.image}
             header={data.title}
             text={data.description}
-            caption={`${data.cost} ₽`}
+            cost={`${data.cost} ₽`}
             expandable
-            limit={40}
+            limit={70}
             maxHeight={150}
         />
     )

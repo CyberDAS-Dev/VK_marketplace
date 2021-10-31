@@ -12,14 +12,14 @@ import {
 import { hasReactNode, isArray } from '@vkontakte/vkjs'
 import './ContentCardCustom.css'
 import { Icon28ChevronDownOutline } from '@vkontakte/icons'
-import ExpandableText from './ExpandableText'
+import Expandable from './Expandable'
 
 const ContentCard = (props) => {
     const {
         subtitle,
         header,
         text,
-        caption,
+        cost,
         // card props
         className,
         mode,
@@ -104,9 +104,14 @@ const ContentCard = (props) => {
     if (hasReactNode(text)) {
         if (expandable) {
             textElement = (
-                <ExpandableText className="ContentCard__text" isExpanded={isExpanded} limit={limit}>
+                <Expandable
+                    className="ContentCard__text"
+                    isExpanded={isExpanded}
+                    cost={cost}
+                    limit={limit}
+                >
                     {text}
-                </ExpandableText>
+                </Expandable>
             )
         } else {
             textElement = (
@@ -141,12 +146,12 @@ const ContentCard = (props) => {
                         </Title>
                     )}
                     {textElement}
-                    {hasReactNode(caption) && (
+                    {hasReactNode(cost) && !isExpanded && (
                         <Caption className="ContentCard__text" weight="regular" level="1">
-                            {caption}
+                            {cost}
                         </Caption>
                     )}
-                    {expandable && (
+                    {expandable && !isExpanded && (
                         <Icon28ChevronDownOutline
                             style={{
                                 position: 'absolute',
