@@ -1,0 +1,73 @@
+{
+    "env": {
+        "browser": true,
+        "es2021": true
+    },
+    "extends": [
+        "eslint:recommended",
+        "plugin:react/recommended",
+        "airbnb",
+        "airbnb/hooks",
+        "plugin:prettier/recommended"
+    ],
+    "parserOptions": {
+        "ecmaFeatures": {
+            "jsx": true
+        },
+        "ecmaVersion": 12,
+        "sourceType": "module"
+    },
+    "plugins": [
+        "react"
+    ],
+    "rules": {
+        "react/prop-types": 0,
+        "require-jsdoc": 0,
+        "react/button-has-type": 0,
+        "react/jsx-props-no-spreading": 0,
+        "jsx-a11y/label-has-associated-control": [
+            2,
+            {
+                "controlComponents": [
+                    "Input"
+                ]
+            }
+        ],
+        "jsx-a11y/click-events-have-key-events": 0,
+        "jsx-a11y/no-static-element-interactions": 0,
+        "no-param-reassign": [
+            "error",
+            {
+                "props": false
+            }
+        ],
+        "prettier/prettier": [
+            "error",
+            {
+                "endOfLine": "auto"
+            }
+        ],
+        "no-unused-vars": "warn"
+    },
+    "settings": {
+        "react": {
+            "version": "detect"
+        },
+        "import/resolver": {
+            "jsconfig": {
+                "config": "jsconfig.json"
+            }
+        }
+    },
+    "overrides": [
+        {
+            "files": [
+                "**/__tests__/**/*.[jt]s?(x)",
+                "**/?(*.)+(spec|test).[jt]s?(x)"
+            ],
+            "extends": [
+                "plugin:testing-library/react"
+            ]
+        }
+    ]
+}

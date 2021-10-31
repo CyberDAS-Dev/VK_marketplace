@@ -1,0 +1,13 @@
+root = true
+
+[*]
+charset = utf-8
+end_of_line = lf
+indent_size = 4
+indent_style = space
+max_line_length = 100
+tab_width = 4
+
+[docker-compose{,.*}.{yaml,yml}]
+indent_style = space
+indent_size = 2
