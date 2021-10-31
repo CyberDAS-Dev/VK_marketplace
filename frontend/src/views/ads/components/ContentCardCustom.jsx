@@ -1,6 +1,15 @@
 import * as React from 'react'
-import { Card, Caption, Title, Text, Tappable, usePlatform, getClassName } from '@vkontakte/vkui'
-import { hasReactNode } from '@vkontakte/vkjs'
+import {
+    Card,
+    Gallery,
+    Caption,
+    Title,
+    Text,
+    Tappable,
+    usePlatform,
+    getClassName,
+} from '@vkontakte/vkui'
+import { hasReactNode, isArray } from '@vkontakte/vkjs'
 import './ContentCardCustom.css'
 
 const ContentCard = (props) => {
@@ -37,6 +46,55 @@ const ContentCard = (props) => {
 
     const source = image || src
 
+    let imageElement
+    if (isArray(source) && source.length > 1) {
+        imageElement = (
+            <Gallery styleWidth="100%" bullets="light" style={{ height: maxHeight }}>
+                {source.map((el, i) => {
+                    return (
+                        <img
+                            key={el}
+                            className="vkuiContentCard__img"
+                            src={el}
+                            srcSet={srcSet}
+                            alt={alt}
+                            crossOrigin={crossOrigin}
+                            decoding={decoding}
+                            loading={loading}
+                            referrerPolicy={referrerPolicy}
+                            sizes={sizes}
+                            useMap={useMap}
+                            height={height}
+                            style={{ maxHeight }}
+                            width="100%"
+                        />
+                    )
+                })}
+            </Gallery>
+        )
+    } else if (source || srcSet) {
+        imageElement = (
+            <img
+                ref={getRef}
+                className="vkuiContentCard__img"
+                src={source}
+                srcSet={srcSet}
+                alt={alt}
+                crossOrigin={crossOrigin}
+                decoding={decoding}
+                loading={loading}
+                referrerPolicy={referrerPolicy}
+                sizes={sizes}
+                useMap={useMap}
+                height={height}
+                style={{ maxHeight }}
+                width="100%"
+            />
+        )
+    } else {
+        imageElement = false
+    }
+
     return (
         <Card
             mode={mode}
@@ -45,24 +103,7 @@ const ContentCard = (props) => {
             style={style}
         >
             <Tappable {...restProps} disabled={disabled} className="ContentCard__tappable">
-                {(source || srcSet) && (
-                    <img
-                        ref={getRef}
-                        className="vkuiContentCard__img"
-                        src={source}
-                        srcSet={srcSet}
-                        alt={alt}
-                        crossOrigin={crossOrigin}
-                        decoding={decoding}
-                        loading={loading}
-                        referrerPolicy={referrerPolicy}
-                        sizes={sizes}
-                        useMap={useMap}
-                        height={height}
-                        style={{ maxHeight }}
-                        width="100%"
-                    />
-                )}
+                {imageElement}
                 <div className="vkuiContentCard__body">
                     {hasReactNode(subtitle) && (
                         <Caption caps className="ContentCard__text" weight="semibold" level="3">
