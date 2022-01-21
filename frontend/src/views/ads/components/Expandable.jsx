@@ -14,7 +14,7 @@ export default function Expandable({ children, weigth, isExpanded, cost, limit, 
                     <Text weigth={weigth} className={className}>
                         {children}
                     </Text>
-                    <Button style={{ marginTop: 10 }} stretched>
+                    <Button style={{ marginTop: 10 }} stretched onClick={() => alert('Кнопочка')}>
                         Купить за {cost}
                     </Button>
                 </>

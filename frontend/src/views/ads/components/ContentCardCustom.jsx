@@ -47,6 +47,15 @@ const ContentCard = (props) => {
     const platform = usePlatform()
     const [isExpanded, toggleIsExpanded] = React.useState(false)
 
+    const expand = () => {
+        if (isExpanded) {
+            return false
+        }
+
+        toggleIsExpanded(!isExpanded)
+        return true
+    }
+
     const disabled = restProps.disabled || typeof restProps.onClick !== 'function'
 
     const source = image || src
@@ -130,7 +139,7 @@ const ContentCard = (props) => {
             getRootRef={getRootRef}
             className={getClassName('ContentCard', platform)}
             style={style}
-            onClick={() => toggleIsExpanded(!isExpanded)}
+            onClick={() => expand()}
         >
             <Tappable {...restProps} disabled={disabled} className="ContentCard__tappable">
                 {imageElement}
