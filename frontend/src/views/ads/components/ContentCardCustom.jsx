@@ -22,6 +22,9 @@ const ContentCard = (props) => {
         cost,
         costWording,
         onGalleryClick,
+        onBuyButton,
+        expandable,
+        limit,
         // card props
         className,
         mode,
@@ -42,8 +45,6 @@ const ContentCard = (props) => {
         referrerPolicy,
         sizes,
         useMap,
-        expandable,
-        limit,
         ...restProps
     } = props
     const platform = usePlatform()
@@ -105,7 +106,7 @@ const ContentCard = (props) => {
                 alt={alt}
                 crossOrigin={crossOrigin}
                 decoding={decoding}
-                loading={loading}
+                loading="lazy"
                 referrerPolicy={referrerPolicy}
                 sizes={sizes}
                 useMap={useMap}
@@ -128,6 +129,7 @@ const ContentCard = (props) => {
                     cost={cost}
                     costWording={costWording}
                     limit={limit}
+                    onBuyButton={onBuyButton}
                 >
                     {text}
                 </Expandable>

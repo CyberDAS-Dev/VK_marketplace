@@ -8,6 +8,7 @@ export default function Expandable({
     costWording,
     limit,
     className,
+    onBuyButton,
 }) {
     return (
         <>
@@ -21,7 +22,7 @@ export default function Expandable({
                     <Text weigth={weigth} className={className}>
                         {children}
                     </Text>
-                    <Button style={{ marginTop: 10 }} stretched onClick={() => alert('Кнопочка')}>
+                    <Button size="l" style={{ marginTop: 10 }} stretched onClick={onBuyButton}>
                         {costWording}
                     </Button>
                 </>

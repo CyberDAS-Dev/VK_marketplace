@@ -2,7 +2,7 @@ import React from 'react'
 // import { ContentCard } from '@vkontakte/vkui'
 import ContentCard from './ContentCardCustom'
 
-export default function AdCard({ data, maximizePhoto }) {
+export default function AdCard({ data, maximizePhoto, onBuyButton }) {
     const defineCost = () => {
         const { cost } = data
         if (cost === 0) {
@@ -44,6 +44,7 @@ export default function AdCard({ data, maximizePhoto }) {
             limit={70}
             maxHeight={150}
             onGalleryClick={maximizePhoto}
+            onBuyButton={onBuyButton}
         />
     )
 }

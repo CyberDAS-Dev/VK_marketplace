@@ -14,6 +14,10 @@ export default function MainPanel({ id, cardsInfo, onSearchClick, setPopout, clo
         setPopout(<PhotoPopout src={src} index={index} closePopout={closePopout} />)
     }
 
+    const onBuyButton = (e) => {
+        alert('Покупай')
+    }
+
     return (
         <Panel id={id}>
             <PanelHeader left={<img src={logo} alt="" />}>Бытовые товары</PanelHeader>
@@ -26,7 +30,14 @@ export default function MainPanel({ id, cardsInfo, onSearchClick, setPopout, clo
                 />
                 <CardGrid size="l">
                     {cardsInfo.map((el) => {
-                        return <AdCard key={el.id} data={el} maximizePhoto={maximizePhoto} />
+                        return (
+                            <AdCard
+                                key={el.id}
+                                data={el}
+                                maximizePhoto={maximizePhoto}
+                                onBuyButton={onBuyButton}
+                            />
+                        )
                     })}
                 </CardGrid>
             </Group>
