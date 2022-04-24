@@ -31,21 +31,6 @@ class CRUDAdvert(CRUDBase[Advert, AdvertCreate, AdvertUpdate]):
             .all()
         )
 
-    def search(self, db: Session, term: str) -> Optional[Advert]:
-        return db.query(self.model).filter(Advert.title.ilike(f"%{term}%")).first()
-
-    def search_multi(
-        self, db: Session, term: str, *, skip: int = 0, limit: int = 100
-    ) -> List[Advert]:
-        return (
-            db.query(self.model)
-            .filter(Advert.title.ilike(f"%{term}%"))
-            .order_by(Advert.title.ilike(f"%{term}%").desc(), Advert.title)
-            .offset(skip)
-            .limit(limit)
-            .all()
-        )
-
     def _filter(
         self,
         query: Query,
@@ -84,33 +69,27 @@ class CRUDAdvert(CRUDBase[Advert, AdvertCreate, AdvertUpdate]):
 
         return query
 
-    def search_multi_with_filter(  # type: ignore
+    def _search(self, query: Query, term: str) -> Query:
+        return query.filter(Advert.title.ilike(f"%{term}%")).order_by(
+            Advert.title.ilike(f"%{term}%").desc(), Advert.title
+        )
+
+    def get_multi(  # type: ignore
         self,
         db: Session,
-        term: str,
         *,
         skip: int = 0,
         limit: int = 100,
+        search_term: Optional[str] = None,
         **filter_kwargs,
     ) -> List[Advert]:
-        return (
-            self._filter(db.query(self.model), **filter_kwargs)
-            .filter(Advert.title.ilike(f"%{term}%"))
-            .order_by(Advert.title.ilike(f"%{term}%").desc(), Advert.title)
-            .offset(skip)
-            .limit(limit)
-            .all()
-        )
+        query = db.query(self.model)
+        if len(filter_kwargs) > 0:
+            query = self._filter(query, **filter_kwargs)
+        if search_term is not None:
+            query = self._search(query, search_term)
 
-    def get_multi_with_filter(  # type: ignore
-        self, db: Session, *, skip: int = 0, limit: int = 100, **filter_kwargs
-    ) -> List[Advert]:
-        return (
-            self._filter(db.query(self.model), **filter_kwargs)
-            .offset(skip)
-            .limit(limit)
-            .all()
-        )
+        return query.offset(skip).limit(limit).all()
 
 
 advert = CRUDAdvert(Advert)

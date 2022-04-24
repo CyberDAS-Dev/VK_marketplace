@@ -136,9 +136,20 @@ def test_search_advert(test_db: Session) -> None:
     created_advert = crud.advert.create_with_owner(
         db=test_db, obj_in=advert_in, owner_id=user.id
     )
+    crud.advert.create(
+        db=test_db,
+        obj_in=AdvertCreate(
+            type=Type.sell,
+            category=Category.clothes,
+            title="хм",
+            description="бла",
+            images=[],
+            bargain=False,
+            cost=1,
+        ),
+    )
 
-    search_result = crud.advert.search(test_db, "кУрТ")
+    search_result = crud.advert.get_multi(test_db, search_term="кУрТ")
 
-    assert search_result
-    assert created_advert.id == search_result.id
-    assert created_advert.owner_id == search_result.owner_id
+    assert len(search_result) == 1
+    assert created_advert.id == search_result[0].id

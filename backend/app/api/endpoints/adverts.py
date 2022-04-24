@@ -28,34 +28,19 @@ async def read_ads(
     Получить список объявлений.
     Поддерживает фильтрацию, сортировку и поиск.
     """
-
-    if search is not None:
-        adverts = crud.advert.search_multi_with_filter(
-            db=db,
-            term=search,
-            skip=skip,
-            limit=limit,
-            sort=sort,
-            cost_min=cost_min,
-            cost_max=cost_max,
-            category=category,
-            _type=_type,
-            with_photo=with_photo,
-            show_bargain=show_bargain,
-        )
-    else:
-        adverts = crud.advert.get_multi_with_filter(
-            db=db,
-            skip=skip,
-            limit=limit,
-            sort=sort,
-            cost_min=cost_min,
-            cost_max=cost_max,
-            category=category,
-            _type=_type,
-            with_photo=with_photo,
-            show_bargain=show_bargain,
-        )
+    adverts = crud.advert.get_multi(
+        db=db,
+        search_term=search,
+        skip=skip,
+        limit=limit,
+        sort=sort,
+        cost_min=cost_min,
+        cost_max=cost_max,
+        category=category,
+        _type=_type,
+        with_photo=with_photo,
+        show_bargain=show_bargain,
+    )
 
     return adverts
 
