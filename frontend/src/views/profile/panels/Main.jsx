@@ -1,5 +1,5 @@
 import React from 'react'
-import { Group, Panel, PanelHeader, k, SimpleCell, Avatar } from '@vkontakte/vkui'
+import { Group, Panel, PanelHeader, SimpleCell, Avatar } from '@vkontakte/vkui'
 import {
     Icon28DocumentOutline,
     Icon28HelpCircleOutline,

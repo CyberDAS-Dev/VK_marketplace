@@ -13,14 +13,14 @@ export default function MyAdsPanel({ id, removeList, backToMain }) {
             </PanelHeader>
             <Group>
                 <List>
-                    {removeList.map((el, i) => {
+                    {removeList.map((el) => {
                         return (
                             <Cell
                                 key={el[0]}
                                 expandable
                                 mode="removable"
                                 description={el[1]}
-                                onClick={(e) => console.log(el)}
+                                onClick={() => console.log(el)}
                             >
                                 {el[0]}
                             </Cell>
