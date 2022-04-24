@@ -1,9 +1,8 @@
 import React from 'react'
 import { View } from '@vkontakte/vkui'
-
 import MyAdsPanel from './panels/MyAds'
-import MainPanel from './panels/Main'
 import AboutPanel from './panels/About'
+import MainPanel from './panels/Main'
 
 export default function ProfileView({ id }) {
     const [activePanel, setActivePanel] = React.useState('main')
@@ -14,13 +13,11 @@ export default function ProfileView({ id }) {
         ['Ноутбук', '7000 просмотров'],
     ])
     const backToMain = () => setActivePanel('main')
-    const switchToAbout = () => setActivePanel('about')
-    const switchToMyAds = () => setActivePanel('my-ads')
 
     return (
         <View id={id} activePanel={activePanel}>
-            <MainPanel id="main" switchToAbout={switchToAbout} switchToMyAds={switchToMyAds} />
-            <MyAdsPanel id="my-ads" backToMain={backToMain} removeList={removeList} />
+            <MainPanel id="main" setActivePanel={setActivePanel} />
+            <MyAdsPanel id="myAds" removeList={removeList} backToMain={backToMain} />
             <AboutPanel id="about" backToMain={backToMain} />
         </View>
     )

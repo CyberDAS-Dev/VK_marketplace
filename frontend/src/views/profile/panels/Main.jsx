@@ -1,15 +1,14 @@
 import React from 'react'
-import { Avatar, Group, Panel, PanelHeader, SimpleCell } from '@vkontakte/vkui'
+import { Group, Panel, PanelHeader, k, SimpleCell, Avatar } from '@vkontakte/vkui'
 import {
     Icon28DocumentOutline,
     Icon28HelpCircleOutline,
     Icon28InfoCircleOutline,
 } from '@vkontakte/icons'
-
 import logo from '../../../images/logo.svg'
 import avatar from '../images/avatar.png'
 
-export default function MainPanel({ id, switchToMyAds, switchToAbout }) {
+export default function MainPanel({ id, setActivePanel }) {
     return (
         <Panel id={id}>
             <PanelHeader left={<img src={logo} alt="" />}>Профиль</PanelHeader>
@@ -22,7 +21,11 @@ export default function MainPanel({ id, switchToMyAds, switchToAbout }) {
                 </SimpleCell>
             </Group>
             <Group>
-                <SimpleCell before={<Icon28DocumentOutline />} expandable onClick={switchToMyAds}>
+                <SimpleCell
+                    before={<Icon28DocumentOutline />}
+                    expandable
+                    onClick={() => setActivePanel('myAds')}
+                >
                     Мои объявления
                 </SimpleCell>
             </Group>
@@ -34,7 +37,11 @@ export default function MainPanel({ id, switchToMyAds, switchToAbout }) {
                 >
                     Помощь
                 </SimpleCell>
-                <SimpleCell before={<Icon28InfoCircleOutline />} expandable onClick={switchToAbout}>
+                <SimpleCell
+                    before={<Icon28InfoCircleOutline />}
+                    expandable
+                    onClick={() => setActivePanel('about')}
+                >
                     О приложении
                 </SimpleCell>
             </Group>

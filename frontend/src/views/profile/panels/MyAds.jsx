@@ -1,7 +1,11 @@
 import React from 'react'
-import { Cell, Group, List, Panel, PanelHeader, PanelHeaderBack } from '@vkontakte/vkui'
+import { Group, Panel, PanelHeader, PanelHeaderBack, List, Cell } from '@vkontakte/vkui'
 
-export default function MyAdsPanel({ id, backToMain, removeList }) {
+export default function MyAdsPanel({ id, removeList, backToMain }) {
+    React.useEffect(() => {
+        console.log(1)
+    }, [])
+
     return (
         <Panel id={id}>
             <PanelHeader left={<PanelHeaderBack onClick={backToMain} />}>
@@ -9,9 +13,15 @@ export default function MyAdsPanel({ id, backToMain, removeList }) {
             </PanelHeader>
             <Group>
                 <List>
-                    {removeList.map((el) => {
+                    {removeList.map((el, i) => {
                         return (
-                            <Cell key={el[0]} expandable removable description={el[1]}>
+                            <Cell
+                                key={el[0]}
+                                expandable
+                                mode="removable"
+                                description={el[1]}
+                                onClick={(e) => console.log(el)}
+                            >
                                 {el[0]}
                             </Cell>
                         )
