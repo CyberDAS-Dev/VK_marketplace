@@ -20,6 +20,7 @@ const ContentCard = (props) => {
         header,
         text,
         cost,
+        costWording,
         // card props
         className,
         mode,
@@ -64,7 +65,7 @@ const ContentCard = (props) => {
     if (isArray(source) && source.length > 1) {
         imageElement = (
             <Gallery styleWidth="100%" bullets="light" style={{ height: maxHeight }}>
-                {source.map((el, i) => {
+                {source.map((el) => {
                     return (
                         <img
                             key={el}
@@ -117,6 +118,7 @@ const ContentCard = (props) => {
                     className="ContentCard__text"
                     isExpanded={isExpanded}
                     cost={cost}
+                    costWording={costWording}
                     limit={limit}
                 >
                     {text}
@@ -139,24 +141,24 @@ const ContentCard = (props) => {
             getRootRef={getRootRef}
             className={getClassName('ContentCard', platform)}
             style={style}
-            onClick={() => expand()}
+            onClick={expand}
         >
             <Tappable {...restProps} disabled={disabled} className="ContentCard__tappable">
                 {imageElement}
                 <div className="vkuiContentCard__body">
                     {hasReactNode(subtitle) && (
-                        <Caption caps className="ContentCard__text" weight="semibold" level="3">
+                        <Caption caps className="ContentCard__text" weight="1" level="3">
                             {subtitle}
                         </Caption>
                     )}
                     {hasReactNode(header) && (
-                        <Title className="ContentCard__text" weight="semibold" level="3">
+                        <Title className="ContentCard__text" weight="1" level="3">
                             {header}
                         </Title>
                     )}
                     {textElement}
                     {hasReactNode(cost) && !isExpanded && (
-                        <Caption className="ContentCard__text" weight="regular" level="1">
+                        <Caption className="ContentCard__text" weight="1" level="1">
                             {cost}
                         </Caption>
                     )}

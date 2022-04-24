@@ -1,7 +1,14 @@
 import { Button, Text } from '@vkontakte/vkui'
 import React from 'react'
 
-export default function Expandable({ children, weigth, isExpanded, cost, limit, className }) {
+export default function Expandable({
+    children,
+    weigth,
+    isExpanded,
+    costWording,
+    limit,
+    className,
+}) {
     return (
         <>
             {!isExpanded ? (
@@ -15,7 +22,7 @@ export default function Expandable({ children, weigth, isExpanded, cost, limit, 
                         {children}
                     </Text>
                     <Button style={{ marginTop: 10 }} stretched onClick={() => alert('Кнопочка')}>
-                        Купить за {cost}
+                        {costWording}
                     </Button>
                 </>
             )}
