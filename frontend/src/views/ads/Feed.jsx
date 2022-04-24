@@ -31,6 +31,7 @@ export default function AdsView({ id }) {
         <View id={id} activePanel={activePanel} modal={modal} popout={popout}>
             <MainPanel
                 id="main"
+                category="Все объявления"
                 cardsInfo={[
                     {
                         id: '1',

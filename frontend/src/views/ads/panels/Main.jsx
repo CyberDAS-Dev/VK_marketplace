@@ -6,7 +6,14 @@ import AdCard from '../components/AdCard'
 import useScrollLock from '../../../utils/lockScroll'
 import PhotoPopout from '../popouts/MaximizePhoto'
 
-export default function MainPanel({ id, cardsInfo, onSearchClick, setPopout, closePopout }) {
+export default function MainPanel({
+    id,
+    category,
+    cardsInfo,
+    onSearchClick,
+    setPopout,
+    closePopout,
+}) {
     const { lockScroll } = useScrollLock()
 
     const maximizePhoto = (src, index) => {
@@ -20,7 +27,7 @@ export default function MainPanel({ id, cardsInfo, onSearchClick, setPopout, clo
 
     return (
         <Panel id={id}>
-            <PanelHeader left={<img src={logo} alt="" />}>Бытовые товары</PanelHeader>
+            <PanelHeader left={<img src={logo} alt="" />}>{category}</PanelHeader>
             <Group>
                 <Search
                     after={null}
