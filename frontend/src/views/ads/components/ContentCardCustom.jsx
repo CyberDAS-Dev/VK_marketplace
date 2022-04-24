@@ -63,6 +63,7 @@ const ContentCard = (props) => {
 
     let imageElement
     if (isArray(source) && source.length > 1) {
+        if (source.length > 10) source.length = 10
         imageElement = (
             <Gallery styleWidth="100%" bullets="light" style={{ height: maxHeight }}>
                 {source.map((el) => {
