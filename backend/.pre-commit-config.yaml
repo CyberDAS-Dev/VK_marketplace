@@ -12,7 +12,7 @@ repos:
     -   id: flake8
         args: [--config=backend/.flake8]
 -   repo: https://github.com/psf/black
-    rev: 21.9b0
+    rev: 22.3.0
     hooks:
     -   id: black
         args: [--config=backend/pyproject.toml]

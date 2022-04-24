@@ -13,7 +13,10 @@ def create_random_advert(
     *,
     type: Type = Type.sell,
     category: Category = Category.misc,
-    owner_id: Optional[int] = None
+    owner_id: Optional[int] = None,
+    cost: int = 1,
+    bargain: bool = False,
+    images: list = [],
 ) -> models.Advert:
     if owner_id is None:
         user = random_user(db)
@@ -28,7 +31,8 @@ def create_random_advert(
         category=category,
         title=title,
         description=description,
-        semi_free=False,
-        images=[],
+        cost=cost,
+        bargain=bargain,
+        images=images,
     )
     return crud.advert.create_with_owner(db=db, obj_in=advert_in, owner_id=owner_id)
