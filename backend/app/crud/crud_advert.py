@@ -1,10 +1,11 @@
-from typing import List, Optional
+from typing import List, Literal, Optional
 
 from fastapi.encoders import jsonable_encoder
-from sqlalchemy.orm import Session
+from sqlalchemy.orm import Query, Session
+from sqlalchemy.sql import desc, func
 
 from app.crud.base import CRUDBase
-from app.models.advert import Advert
+from app.models.advert import Advert, Category, Type
 from app.schemas.advert import AdvertCreate, AdvertUpdate
 
 
@@ -40,6 +41,72 @@ class CRUDAdvert(CRUDBase[Advert, AdvertCreate, AdvertUpdate]):
             db.query(self.model)
             .filter(Advert.title.ilike(f"%{term}%"))
             .order_by(Advert.title.ilike(f"%{term}%").desc(), Advert.title)
+            .offset(skip)
+            .limit(limit)
+            .all()
+        )
+
+    def _filter(
+        self,
+        query: Query,
+        sort: Literal["newer", "older", "cost-asc", "cost-desc"],
+        cost_min: Optional[int],
+        cost_max: Optional[int],
+        category: Optional[Category],
+        _type: Optional[Type],
+        with_photo: bool,
+        show_bargain: bool,
+    ) -> Query:
+        if _type is not None:
+            query = query.filter(Advert.type == _type)
+        if category is not None:
+            query = query.filter(Advert.category == category)
+
+        if cost_max is not None:
+            query = query.filter(Advert.cost <= cost_max)
+        if cost_min is not None:
+            query = query.filter(Advert.cost >= cost_min)
+
+        if with_photo:
+            query = query.filter(func.cardinality(Advert.images) > 0)
+        if not show_bargain:
+            query = query.filter(Advert.bargain == False)  # noqa: E712
+
+        # сортировка по id эквивалентна сортировке по дате создания
+        if sort == "newer":
+            query = query.order_by(desc(Advert.id))
+        elif sort == "older":
+            query = query.order_by(Advert.id)
+        elif sort == "cost-asc":
+            query = query.order_by(Advert.cost)
+        elif sort == "cost-desc":
+            query = query.order_by(desc(Advert.cost))
+
+        return query
+
+    def search_multi_with_filter(  # type: ignore
+        self,
+        db: Session,
+        term: str,
+        *,
+        skip: int = 0,
+        limit: int = 100,
+        **filter_kwargs,
+    ) -> List[Advert]:
+        return (
+            self._filter(db.query(self.model), **filter_kwargs)
+            .filter(Advert.title.ilike(f"%{term}%"))
+            .order_by(Advert.title.ilike(f"%{term}%").desc(), Advert.title)
+            .offset(skip)
+            .limit(limit)
+            .all()
+        )
+
+    def get_multi_with_filter(  # type: ignore
+        self, db: Session, *, skip: int = 0, limit: int = 100, **filter_kwargs
+    ) -> List[Advert]:
+        return (
+            self._filter(db.query(self.model), **filter_kwargs)
             .offset(skip)
             .limit(limit)
             .all()

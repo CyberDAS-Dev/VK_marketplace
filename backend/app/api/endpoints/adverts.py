@@ -1,10 +1,11 @@
-from typing import Any, List, Optional
+from typing import Any, List, Literal, Optional
 
-from fastapi import APIRouter, Depends, HTTPException
+from fastapi import APIRouter, Depends, HTTPException, Query
 from sqlalchemy.orm import Session
 
 from app import crud, models, schemas
 from app.api import deps
+from app.schemas.advert import Category, Type
 
 router = APIRouter()
 
@@ -14,17 +15,48 @@ async def read_ads(
     db: Session = Depends(deps.get_db),
     skip: int = 0,
     limit: int = 100,
+    sort: Literal["newer", "older", "cost-asc", "cost-desc"] = "newer",
     search: Optional[str] = None,
+    cost_min: Optional[int] = None,
+    cost_max: Optional[int] = None,
+    category: Optional[Category] = None,
+    _type: Optional[Type] = Query(None, alias="type"),
+    with_photo: bool = False,
+    show_bargain: bool = True,
 ) -> Any:
     """
     Получить список объявлений.
+    Поддерживает фильтрацию, сортировку и поиск.
     """
+
     if search is not None:
-        adverts = crud.advert.search_multi(db=db, term=search, skip=skip, limit=limit)
+        adverts = crud.advert.search_multi_with_filter(
+            db=db,
+            term=search,
+            skip=skip,
+            limit=limit,
+            sort=sort,
+            cost_min=cost_min,
+            cost_max=cost_max,
+            category=category,
+            _type=_type,
+            with_photo=with_photo,
+            show_bargain=show_bargain,
+        )
     else:
-        adverts = crud.advert.get_multi(db=db, skip=skip, limit=limit)
-        # сортировка по id эквивалентна сортировке по дате создания
-        adverts.sort(key=lambda ad: ad.id, reverse=True)
+        adverts = crud.advert.get_multi_with_filter(
+            db=db,
+            skip=skip,
+            limit=limit,
+            sort=sort,
+            cost_min=cost_min,
+            cost_max=cost_max,
+            category=category,
+            _type=_type,
+            with_photo=with_photo,
+            show_bargain=show_bargain,
+        )
+
     return adverts
 
 

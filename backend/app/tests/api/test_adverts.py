@@ -1,6 +1,6 @@
 import os
 import random
-from datetime import datetime
+from typing import Optional
 
 from fastapi.testclient import TestClient
 from sqlalchemy.orm import Session
@@ -167,35 +167,39 @@ def test_delete_ad_foreign(
 
 
 def test_filter_by_cost(client: TestClient, test_db: Session) -> None:
-    advert1 = create_random_advert(test_db)
-    advert1.cost = 500
-    advert2 = create_random_advert(test_db)
-    advert2.cost = 100
+    advert1 = create_random_advert(test_db, cost=500)
+    advert2 = create_random_advert(test_db, cost=100)
 
-    response = client.get(f"{settings.BASE_PREFIX}/items/?cost=0-100")
+    def check(
+        how_much: int, *, cost_min: Optional[int] = None, cost_max: Optional[int] = None
+    ) -> dict:
+        string = []
+        if cost_max is not None:
+            string.append(f"cost_max={cost_max}")
+        if cost_min is not None:
+            string.append(f"cost_min={cost_min}")
+        response = client.get(f"{settings.BASE_PREFIX}/items/?{'&'.join(string)}")
+        assert response.status_code == 200
+        content = response.json()
+        assert len(content) == how_much
+        return content
 
-    assert response.status_code == 200
-    content = response.json()
-    assert len(content) == 1
-    assert content[0]["id"] == advert2.id
-
-    response = client.get(f"{settings.BASE_PREFIX}/items/?cost=200-500")
-    assert response.status_code == 200
-    content = response.json()
-    assert len(content) == 1
-    assert content[0]["id"] == advert1.id
-
-    response = client.get(f"{settings.BASE_PREFIX}/items/?cost=100-500")
-    assert response.status_code == 200
-    content = response.json()
-    assert len(content) == 2
+    check(2, cost_min=0)
+    check(2, cost_min=50)
+    check(2, cost_min=100)
+    assert check(1, cost_min=499)[0]["id"] == advert1.id
+    assert check(1, cost_min=500)[0]["id"] == advert1.id
+    check(0, cost_min=501)
+    assert check(1, cost_max=200)[0]["id"] == advert2.id
+    assert check(1, cost_min=101, cost_max=500)[0]["id"] == advert1.id
+    assert check(1, cost_min=100, cost_max=499)[0]["id"] == advert2.id
+    check(0, cost_min=101, cost_max=499)
+    check(2, cost_min=100, cost_max=500)
 
 
 def test_filter_by_bargain(client: TestClient, test_db: Session) -> None:
-    advert1 = create_random_advert(test_db)
-    advert1.bargain = True
-    advert2 = create_random_advert(test_db)
-    advert2.bargain = False
+    create_random_advert(test_db, bargain=True)
+    advert2 = create_random_advert(test_db, bargain=False)
 
     response = client.get(f"{settings.BASE_PREFIX}/items/?show_bargain=0")
 
@@ -212,10 +216,8 @@ def test_filter_by_bargain(client: TestClient, test_db: Session) -> None:
 
 
 def test_filter_by_cost_sort(client: TestClient, test_db: Session) -> None:
-    advert1 = create_random_advert(test_db)
-    advert1.cost = 500
-    advert2 = create_random_advert(test_db)
-    advert2.cost = 100
+    advert1 = create_random_advert(test_db, cost=500)
+    advert2 = create_random_advert(test_db, cost=100)
 
     # Сортировка цены по возрастанию:
     response = client.get(f"{settings.BASE_PREFIX}/items/?sort=cost-asc")
@@ -234,11 +236,8 @@ def test_filter_by_cost_sort(client: TestClient, test_db: Session) -> None:
 
 def test_filter_by_time_sort(client: TestClient, test_db: Session) -> None:
     advert1 = create_random_advert(test_db)
-    advert1.created_at = datetime(2021, 1, 1)
     advert2 = create_random_advert(test_db)
-    advert2.created_at = datetime(2021, 6, 1)
     advert3 = create_random_advert(test_db)
-    advert3.created_at = datetime(2022, 1, 1)
 
     # Сортировка "сначала старые":
     response = client.get(f"{settings.BASE_PREFIX}/items/?sort=older")
@@ -260,10 +259,8 @@ def test_filter_by_time_sort(client: TestClient, test_db: Session) -> None:
 
 
 def test_filter_by_photo_only(client: TestClient, test_db: Session) -> None:
-    advert1 = create_random_advert(test_db)
-    advert1.images = ["http://abc.com"]
-    advert2 = create_random_advert(test_db)
-    advert2.images = []
+    advert1 = create_random_advert(test_db, images=["http://abc.com"])
+    create_random_advert(test_db, images=[])
 
     response = client.get(f"{settings.BASE_PREFIX}/items/?with_photo=1")
 
@@ -274,12 +271,9 @@ def test_filter_by_photo_only(client: TestClient, test_db: Session) -> None:
 
 
 def test_filter_by_category(client: TestClient, test_db: Session) -> None:
-    advert1 = create_random_advert(test_db)
-    advert1.category = Category.books
-    advert2 = create_random_advert(test_db)
-    advert2.category = Category.electronics
-    advert3 = create_random_advert(test_db)
-    advert3.category = Category.misc
+    advert1 = create_random_advert(test_db, category=Category.books)
+    advert2 = create_random_advert(test_db, category=Category.electronics)
+    create_random_advert(test_db, category=Category.misc)
 
     response = client.get(f"{settings.BASE_PREFIX}/items/?category=food")
 
@@ -303,10 +297,8 @@ def test_filter_by_category(client: TestClient, test_db: Session) -> None:
 
 
 def test_filter_by_type(client: TestClient, test_db: Session) -> None:
-    advert1 = create_random_advert(test_db)
-    advert1.type = Type.buy
-    advert2 = create_random_advert(test_db)
-    advert2.type = Type.performer
+    advert1 = create_random_advert(test_db, type=Type.buy)
+    advert2 = create_random_advert(test_db, type=Type.performer)
 
     response = client.get(f"{settings.BASE_PREFIX}/items/?type=sell")
 
