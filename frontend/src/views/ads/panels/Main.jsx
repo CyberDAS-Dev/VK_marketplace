@@ -1,10 +1,19 @@
 import React from 'react'
-import { Panel, PanelHeader, Group, Search, CardGrid, ContentCard } from '@vkontakte/vkui'
+import { Panel, PanelHeader, Group, Search, CardGrid } from '@vkontakte/vkui'
 import { Icon24Filter } from '@vkontakte/icons'
 import logo from '../../../images/logo.svg'
 import AdCard from '../components/AdCard'
+import useScrollLock from '../../../utils/lockScroll'
+import PhotoPopout from '../popouts/MaximizePhoto'
 
-export default function MainPanel({ id, cardsInfo, onSearchClick }) {
+export default function MainPanel({ id, cardsInfo, onSearchClick, setPopout, closePopout }) {
+    const { lockScroll } = useScrollLock()
+
+    const maximizePhoto = (src, index) => {
+        lockScroll()
+        setPopout(<PhotoPopout src={src} index={index} closePopout={closePopout} />)
+    }
+
     return (
         <Panel id={id}>
             <PanelHeader left={<img src={logo} alt="" />}>Бытовые товары</PanelHeader>
@@ -17,7 +26,7 @@ export default function MainPanel({ id, cardsInfo, onSearchClick }) {
                 />
                 <CardGrid size="l">
                     {cardsInfo.map((el, i) => {
-                        return <AdCard key={el.id} data={el} />
+                        return <AdCard key={el.id} data={el} maximizePhoto={maximizePhoto} />
                     })}
                 </CardGrid>
             </Group>

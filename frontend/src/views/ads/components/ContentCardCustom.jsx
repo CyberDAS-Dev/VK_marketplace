@@ -21,6 +21,7 @@ const ContentCard = (props) => {
         text,
         cost,
         costWording,
+        onGalleryClick,
         // card props
         className,
         mode,
@@ -66,8 +67,10 @@ const ContentCard = (props) => {
         if (source.length > 10) source.length = 10
         imageElement = (
             <Gallery styleWidth="100%" bullets="light" style={{ height: maxHeight }}>
-                {source.map((el) => {
+                {source.map((el, i) => {
                     return (
+                        // надо
+                        // eslint-disable-next-line jsx-a11y/no-noninteractive-element-interactions
                         <img
                             key={el}
                             className="vkuiContentCard__img"
@@ -83,6 +86,10 @@ const ContentCard = (props) => {
                             height={height}
                             style={{ maxHeight }}
                             width="100%"
+                            onClick={(e) => {
+                                e.stopPropagation()
+                                onGalleryClick(source, i)
+                            }}
                         />
                     )
                 })}
