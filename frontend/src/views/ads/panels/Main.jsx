@@ -25,7 +25,7 @@ export default function MainPanel({ id, cardsInfo, onSearchClick, setPopout, clo
                     onIconClick={() => onSearchClick()}
                 />
                 <CardGrid size="l">
-                    {cardsInfo.map((el, i) => {
+                    {cardsInfo.map((el) => {
                         return <AdCard key={el.id} data={el} maximizePhoto={maximizePhoto} />
                     })}
                 </CardGrid>

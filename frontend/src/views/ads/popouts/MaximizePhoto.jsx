@@ -1,11 +1,8 @@
 import { Icon24DismissDark } from '@vkontakte/icons'
 import { Gallery, IconButton, PopoutWrapper } from '@vkontakte/vkui'
 import React from 'react'
-import useScrollLock from '../../../utils/lockScroll'
 
 export default function PhotoPopout({ src, index, closePopout }) {
-    const { unlockScroll } = useScrollLock()
-
     return (
         <PopoutWrapper alignY="center" alignX="center" onClick={closePopout}>
             <Gallery
