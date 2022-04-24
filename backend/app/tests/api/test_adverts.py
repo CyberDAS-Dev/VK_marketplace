@@ -1,10 +1,12 @@
 import os
 import random
+from datetime import datetime
 
 from fastapi.testclient import TestClient
 from sqlalchemy.orm import Session
 
 from app.core.config import settings
+from app.schemas.advert import Category, Type
 from app.tests.utils.advert import create_random_advert
 
 os.environ["TEST_USER_ID"] = "1"
@@ -158,3 +160,166 @@ def test_delete_ad_foreign(
         f"{settings.BASE_PREFIX}/items/{advert.id}", headers=user_header
     )
     assert response.status_code == 403
+
+
+def test_filter_by_cost(client: TestClient, test_db: Session) -> None:
+    advert1 = create_random_advert(test_db)
+    advert1.cost = 500
+    advert2 = create_random_advert(test_db)
+    advert2.cost = 100
+
+    response = client.get(f"{settings.BASE_PREFIX}/items/?cost=0-100")
+
+    assert response.status_code == 200
+    content = response.json()
+    assert len(content) == 1
+    assert content[0]["id"] == advert2.id
+
+    response = client.get(f"{settings.BASE_PREFIX}/items/?cost=200-500")
+    assert response.status_code == 200
+    content = response.json()
+    assert len(content) == 1
+    assert content[0]["id"] == advert1.id
+
+    response = client.get(f"{settings.BASE_PREFIX}/items/?cost=100-500")
+    assert response.status_code == 200
+    content = response.json()
+    assert len(content) == 2
+
+
+def test_filter_by_semifree(client: TestClient, test_db: Session) -> None:
+    advert1 = create_random_advert(test_db)
+    advert1.semi_free = True
+    advert2 = create_random_advert(test_db)
+    advert2.semi_free = False
+
+    response = client.get(f"{settings.BASE_PREFIX}/items/?show_semifree=0")
+
+    assert response.status_code == 200
+    content = response.json()
+    assert len(content) == 1
+    assert content[0]["id"] == advert2.id
+
+    response = client.get(f"{settings.BASE_PREFIX}/items/?show_semifree=1")
+
+    assert response.status_code == 200
+    content = response.json()
+    assert len(content) == 2
+
+
+def test_filter_by_cost_sort(client: TestClient, test_db: Session) -> None:
+    advert1 = create_random_advert(test_db)
+    advert1.cost = 500
+    advert2 = create_random_advert(test_db)
+    advert2.cost = 100
+
+    # Сортировка цены по возрастанию:
+    response = client.get(f"{settings.BASE_PREFIX}/items/?sort=cost-asc")
+
+    assert response.status_code == 200
+    content = response.json()
+    assert content[0]["id"] == advert2.id
+
+    # Сортировка цены по убыванию:
+    response = client.get(f"{settings.BASE_PREFIX}/items/?sort=cost-desc")
+
+    assert response.status_code == 200
+    content = response.json()
+    assert content[0]["id"] == advert1.id
+
+
+def test_filter_by_time_sort(client: TestClient, test_db: Session) -> None:
+    advert1 = create_random_advert(test_db)
+    advert1.created_at = datetime(2021, 1, 1)
+    advert2 = create_random_advert(test_db)
+    advert2.created_at = datetime(2021, 6, 1)
+    advert3 = create_random_advert(test_db)
+    advert3.created_at = datetime(2022, 1, 1)
+
+    # Сортировка "сначала старые":
+    response = client.get(f"{settings.BASE_PREFIX}/items/?sort=older")
+
+    assert response.status_code == 200
+    content = response.json()
+    assert content[0]["id"] == advert1.id
+    assert content[1]["id"] == advert2.id
+    assert content[2]["id"] == advert3.id
+
+    # Сортировка "сначала новые":
+    response = client.get(f"{settings.BASE_PREFIX}/items/?sort=newer")
+
+    assert response.status_code == 200
+    content = response.json()
+    assert content[0]["id"] == advert3.id
+    assert content[1]["id"] == advert2.id
+    assert content[2]["id"] == advert1.id
+
+
+def test_filter_by_photo_only(client: TestClient, test_db: Session) -> None:
+    advert1 = create_random_advert(test_db)
+    advert1.images = ["http://abc.com"]
+    advert2 = create_random_advert(test_db)
+    advert2.images = []
+
+    response = client.get(f"{settings.BASE_PREFIX}/items/?with_photo=1")
+
+    assert response.status_code == 200
+    content = response.json()
+    assert len(content) == 1
+    assert content[0]["id"] == advert1.id
+
+
+def test_filter_by_category(client: TestClient, test_db: Session) -> None:
+    advert1 = create_random_advert(test_db)
+    advert1.category = Category.books
+    advert2 = create_random_advert(test_db)
+    advert2.category = Category.electronics
+    advert3 = create_random_advert(test_db)
+    advert3.category = Category.misc
+
+    response = client.get(f"{settings.BASE_PREFIX}/items/?category=food")
+
+    assert response.status_code == 200
+    content = response.json()
+    assert len(content) == 0
+
+    response = client.get(f"{settings.BASE_PREFIX}/items/?category=books")
+
+    assert response.status_code == 200
+    content = response.json()
+    assert len(content) == 1
+    assert content[0]["id"] == advert1.id
+
+    response = client.get(f"{settings.BASE_PREFIX}/items/?category=electronics")
+
+    assert response.status_code == 200
+    content = response.json()
+    assert len(content) == 1
+    assert content[0]["id"] == advert2.id
+
+
+def test_filter_by_type(client: TestClient, test_db: Session) -> None:
+    advert1 = create_random_advert(test_db)
+    advert1.type = Type.buy
+    advert2 = create_random_advert(test_db)
+    advert2.type = Type.performer
+
+    response = client.get(f"{settings.BASE_PREFIX}/items/?type=sell")
+
+    assert response.status_code == 200
+    content = response.json()
+    assert len(content) == 0
+
+    response = client.get(f"{settings.BASE_PREFIX}/items/?type=buy")
+
+    assert response.status_code == 200
+    content = response.json()
+    assert len(content) == 1
+    assert content[0]["id"] == advert1.id
+
+    response = client.get(f"{settings.BASE_PREFIX}/items/?type=performer")
+
+    assert response.status_code == 200
+    content = response.json()
+    assert len(content) == 1
+    assert content[0]["id"] == advert2.id
