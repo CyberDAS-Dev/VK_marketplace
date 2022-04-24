@@ -6,12 +6,12 @@ import {
     Icon28UserSquareOutline,
 } from '@vkontakte/icons'
 import '@vkontakte/vkui/dist/vkui.css'
-import AdsView from './views/ads/Ads'
+import Feed from './views/ads/Feed'
 import ProfileView from './views/profile/Profile'
 import AddNewView from './views/addNew/AddNew'
 
 function App() {
-    const [activeStory, setActiveStory] = React.useState('ads')
+    const [activeStory, setActiveStory] = React.useState('feed')
     const onStoryChange = (e) => setActiveStory(e.currentTarget.dataset.story)
 
     return (
@@ -22,8 +22,8 @@ function App() {
                     <Tabbar>
                         <TabbarItem
                             onClick={onStoryChange}
-                            selected={activeStory === 'ads'}
-                            data-story="ads"
+                            selected={activeStory === 'feed'}
+                            data-story="feed"
                             text="Объявления"
                         >
                             <Icon28MenuOutline />
@@ -47,7 +47,7 @@ function App() {
                     </Tabbar>
                 }
             >
-                <AdsView id="ads" />
+                <Feed id="feed" />
                 <AddNewView id="addNew" />
                 <ProfileView id="profile" />
             </Epic>
