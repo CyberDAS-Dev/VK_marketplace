@@ -4,7 +4,7 @@
 	"service": "app",
 	"workspaceFolder": "/workspace/backend",
 	"settings": {
-		"terminal.integrated.defaultProfile.linux": "/bin/bash",
+		"terminal.integrated.defaultProfile.linux": "bash",
 	},
 	"extensions": [
 		"ms-python.python",
