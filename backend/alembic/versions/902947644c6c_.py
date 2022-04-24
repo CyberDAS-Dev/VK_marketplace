@@ -56,9 +56,9 @@ def upgrade() -> None:
             nullable=False,
         ),
         sa.Column("title", sa.String(), nullable=False),
-        sa.Column("description", sa.Text(), nullable=True),
-        sa.Column("cost", sa.Integer(), nullable=True),
-        sa.Column("semi_free", sa.Boolean(), nullable=False),
+        sa.Column("description", sa.Text(), nullable=False),
+        sa.Column("cost", sa.Integer(), nullable=False),
+        sa.Column("bargain", sa.Boolean(), nullable=False),
         sa.Column("images", sa.ARRAY(sa.String(), dimensions=1), nullable=False),
         sa.Column("views", sa.Integer(), server_default="0", nullable=False),
         sa.Column(

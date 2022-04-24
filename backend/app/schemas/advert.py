@@ -1,5 +1,5 @@
 from datetime import datetime
-from typing import List, Optional
+from typing import List
 
 from pydantic import BaseModel, HttpUrl
 
@@ -9,9 +9,9 @@ from app.models.advert import Category, Type
 # Shared properties
 class AdvertBase(BaseModel):
     title: str
-    description: Optional[str] = None
-    cost: Optional[int]
-    semi_free: bool
+    description: str
+    cost: int
+    bargain: bool
     images: List[HttpUrl]
 
 
