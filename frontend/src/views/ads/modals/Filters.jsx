@@ -18,10 +18,9 @@ export default function FiltersModal({ id, applyFilters, closeModal }) {
     const [type, setType] = React.useState('all')
     const [sortType, setSortType] = React.useState('new')
     const [category, setCategory] = React.useState(0)
-    const [price, setPrice] = React.useState([0, 2000])
+    const [cost, setCost] = React.useState([0, 2000])
     const [onlyPhoto, toggleOnlyPhoto] = React.useState(false)
-    const [withPrice, toggleWithPrice] = React.useState(false)
-
+    const [dontShowBargain, toggleDontShowBargain] = React.useState(false) // инверс к апи
     return (
         <ModalPage
             id={id}
@@ -41,7 +40,14 @@ export default function FiltersModal({ id, applyFilters, closeModal }) {
             <Group>
                 <FormLayout
                     onSubmit={(e) =>
-                        applyFilters(e, { type, sortType, category, price, onlyPhoto, withPrice })
+                        applyFilters(e, {
+                            type,
+                            sortType,
+                            category,
+                            cost,
+                            onlyPhoto,
+                            dontShowBargain,
+                        })
                     }
                 >
                     <FormItem top="Тип объявлений">
@@ -71,7 +77,7 @@ export default function FiltersModal({ id, applyFilters, closeModal }) {
                     </FormItem>
                     <FormItem top="Сортировка">
                         <Select
-                            name="sortType"
+                            name="sort"
                             value={sortType}
                             onChange={(e) => setSortType(e.currentTarget.value)}
                             options={[
@@ -138,24 +144,30 @@ export default function FiltersModal({ id, applyFilters, closeModal }) {
                     <FormLayoutGroup mode="horizontal">
                         <FormItem bottom="От" top="Цена">
                             <Input
-                                value={price[0]}
-                                onChange={(e) => setPrice([e.currentTarget.value, price[1]])}
+                                value={cost[0]}
+                                onChange={(e) => setCost([e.currentTarget.value, cost[1]])}
                             />
                         </FormItem>
                         <FormItem bottom="До" top="&#xfeff;">
                             <Input
-                                value={price[1]}
-                                onChange={(e) => setPrice([price[0], e.currentTarget.value])}
+                                value={cost[1]}
+                                onChange={(e) => setCost([cost[0], e.currentTarget.value])}
                             />
                         </FormItem>
                     </FormLayoutGroup>
                     <FormItem>
-                        <Checkbox checked={onlyPhoto} onChange={() => toggleOnlyPhoto(!onlyPhoto)}>
+                        <Checkbox
+                            checked={dontShowBargain}
+                            onChange={() => toggleDontShowBargain(!onlyPhoto)}
+                        >
                             Только с фото
                         </Checkbox>
                     </FormItem>
                     <FormItem>
-                        <Checkbox checked={withPrice} onChange={() => toggleWithPrice(!withPrice)}>
+                        <Checkbox
+                            checked={dontShowBargain}
+                            onChange={() => toggleDontShowBargain(!dontShowBargain)}
+                        >
                             Только с ценой
                         </Checkbox>
                     </FormItem>
