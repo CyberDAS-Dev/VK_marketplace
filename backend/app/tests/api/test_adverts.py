@@ -63,7 +63,8 @@ def test_create_ad(client: TestClient, user_header: dict) -> None:
         "category": "misc",
         "title": "Раз",
         "description": "Два",
-        "semi_free": False,
+        "bargain": False,
+        "cost": 1,
         "images": ["https://url.net"],
     }
     response = client.post(
@@ -84,7 +85,8 @@ def test_update_ad(client: TestClient, test_db: Session, user_header: dict) -> N
     new_data = {
         "title": "Два",
         "description": "Три",
-        "semi_free": True,
+        "bargain": True,
+        "cost": 1,
         "images": ["https://url3.net"],
     }
     response = client.put(
@@ -104,7 +106,8 @@ def test_update_ad_unexisting(client: TestClient, user_header: dict) -> None:
     new_data = {
         "title": "Два",
         "description": "Три",
-        "semi_free": True,
+        "bargain": True,
+        "cost": 1,
         "images": ["https://url3.net"],
     }
     response = client.put(
@@ -122,7 +125,8 @@ def test_update_ad_foreign(
     new_data = {
         "title": "Два",
         "description": "Три",
-        "semi_free": True,
+        "bargain": True,
+        "cost": 1,
         "images": ["https://url3.net"],
     }
     response = client.put(
@@ -187,20 +191,20 @@ def test_filter_by_cost(client: TestClient, test_db: Session) -> None:
     assert len(content) == 2
 
 
-def test_filter_by_semifree(client: TestClient, test_db: Session) -> None:
+def test_filter_by_bargain(client: TestClient, test_db: Session) -> None:
     advert1 = create_random_advert(test_db)
-    advert1.semi_free = True
+    advert1.bargain = True
     advert2 = create_random_advert(test_db)
-    advert2.semi_free = False
+    advert2.bargain = False
 
-    response = client.get(f"{settings.BASE_PREFIX}/items/?show_semifree=0")
+    response = client.get(f"{settings.BASE_PREFIX}/items/?show_bargain=0")
 
     assert response.status_code == 200
     content = response.json()
     assert len(content) == 1
     assert content[0]["id"] == advert2.id
 
-    response = client.get(f"{settings.BASE_PREFIX}/items/?show_semifree=1")
+    response = client.get(f"{settings.BASE_PREFIX}/items/?show_bargain=1")
 
     assert response.status_code == 200
     content = response.json()

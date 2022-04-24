@@ -28,7 +28,8 @@ def create_random_advert(
         category=category,
         title=title,
         description=description,
-        semi_free=False,
+        cost=1,
+        bargain=False,
         images=[],
     )
     return crud.advert.create_with_owner(db=db, obj_in=advert_in, owner_id=owner_id)
