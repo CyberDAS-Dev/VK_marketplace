@@ -10,13 +10,14 @@ export default function Expandable({
     className,
     onBuyButton,
 }) {
+    const slicedChildren = children.length > limit ? `${children.slice(0, limit)}...` : children
+
     return (
         <>
             {!isExpanded ? (
-                <Text weigth={weigth} className={className}>{`${children.slice(
-                    0,
-                    limit
-                )}...`}</Text>
+                <Text weigth={weigth} className={className}>
+                    {slicedChildren}
+                </Text>
             ) : (
                 <>
                     <Text weigth={weigth} className={className}>

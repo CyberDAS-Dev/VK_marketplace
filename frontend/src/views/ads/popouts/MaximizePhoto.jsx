@@ -1,17 +1,13 @@
 import { Icon24DismissDark } from '@vkontakte/icons'
-import { Gallery, IconButton, PopoutWrapper } from '@vkontakte/vkui'
+import { IconButton, PopoutWrapper } from '@vkontakte/vkui'
 import React from 'react'
+import Zoomable from 'react-instagram-zoom'
+import GalleryWrapper from '../components/GalleryWrapper'
 
 export default function PhotoPopout({ src, index, closePopout }) {
     return (
         <PopoutWrapper alignY="center" alignX="center" onClick={closePopout}>
-            <Gallery
-                styleWidth="100%"
-                bullets="light"
-                initialSlideIndex={index}
-                showArrows
-                style={{ height: '70vh' }}
-            >
+            <GalleryWrapper src={src} index={index}>
                 {src.map((el) => {
                     return (
                         <div
@@ -21,23 +17,25 @@ export default function PhotoPopout({ src, index, closePopout }) {
                                 justifyContent: 'center',
                                 backgroundColor: '#222222',
                                 width: '100%',
+                                height: '70vh',
                             }}
                         >
-                            <img
-                                key={el}
-                                src={el}
-                                alt="Фотография товара"
-                                width="100%"
-                                height="100%"
-                                style={{
-                                    borderRadius: 0,
-                                }}
-                            />
+                            <Zoomable>
+                                <img
+                                    key={el}
+                                    src={el}
+                                    alt="Фотография товара"
+                                    width="100%"
+                                    height="100%"
+                                    style={{
+                                        borderRadius: 0,
+                                    }}
+                                />
+                            </Zoomable>
                         </div>
                     )
                 })}
-            </Gallery>
-
+            </GalleryWrapper>
             <IconButton
                 style={{
                     position: 'absolute',

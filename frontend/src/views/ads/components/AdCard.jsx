@@ -1,5 +1,4 @@
 import React from 'react'
-// import { ContentCard } from '@vkontakte/vkui'
 import ContentCard from './ContentCardCustom'
 
 export default function AdCard({ data, maximizePhoto, onBuyButton }) {

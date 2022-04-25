@@ -15,7 +15,8 @@ def test_create_advert(test_db: Session) -> None:
         title=title,
         description=description,
         images=[],
-        semi_free=False,
+        cost=1,
+        bargain=False,
     )
 
     user = random_user(test_db)
@@ -28,8 +29,8 @@ def test_create_advert(test_db: Session) -> None:
     assert advert.title == title
     assert advert.description == description
     assert advert.images == []
-    assert advert.cost is None
-    assert advert.semi_free is False
+    assert advert.cost == 1
+    assert advert.bargain is False
     assert advert.owner_id == user.id
 
 
@@ -42,7 +43,8 @@ def test_get_advert(test_db: Session) -> None:
         title=title,
         description=description,
         images=[],
-        semi_free=False,
+        cost=1,
+        bargain=False,
     )
 
     user = random_user(test_db)
@@ -65,7 +67,8 @@ def test_update_advert(test_db: Session) -> None:
         title=title,
         description=description,
         images=[],
-        semi_free=False,
+        cost=1,
+        bargain=False,
     )
 
     user = random_user(test_db)
@@ -76,8 +79,9 @@ def test_update_advert(test_db: Session) -> None:
     advert_update = AdvertUpdate(
         title=created_advert.title,
         description=new_description,
-        semi_free=created_advert.semi_free,
+        bargain=created_advert.bargain,
         images=created_advert.images,
+        cost=1,
     )
 
     updated_advert = crud.advert.update(
@@ -98,7 +102,8 @@ def test_delete_advert(test_db: Session) -> None:
         title=title,
         description=description,
         images=[],
-        semi_free=False,
+        bargain=False,
+        cost=1,
     )
 
     user = random_user(test_db)
@@ -124,15 +129,27 @@ def test_search_advert(test_db: Session) -> None:
         title=title,
         description=description,
         images=[],
-        semi_free=False,
+        bargain=False,
+        cost=1,
     )
     user = random_user(test_db)
     created_advert = crud.advert.create_with_owner(
         db=test_db, obj_in=advert_in, owner_id=user.id
     )
+    crud.advert.create(
+        db=test_db,
+        obj_in=AdvertCreate(
+            type=Type.sell,
+            category=Category.clothes,
+            title="хм",
+            description="бла",
+            images=[],
+            bargain=False,
+            cost=1,
+        ),
+    )
 
-    search_result = crud.advert.search(test_db, "кУрТ")
+    search_result = crud.advert.get_multi(test_db, search_term="кУрТ")
 
-    assert search_result
-    assert created_advert.id == search_result.id
-    assert created_advert.owner_id == search_result.owner_id
+    assert len(search_result) == 1
+    assert created_advert.id == search_result[0].id
