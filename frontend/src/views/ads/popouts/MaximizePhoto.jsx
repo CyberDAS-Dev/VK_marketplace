@@ -1,6 +1,7 @@
 import { Icon24DismissDark } from '@vkontakte/icons'
 import { IconButton, PopoutWrapper } from '@vkontakte/vkui'
 import React from 'react'
+import Zoomable from 'react-instagram-zoom'
 import GalleryWrapper from '../components/GalleryWrapper'
 
 export default function PhotoPopout({ src, index, closePopout }) {
@@ -19,16 +20,18 @@ export default function PhotoPopout({ src, index, closePopout }) {
                                 height: '70vh',
                             }}
                         >
-                            <img
-                                key={el}
-                                src={el}
-                                alt="Фотография товара"
-                                width="100%"
-                                height="auto"
-                                style={{
-                                    borderRadius: 0,
-                                }}
-                            />
+                            <Zoomable>
+                                <img
+                                    key={el}
+                                    src={el}
+                                    alt="Фотография товара"
+                                    width="100%"
+                                    height="100%"
+                                    style={{
+                                        borderRadius: 0,
+                                    }}
+                                />
+                            </Zoomable>
                         </div>
                     )
                 })}

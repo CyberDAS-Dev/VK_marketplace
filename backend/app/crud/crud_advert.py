@@ -20,28 +20,20 @@ class CRUDAdvert(CRUDBase[Advert, AdvertCreate, AdvertUpdate]):
         db.refresh(db_obj)
         return db_obj
 
-    def get_multi_by_owner(
-        self, db: Session, *, owner_id: int, skip: int = 0, limit: int = 100
-    ) -> List[Advert]:
-        return (
-            db.query(self.model)
-            .filter(Advert.owner_id == owner_id)
-            .offset(skip)
-            .limit(limit)
-            .all()
-        )
-
     def _filter(
         self,
         query: Query,
-        sort: Literal["newer", "older", "cost-asc", "cost-desc"],
-        cost_min: Optional[int],
-        cost_max: Optional[int],
-        category: Optional[Category],
-        _type: Optional[Type],
-        with_photo: bool,
-        show_bargain: bool,
+        owner_id: Optional[int] = None,
+        sort: Literal["newer", "older", "cost-asc", "cost-desc"] = None,
+        cost_min: Optional[int] = None,
+        cost_max: Optional[int] = None,
+        category: Optional[Category] = None,
+        _type: Optional[Type] = None,
+        with_photo: bool = False,
+        show_bargain: bool = True,
     ) -> Query:
+        if owner_id is not None:
+            query = query.filter(Advert.owner_id == owner_id)
         if _type is not None:
             query = query.filter(Advert.type == _type)
         if category is not None:
