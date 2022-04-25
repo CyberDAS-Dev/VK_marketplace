@@ -1,11 +1,9 @@
 import { Icon24DismissDark } from '@vkontakte/icons'
-import { Gallery, IconButton, PopoutWrapper } from '@vkontakte/vkui'
+import { IconButton, PopoutWrapper } from '@vkontakte/vkui'
 import React from 'react'
 import GalleryWrapper from '../components/GalleryWrapper'
 
 export default function PhotoPopout({ src, index, closePopout }) {
-    const imgHeight = '70vh'
-
     return (
         <PopoutWrapper alignY="center" alignX="center" onClick={closePopout}>
             <GalleryWrapper src={src} index={index}>
