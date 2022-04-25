@@ -98,6 +98,8 @@ const ContentCard = (props) => {
         )
     } else if (source || srcSet) {
         imageElement = (
+            // надо
+            // eslint-disable-next-line jsx-a11y/no-noninteractive-element-interactions
             <img
                 ref={getRef}
                 className="vkuiContentCard__img"
@@ -113,6 +115,10 @@ const ContentCard = (props) => {
                 height={height}
                 style={{ maxHeight }}
                 width="100%"
+                onClick={(e) => {
+                    e.stopPropagation()
+                    onGalleryClick(source)
+                }}
             />
         )
     } else {
