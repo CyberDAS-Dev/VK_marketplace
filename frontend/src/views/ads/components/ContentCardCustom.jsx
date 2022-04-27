@@ -80,7 +80,7 @@ const ContentCard = (props) => {
                             alt={alt}
                             crossOrigin={crossOrigin}
                             decoding={decoding}
-                            loading={loading}
+                            loading="lazy"
                             referrerPolicy={referrerPolicy}
                             sizes={sizes}
                             useMap={useMap}
