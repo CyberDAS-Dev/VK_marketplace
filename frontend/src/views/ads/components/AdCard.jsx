@@ -3,12 +3,12 @@ import ContentCard from './ContentCardCustom'
 
 export default function AdCard({ data, maximizePhoto, onBuyButton }) {
     const defineCost = () => {
-        const { cost } = data
+        const { cost, bargain } = data
+        if (bargain) {
+            return 'Договорная'
+        }
         if (cost === 0) {
             return 'Бесплатно'
-        }
-        if (cost === 'bargain') {
-            return 'Договорная'
         }
         if (typeof cost === 'number') {
             return `${cost} ₽`
@@ -18,12 +18,12 @@ export default function AdCard({ data, maximizePhoto, onBuyButton }) {
     }
 
     const defineCostWording = () => {
-        const { cost } = data
+        const { cost, bargain } = data
+        if (bargain) {
+            return 'Договориться о цене'
+        }
         if (cost === 0) {
             return 'Забрать за бесплатно'
-        }
-        if (cost === 'bargain') {
-            return 'Договориться о цене'
         }
         if (typeof cost === 'number') {
             return `Купить за ${cost} ₽`
