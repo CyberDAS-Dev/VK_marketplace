@@ -36,16 +36,17 @@ export default function MainPanel({
                     onIconClick={() => onSearchClick()}
                 />
                 <CardGrid size="l">
-                    {cardsInfo.map((el) => {
-                        return (
-                            <AdCard
-                                key={el.id}
-                                data={el}
-                                maximizePhoto={maximizePhoto}
-                                onBuyButton={onBuyButton}
-                            />
-                        )
-                    })}
+                    {cardsInfo &&
+                        cardsInfo.map((ad) => {
+                            return (
+                                <AdCard
+                                    key={ad.id}
+                                    data={ad}
+                                    maximizePhoto={maximizePhoto}
+                                    onBuyButton={onBuyButton}
+                                />
+                            )
+                        })}
                 </CardGrid>
             </Group>
         </Panel>
