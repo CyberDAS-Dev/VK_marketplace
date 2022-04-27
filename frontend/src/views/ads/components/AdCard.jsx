@@ -44,6 +44,7 @@ export default function AdCard({ data, maximizePhoto, onBuyButton }) {
             maxHeight={150}
             onGalleryClick={maximizePhoto}
             onBuyButton={onBuyButton}
+            style={{ contentVisibility: 'auto', containIntrinsicSize: 500 }}
         />
     )
 }
