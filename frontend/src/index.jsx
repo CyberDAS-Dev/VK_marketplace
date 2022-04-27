@@ -2,8 +2,17 @@ import React from 'react'
 import ReactDOM from 'react-dom'
 import bridge from '@vkontakte/vk-bridge'
 import { ConfigProvider, AdaptivityProvider, usePlatform } from '@vkontakte/vkui'
+import { QueryClient, QueryClientProvider } from 'react-query'
 import App from './App'
 import useAppearance from './utils/useAppearance'
+
+const queryClient = new QueryClient({
+    defaultOptions: {
+        queries: {
+            refetchOnWindowFocus: false,
+        },
+    },
+})
 
 // Init VK  Mini App
 bridge.send('VKWebAppInit')
@@ -13,11 +22,13 @@ function Index() {
     const platform = usePlatform()
 
     return (
-        <ConfigProvider platform={platform} appearance={appearance}>
-            <AdaptivityProvider>
-                <App />
-            </AdaptivityProvider>
-        </ConfigProvider>
+        <QueryClientProvider client={queryClient}>
+            <ConfigProvider platform={platform} appearance={appearance}>
+                <AdaptivityProvider>
+                    <App />
+                </AdaptivityProvider>
+            </ConfigProvider>
+        </QueryClientProvider>
     )
 }
 
