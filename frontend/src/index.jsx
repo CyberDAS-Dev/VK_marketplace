@@ -3,6 +3,7 @@ import ReactDOM from 'react-dom'
 import bridge from '@vkontakte/vk-bridge'
 import { ConfigProvider, AdaptivityProvider, usePlatform } from '@vkontakte/vkui'
 import { QueryClient, QueryClientProvider } from 'react-query'
+import { ReactQueryDevtools } from 'react-query/devtools'
 import App from './App'
 import useAppearance from './utils/useAppearance'
 
@@ -28,6 +29,7 @@ function Index() {
                     <App />
                 </AdaptivityProvider>
             </ConfigProvider>
+            <ReactQueryDevtools initialIsOpen={false} />
         </QueryClientProvider>
     )
 }
