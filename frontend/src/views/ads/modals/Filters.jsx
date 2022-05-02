@@ -156,10 +156,7 @@ export default function FiltersModal({ id, applyFilters, closeModal }) {
                         </FormItem>
                     </FormLayoutGroup>
                     <FormItem>
-                        <Checkbox
-                            checked={dontShowBargain}
-                            onChange={() => toggleDontShowBargain(!onlyPhoto)}
-                        >
+                        <Checkbox checked={onlyPhoto} onChange={() => toggleOnlyPhoto(!onlyPhoto)}>
                             Только с фото
                         </Checkbox>
                     </FormItem>
