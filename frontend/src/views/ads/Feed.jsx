@@ -10,27 +10,29 @@ export default function AdsView({ id }) {
     const [activePanel] = React.useState('main')
     const [activeModal, setActiveModal] = React.useState(null)
     const [popout, setPopout] = React.useState(null)
-    const { isLoading, data: adverts } = useAdverts()
-
-    const closeModal = () => setActiveModal(null)
-    const closePopout = () => {
+    const { isFetching, data: adverts, fetchNextAdverts, hasNextPage } = useAdverts()
+    const closeModal = React.useCallback(() => setActiveModal(null), [])
+    const closePopout = React.useCallback(() => {
         unlockScroll()
         setPopout(null)
-    }
-    const applyFilters = (e, data) => {
-        e.preventDefault()
-        console.log(data)
-        closeModal()
-    }
+    }, [unlockScroll])
+    const applyFilters = React.useCallback(
+        (e, data) => {
+            e.preventDefault()
+            console.log(data)
+            closeModal()
+        },
+        [closeModal]
+    )
 
     useEffect(() => {
-        if (isLoading) {
+        if (isFetching) {
             setPopout(<ScreenSpinner />)
         }
-        if (!isLoading) {
+        if (!isFetching) {
             setPopout(null)
         }
-    }, [isLoading])
+    }, [isFetching])
 
     const modal = (
         <ModalRoot activeModal={activeModal} onClose={closeModal}>
@@ -45,20 +47,26 @@ export default function AdsView({ id }) {
                 category="Все объявления"
                 cardsInfo={
                     adverts &&
-                    adverts.map((ad) => {
-                        return {
-                            id: ad.id,
-                            title: ad.title,
-                            description: ad.description,
-                            cost: ad.cost,
-                            image: ad.images,
-                            bargain: ad.bargain,
-                        }
-                    })
+                    [].concat(
+                        ...adverts.pages.map((group) => {
+                            return group.map((ad) => {
+                                return {
+                                    id: ad.id,
+                                    title: ad.title,
+                                    description: ad.description,
+                                    cost: ad.cost,
+                                    bargain: ad.bargain,
+                                    image: ad.images,
+                                }
+                            })
+                        })
+                    )
                 }
                 onSearchClick={() => setActiveModal('filters')}
                 setPopout={setPopout}
                 closePopout={closePopout}
+                fetchNextAdverts={fetchNextAdverts}
+                hasNextPage={hasNextPage}
             />
         </View>
     )
