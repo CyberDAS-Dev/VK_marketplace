@@ -1,6 +1,6 @@
 import React from 'react'
-import { Panel, PanelHeader, Group, Search, CardGrid, Spinner } from '@vkontakte/vkui'
-import { Icon24Filter } from '@vkontakte/icons'
+import { Panel, PanelHeader, Group, Search, CardGrid, Spinner, Placeholder } from '@vkontakte/vkui'
+import { Icon24Filter, Icon56ErrorOutline } from '@vkontakte/icons'
 import InfiniteScroll from 'react-infinite-scroll-component'
 import logo from '../../../images/logo.svg'
 import AdCard from '../components/AdCard'
@@ -16,6 +16,7 @@ export default function MainPanel({
     closePopout,
     fetchNextAdverts,
     hasNextPage,
+    isError,
 }) {
     const { lockScroll } = useScrollLock()
 
@@ -65,6 +66,11 @@ export default function MainPanel({
                             })}
                         </CardGrid>
                     </InfiniteScroll>
+                )}
+                {isError && (
+                    <Placeholder icon={<Icon56ErrorOutline />} header="Ошибка">
+                        Не удалось получить список объявлений, попробуйте еще раз.
+                    </Placeholder>
                 )}
             </Group>
         </Panel>

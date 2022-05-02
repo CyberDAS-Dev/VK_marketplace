@@ -10,7 +10,7 @@ export default function AdsView({ id }) {
     const [activePanel] = React.useState('main')
     const [activeModal, setActiveModal] = React.useState(null)
     const [popout, setPopout] = React.useState(null)
-    const { isLoading, data: adverts, fetchNextAdverts, hasNextPage } = useAdverts()
+    const { isLoading, data: adverts, fetchNextAdverts, hasNextPage, isError } = useAdverts()
     const closeModal = React.useCallback(() => setActiveModal(null), [])
     const closePopout = React.useCallback(() => {
         unlockScroll()
@@ -67,6 +67,7 @@ export default function AdsView({ id }) {
                 closePopout={closePopout}
                 fetchNextAdverts={fetchNextAdverts}
                 hasNextPage={hasNextPage}
+                isError={isError}
             />
         </View>
     )
