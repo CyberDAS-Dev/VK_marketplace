@@ -1,5 +1,5 @@
 import React from 'react'
-import { Panel, PanelHeader, Group, Search, CardGrid, Button } from '@vkontakte/vkui'
+import { Panel, PanelHeader, Group, Search, CardGrid, Spinner } from '@vkontakte/vkui'
 import { Icon24Filter } from '@vkontakte/icons'
 import InfiniteScroll from 'react-infinite-scroll-component'
 import logo from '../../../images/logo.svg'
@@ -46,6 +46,11 @@ export default function MainPanel({
                         dataLength={cardsInfo.length}
                         next={fetchNextAdverts}
                         hasMore={hasNextPage}
+                        loader={
+                            <div style={{ display: 'flex', justifyContent: 'center' }}>
+                                <Spinner size="regular" style={{ margin: '20px 0' }} />
+                            </div>
+                        }
                     >
                         <CardGrid size="l">
                             {cardsInfo.map((ad) => {

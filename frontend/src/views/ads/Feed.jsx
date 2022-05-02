@@ -10,7 +10,7 @@ export default function AdsView({ id }) {
     const [activePanel] = React.useState('main')
     const [activeModal, setActiveModal] = React.useState(null)
     const [popout, setPopout] = React.useState(null)
-    const { isFetching, data: adverts, fetchNextAdverts, hasNextPage } = useAdverts()
+    const { isLoading, data: adverts, fetchNextAdverts, hasNextPage } = useAdverts()
     const closeModal = React.useCallback(() => setActiveModal(null), [])
     const closePopout = React.useCallback(() => {
         unlockScroll()
@@ -26,13 +26,13 @@ export default function AdsView({ id }) {
     )
 
     useEffect(() => {
-        if (isFetching) {
+        if (isLoading) {
             setPopout(<ScreenSpinner />)
         }
-        if (!isFetching) {
+        if (!isLoading) {
             setPopout(null)
         }
-    }, [isFetching])
+    }, [isLoading])
 
     const modal = (
         <ModalRoot activeModal={activeModal} onClose={closeModal}>
