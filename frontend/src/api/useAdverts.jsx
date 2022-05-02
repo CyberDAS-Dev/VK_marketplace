@@ -5,7 +5,7 @@ import http from './http'
 
 export default function useAdverts() {
     const { skip, setSkip } = React.useContext(advertsContext)
-    const limit = 5
+    const limit = 7
 
     const query = useInfiniteQuery(
         'adverts',
@@ -20,11 +20,10 @@ export default function useAdverts() {
         }
     )
 
-    console.log('hasNextPage', query.hasNextPage)
     const fetchNextAdverts = () => {
         if (query.hasNextPage) {
             // если все подвязывать на стейт скипа, то почему-то стейт не успевает обновиться
-            // и передаться в некст функцию, поэтому в fetchNextPage передается skip + 5
+            // и передаться в некст функцию, поэтому в fetchNextPage передается skip + limit
             query.fetchNextPage({ pageParam: skip + limit })
             setSkip(skip + limit)
         }
