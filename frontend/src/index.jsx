@@ -6,6 +6,7 @@ import { QueryClient, QueryClientProvider } from 'react-query'
 import { ReactQueryDevtools } from 'react-query/devtools'
 import App from './App'
 import useAppearance from './utils/useAppearance'
+import AdvertsContextProvider from './utils/AdvertsContext'
 
 const queryClient = new QueryClient({
     defaultOptions: {
@@ -26,7 +27,9 @@ function Index() {
         <QueryClientProvider client={queryClient}>
             <ConfigProvider platform={platform} appearance={appearance}>
                 <AdaptivityProvider>
-                    <App />
+                    <AdvertsContextProvider>
+                        <App />
+                    </AdvertsContextProvider>
                 </AdaptivityProvider>
             </ConfigProvider>
             <ReactQueryDevtools initialIsOpen={false} />
