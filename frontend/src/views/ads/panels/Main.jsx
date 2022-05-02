@@ -1,6 +1,7 @@
 import React from 'react'
-import { Panel, PanelHeader, Group, Search, CardGrid } from '@vkontakte/vkui'
+import { Panel, PanelHeader, Group, Search, CardGrid, Button } from '@vkontakte/vkui'
 import { Icon24Filter } from '@vkontakte/icons'
+import InfiniteScroll from 'react-infinite-scroll-component'
 import logo from '../../../images/logo.svg'
 import AdCard from '../components/AdCard'
 import useScrollLock from '../../../utils/lockScroll'
@@ -13,13 +14,18 @@ export default function MainPanel({
     onSearchClick,
     setPopout,
     closePopout,
+    fetchNextAdverts,
+    hasNextPage,
 }) {
     const { lockScroll } = useScrollLock()
 
-    const maximizePhoto = (src, index) => {
-        lockScroll()
-        setPopout(<PhotoPopout src={src} index={index} closePopout={closePopout} />)
-    }
+    const maximizePhoto = React.useCallback(
+        (src, index) => {
+            lockScroll()
+            setPopout(<PhotoPopout src={src} index={index} closePopout={closePopout} />)
+        },
+        [closePopout, lockScroll, setPopout]
+    )
 
     const onBuyButton = (e) => {
         alert('Покупай')
@@ -35,19 +41,26 @@ export default function MainPanel({
                     icon={<Icon24Filter />}
                     onIconClick={() => onSearchClick()}
                 />
-                <CardGrid size="l">
-                    {cardsInfo &&
-                        cardsInfo.map((ad) => {
-                            return (
-                                <AdCard
-                                    key={ad.id}
-                                    data={ad}
-                                    maximizePhoto={maximizePhoto}
-                                    onBuyButton={onBuyButton}
-                                />
-                            )
-                        })}
-                </CardGrid>
+                {cardsInfo && (
+                    <InfiniteScroll
+                        dataLength={cardsInfo.length}
+                        next={fetchNextAdverts}
+                        hasMore={hasNextPage}
+                    >
+                        <CardGrid size="l">
+                            {cardsInfo.map((ad) => {
+                                return (
+                                    <AdCard
+                                        key={ad.id}
+                                        data={ad}
+                                        maximizePhoto={maximizePhoto}
+                                        onBuyButton={onBuyButton}
+                                    />
+                                )
+                            })}
+                        </CardGrid>
+                    </InfiniteScroll>
+                )}
             </Group>
         </Panel>
     )
