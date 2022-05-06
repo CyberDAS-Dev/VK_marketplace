@@ -23,6 +23,7 @@ export default function AdCard({ data, maximizePhoto, onBuyButton }) {
             header={data.title}
             text={data.description}
             cost={defineCost()}
+            loading="lazy"
             expandable
             limit={70}
             maxHeight={150}
