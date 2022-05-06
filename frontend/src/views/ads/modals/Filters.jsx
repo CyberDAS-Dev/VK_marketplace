@@ -8,8 +8,9 @@ import {
     FormItem,
     Select,
     Button,
-    RangeSlider,
     Checkbox,
+    FormLayoutGroup,
+    Input,
 } from '@vkontakte/vkui'
 import { Icon24Dismiss } from '@vkontakte/icons'
 
@@ -17,9 +18,9 @@ export default function FiltersModal({ id, applyFilters, closeModal }) {
     const [type, setType] = React.useState('all')
     const [sortType, setSortType] = React.useState('new')
     const [category, setCategory] = React.useState(0)
-    const [price, setPrice] = React.useState([0, 2000])
-    const [onlyPhoto, toggleOnlyPhoto] = React.useState(true)
-
+    const [cost, setCost] = React.useState([0, 2000])
+    const [onlyPhoto, toggleOnlyPhoto] = React.useState(false)
+    const [dontShowBargain, toggleDontShowBargain] = React.useState(false) // инверс к апи
     return (
         <ModalPage
             id={id}
@@ -39,12 +40,18 @@ export default function FiltersModal({ id, applyFilters, closeModal }) {
             <Group>
                 <FormLayout
                     onSubmit={(e) =>
-                        applyFilters(e, { type, sortType, category, price, onlyPhoto })
+                        applyFilters(e, {
+                            type,
+                            sortType,
+                            category,
+                            cost,
+                            onlyPhoto,
+                            dontShowBargain,
+                        })
                     }
                 >
                     <FormItem top="Тип объявлений">
                         <Select
-                            placeholder="Выберите тип"
                             name="type"
                             value={type}
                             onChange={(e) => setType(e.currentTarget.value)}
@@ -70,8 +77,7 @@ export default function FiltersModal({ id, applyFilters, closeModal }) {
                     </FormItem>
                     <FormItem top="Сортировка">
                         <Select
-                            placeholder="Выберите сортировку"
-                            name="sortType"
+                            name="sort"
                             value={sortType}
                             onChange={(e) => setSortType(e.currentTarget.value)}
                             options={[
@@ -96,7 +102,6 @@ export default function FiltersModal({ id, applyFilters, closeModal }) {
                     </FormItem>
                     <FormItem top="Категория">
                         <Select
-                            placeholder="Выберите категорию"
                             name="category"
                             value={category}
                             onChange={(e) => setCategory(e.currentTarget.value)}
@@ -136,18 +141,31 @@ export default function FiltersModal({ id, applyFilters, closeModal }) {
                             ]}
                         />
                     </FormItem>
-                    <FormItem top="Цена" bottom={`От ${price[0]} до ${price[1]}`}>
-                        <RangeSlider
-                            min={0}
-                            max={2000}
-                            step={10}
-                            onChange={(e) => setPrice(e)}
-                            value={[...price]}
-                        />
-                    </FormItem>
+                    <FormLayoutGroup mode="horizontal">
+                        <FormItem bottom="От" top="Цена">
+                            <Input
+                                value={cost[0]}
+                                onChange={(e) => setCost([e.currentTarget.value, cost[1]])}
+                            />
+                        </FormItem>
+                        <FormItem bottom="До" top="&#xfeff;">
+                            <Input
+                                value={cost[1]}
+                                onChange={(e) => setCost([cost[0], e.currentTarget.value])}
+                            />
+                        </FormItem>
+                    </FormLayoutGroup>
                     <FormItem>
                         <Checkbox checked={onlyPhoto} onChange={() => toggleOnlyPhoto(!onlyPhoto)}>
                             Только с фото
+                        </Checkbox>
+                    </FormItem>
+                    <FormItem>
+                        <Checkbox
+                            checked={dontShowBargain}
+                            onChange={() => toggleDontShowBargain(!dontShowBargain)}
+                        >
+                            Только с ценой
                         </Checkbox>
                     </FormItem>
                     <FormItem>

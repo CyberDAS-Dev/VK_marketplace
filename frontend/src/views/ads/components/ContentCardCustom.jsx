@@ -20,7 +20,6 @@ const ContentCard = (props) => {
         header,
         text,
         cost,
-        costWording,
         onGalleryClick,
         onBuyButton,
         expandable,
@@ -132,8 +131,7 @@ const ContentCard = (props) => {
                 <Expandable
                     className="ContentCard__text"
                     isExpanded={isExpanded}
-                    cost={cost}
-                    costWording={costWording}
+                    costWording={cost.wording}
                     limit={limit}
                     onBuyButton={onBuyButton}
                 >
@@ -175,7 +173,7 @@ const ContentCard = (props) => {
                     {textElement}
                     {hasReactNode(cost) && !isExpanded && (
                         <Caption className="ContentCard__text" weight="1" level="1">
-                            {cost}
+                            {cost.value}
                         </Caption>
                     )}
                     {expandable && !isExpanded && (

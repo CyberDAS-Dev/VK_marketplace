@@ -40,7 +40,7 @@ export default function PhotoPopout({ src, index, closePopout }) {
                 style={{
                     position: 'absolute',
                     right: '5px',
-                    top: '40px',
+                    top: '15vh',
                 }}
                 icon={<Icon24DismissDark />}
                 onClick={closePopout}

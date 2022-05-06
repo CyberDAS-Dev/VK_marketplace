@@ -3,30 +3,15 @@ import ContentCard from './ContentCardCustom'
 
 export default function AdCard({ data, maximizePhoto, onBuyButton }) {
     const defineCost = () => {
-        const { cost } = data
-        if (cost === 0) {
-            return 'Бесплатно'
+        const { cost, bargain } = data
+        if (bargain) {
+            return { value: 'Договорная', wording: 'Договориться о цене' }
         }
-        if (cost === 'bargain') {
-            return 'Договорная'
+        if (cost === 0) {
+            return { value: 'Бесплатно', wording: 'Забрать за бесплатно' }
         }
         if (typeof cost === 'number') {
-            return `${cost} ₽`
-        }
-
-        throw new Error('Указана неверная цена!')
-    }
-
-    const defineCostWording = () => {
-        const { cost } = data
-        if (cost === 0) {
-            return 'Забрать за бесплатно'
-        }
-        if (cost === 'bargain') {
-            return 'Договориться о цене'
-        }
-        if (typeof cost === 'number') {
-            return `Купить за ${cost} ₽`
+            return { value: `${cost} ₽`, wording: `Купить за ${cost} ₽` }
         }
 
         throw new Error('Указана неверная цена!')
@@ -38,12 +23,13 @@ export default function AdCard({ data, maximizePhoto, onBuyButton }) {
             header={data.title}
             text={data.description}
             cost={defineCost()}
-            costWording={defineCostWording()}
+            loading="lazy"
             expandable
             limit={70}
             maxHeight={150}
             onGalleryClick={maximizePhoto}
             onBuyButton={onBuyButton}
+            style={{ contentVisibility: 'auto', containIntrinsicSize: 500 }}
         />
     )
 }

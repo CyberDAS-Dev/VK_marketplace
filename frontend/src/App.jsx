@@ -6,9 +6,12 @@ import {
     Icon28UserSquareOutline,
 } from '@vkontakte/icons'
 import '@vkontakte/vkui/dist/vkui.css'
+import baseTheme from '@vkontakte/vkui-tokens/themes/vkBase/cssVars/theme'
 import Feed from './views/ads/Feed'
 import ProfileView from './views/profile/Profile'
 import AddNewView from './views/addNew/AddNew'
+
+window.document.body.style.backgroundColor = baseTheme.colorBackground.normal.value
 
 function App() {
     const [activeStory, setActiveStory] = React.useState('feed')
