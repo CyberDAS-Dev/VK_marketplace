@@ -5,28 +5,13 @@ export default function AdCard({ data, maximizePhoto, onBuyButton }) {
     const defineCost = () => {
         const { cost, bargain } = data
         if (bargain) {
-            return 'Договорная'
+            return { value: 'Договорная', wording: 'Договориться о цене' }
         }
         if (cost === 0) {
-            return 'Бесплатно'
+            return { value: 'Бесплатно', wording: 'Забрать за бесплатно' }
         }
         if (typeof cost === 'number') {
-            return `${cost} ₽`
-        }
-
-        throw new Error('Указана неверная цена!')
-    }
-
-    const defineCostWording = () => {
-        const { cost, bargain } = data
-        if (bargain) {
-            return 'Договориться о цене'
-        }
-        if (cost === 0) {
-            return 'Забрать за бесплатно'
-        }
-        if (typeof cost === 'number') {
-            return `Купить за ${cost} ₽`
+            return { value: `${cost} ₽`, wording: `Купить за ${cost} ₽` }
         }
 
         throw new Error('Указана неверная цена!')
@@ -38,7 +23,6 @@ export default function AdCard({ data, maximizePhoto, onBuyButton }) {
             header={data.title}
             text={data.description}
             cost={defineCost()}
-            costWording={defineCostWording()}
             expandable
             limit={70}
             maxHeight={150}
