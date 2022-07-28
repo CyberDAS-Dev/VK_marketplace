@@ -1,7 +1,7 @@
 const categoryDict = (category) => {
     switch (category) {
         case 'all':
-            return 'Любая'
+            return 'Все объявления'
         case 'misc':
             return 'Бытовые товары'
         case 'food':
