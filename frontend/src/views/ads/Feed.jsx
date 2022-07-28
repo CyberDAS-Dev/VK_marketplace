@@ -20,7 +20,6 @@ const AdsView = observer(({ id }) => {
     const applyFilters = React.useCallback(
         (e, data) => {
             e.preventDefault()
-            console.log(data)
             Ads.applyFilters(data)
             closeModal()
         },

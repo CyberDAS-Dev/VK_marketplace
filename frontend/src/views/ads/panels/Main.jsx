@@ -29,7 +29,7 @@ const MainPanel = observer(({ id, onSearchClick, setPopout, closePopout }) => {
         [closePopout, lockScroll, setPopout]
     )
 
-    const onBuyButton = (e) => {
+    const onBuyButton = () => {
         alert('Покупай')
     }
 
