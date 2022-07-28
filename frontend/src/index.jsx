@@ -4,7 +4,6 @@ import bridge from '@vkontakte/vk-bridge'
 import { ConfigProvider, AdaptivityProvider, usePlatform } from '@vkontakte/vkui'
 import App from '@/App'
 import useAppearance from '@/utils/useAppearance'
-import AdvertsContextProvider from '@/utils/AdvertsContext'
 
 // Init VK  Mini App
 bridge.send('VKWebAppInit')
@@ -16,9 +15,7 @@ function Index() {
     return (
         <ConfigProvider platform={platform} appearance={appearance}>
             <AdaptivityProvider>
-                <AdvertsContextProvider>
-                    <App />
-                </AdvertsContextProvider>
+                <App />
             </AdaptivityProvider>
         </ConfigProvider>
     )
