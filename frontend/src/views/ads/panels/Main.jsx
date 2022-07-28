@@ -1,9 +1,15 @@
 import React from 'react'
 import { Panel, PanelHeader, Group, Search, CardGrid, Spinner, Placeholder } from '@vkontakte/vkui'
-import { Icon24Filter, Icon56ErrorOutline } from '@vkontakte/icons'
+import {
+    Icon24Filter,
+    Icon56ErrorOutline,
+    Icon28ChevronUpOutline,
+    Icon28RefreshOutline,
+} from '@vkontakte/icons'
 import InfiniteScroll from 'react-infinite-scroll-component'
 import { observer } from 'mobx-react-lite'
 import debounce from 'lodash.debounce'
+import baseTheme from '@vkontakte/vkui-tokens/themes/vkBase/cssVars/theme'
 import logo from '../../../images/logo.svg'
 import AdCard from '../components/AdCard'
 import useScrollLock from '../../../utils/lockScroll'
@@ -57,6 +63,36 @@ const MainPanel = observer(({ id, onSearchClick, setPopout, closePopout }) => {
                         dataLength={Ads.ads.length}
                         next={() => Ads.fetchNextAdverts()}
                         hasMore={Ads.hasMore}
+                        pullDownToRefresh
+                        refreshFunction={() => Ads.refresh()}
+                        pullDownToRefreshThreshold={50}
+                        pullDownToRefreshContent={
+                            <div
+                                style={{
+                                    display: 'flex',
+                                    justifyContent: 'center',
+                                }}
+                            >
+                                <Icon28ChevronUpOutline
+                                    style={{ marginBottom: '10px' }}
+                                    fill={baseTheme.colorIconAccent.normal.value}
+                                />
+                            </div>
+                        }
+                        releaseToRefreshContent={
+                            <div
+                                style={{
+                                    display: 'flex',
+                                    justifyContent: 'center',
+                                    alignItems: 'center',
+                                }}
+                            >
+                                <Icon28RefreshOutline
+                                    style={{ marginBottom: '10px' }}
+                                    fill={baseTheme.colorIconAccent.normal.value}
+                                />
+                            </div>
+                        }
                     >
                         <CardGrid size="l">
                             {Ads.ads.map((ad) => {

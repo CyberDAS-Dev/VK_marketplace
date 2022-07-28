@@ -1,6 +1,7 @@
-import React, { useEffect } from 'react'
+import React from 'react'
 import { View, ModalRoot, ScreenSpinner } from '@vkontakte/vkui'
 import { observer } from 'mobx-react-lite'
+import { autorun } from 'mobx'
 import MainPanel from './panels/Main'
 import FiltersModal from './modals/Filters'
 import useScrollLock from '../../utils/lockScroll'
@@ -25,6 +26,16 @@ const AdsView = observer(({ id }) => {
         },
         [closeModal]
     )
+
+    React.useEffect(() => {
+        autorun(() => {
+            if (Ads.isPulled) {
+                setPopout(<ScreenSpinner />)
+            } else {
+                setPopout(null)
+            }
+        })
+    }, [])
 
     const modal = (
         <ModalRoot activeModal={activeModal} onClose={closeModal}>

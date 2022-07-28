@@ -12,6 +12,8 @@ class Ads {
 
     isError = false
 
+    isPulled = false
+
     filters = {
         category: 'all',
         type: 'all',
@@ -60,6 +62,15 @@ class Ads {
             }
         }
         this.isLoading = false
+    }
+
+    async refresh() {
+        this.isLoading = true
+        this.isPulled = true
+        const data = await fetchAdverts(0, this.filters, this.ads.length)
+        this.ads = [...data]
+        this.isLoading = false
+        this.isPulled = false
     }
 
     async applyFilters(filters) {
