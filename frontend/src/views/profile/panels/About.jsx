@@ -1,6 +1,6 @@
 import React from 'react'
 import { Group, Panel, PanelHeader, PanelHeaderBack, Div, Text, Link } from '@vkontakte/vkui'
-import bigLogo from '../images/biglogo.png'
+import bigLogo from '@/views/profile/images/biglogo.png'
 
 export default function AboutPanel({ id, backToMain }) {
     return (

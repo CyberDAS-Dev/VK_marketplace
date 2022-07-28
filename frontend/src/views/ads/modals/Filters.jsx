@@ -13,7 +13,7 @@ import {
     Input,
 } from '@vkontakte/vkui'
 import { Icon24Dismiss } from '@vkontakte/icons'
-import Ads from '../../../store/AdsStore'
+import Ads from '@/store/AdsStore'
 
 const FiltersModal = ({ id, applyFilters, closeModal }) => {
     const [type, setType] = React.useState(Ads.filters.type)

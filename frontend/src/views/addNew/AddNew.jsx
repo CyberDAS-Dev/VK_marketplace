@@ -1,8 +1,8 @@
 import React from 'react'
 import { View, ModalRoot } from '@vkontakte/vkui'
-import MainPanel from './panels/Main'
-import AddPanel from './panels/Add'
-import CategoriesModal from './modals/Categories'
+import CategoriesModal from '@/views/addNew/modals/Categories'
+import MainPanel from '@/views/addNew/panels/Main'
+import AddPanel from '@/views/addNew/panels/Add'
 
 export default function AddNewView({ id }) {
     const [activeModal, setActiveModal] = React.useState(null)

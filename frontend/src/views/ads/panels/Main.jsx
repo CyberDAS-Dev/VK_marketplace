@@ -10,12 +10,12 @@ import InfiniteScroll from 'react-infinite-scroll-component'
 import { observer } from 'mobx-react-lite'
 import debounce from 'lodash.debounce'
 import baseTheme from '@vkontakte/vkui-tokens/themes/vkBase/cssVars/theme'
-import logo from '../../../images/logo.svg'
-import AdCard from '../components/AdCard'
-import useScrollLock from '../../../utils/lockScroll'
-import PhotoPopout from '../popouts/MaximizePhoto'
-import Ads from '../../../store/AdsStore'
-import categoryDict from '../../../utils/categoryDict'
+import categoryDict from '@/utils/categoryDict'
+import logo from '@/images/logo.svg'
+import AdCard from '@/views/ads/components/AdCard'
+import useScrollLock from '@/utils/lockScroll'
+import PhotoPopout from '@/views/ads/popouts/MaximizePhoto'
+import Ads from '@/store/AdsStore'
 
 const MainPanel = observer(({ id, onSearchClick, setPopout, closePopout }) => {
     const { lockScroll } = useScrollLock()

@@ -4,8 +4,8 @@
     "description": "",
     "main": "index.js",
     "scripts": {
-        "start": "react-scripts start",
-        "build": "react-scripts build",
+        "start": "react-app-rewired start",
+        "build": "react-app-rewired build",
         "lint:code": "eslint --max-warnings 0 --ext js,jsx src",
         "format:code": "eslint --ext js,jsx src --fix"
     },
@@ -22,6 +22,8 @@
         "eslint-plugin-prettier": "^4.0.0",
         "eslint-plugin-react": "^7.26.1",
         "eslint-plugin-react-hooks": "^4.2.0",
+        "react-app-alias": "^2.2.1",
+        "react-app-rewired": "^2.2.1",
         "react-hot-loader": "^4.13.0",
         "react-scripts": "^4.0.3"
     },

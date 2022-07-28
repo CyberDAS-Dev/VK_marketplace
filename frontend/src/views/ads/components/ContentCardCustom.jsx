@@ -10,9 +10,9 @@ import {
     getClassName,
 } from '@vkontakte/vkui'
 import { hasReactNode, isArray } from '@vkontakte/vkjs'
-import './ContentCardCustom.css'
+import '@/views/ads/components/ContentCardCustom.css'
 import { Icon28ChevronDownOutline } from '@vkontakte/icons'
-import Expandable from './Expandable'
+import Expandable from '@/views/ads/components/Expandable'
 
 const ContentCard = (props) => {
     const {

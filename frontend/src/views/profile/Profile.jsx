@@ -1,8 +1,8 @@
 import React from 'react'
 import { View } from '@vkontakte/vkui'
-import MyAdsPanel from './panels/MyAds'
-import AboutPanel from './panels/About'
-import MainPanel from './panels/Main'
+import MyAdsPanel from '@/views/profile/panels/MyAds'
+import AboutPanel from '@/views/profile/panels/About'
+import MainPanel from '@/views/profile/panels/Main'
 
 export default function ProfileView({ id }) {
     const [activePanel, setActivePanel] = React.useState('main')

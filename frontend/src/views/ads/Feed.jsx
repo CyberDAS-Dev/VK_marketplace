@@ -2,10 +2,10 @@ import React from 'react'
 import { View, ModalRoot, ScreenSpinner } from '@vkontakte/vkui'
 import { observer } from 'mobx-react-lite'
 import { autorun } from 'mobx'
-import MainPanel from './panels/Main'
-import FiltersModal from './modals/Filters'
-import useScrollLock from '../../utils/lockScroll'
-import Ads from '../../store/AdsStore'
+import MainPanel from '@/views/ads/panels/Main'
+import FiltersModal from '@/views/ads/modals/Filters'
+import useScrollLock from '@/utils/lockScroll'
+import Ads from '@/store/AdsStore'
 
 const AdsView = observer(({ id }) => {
     const { unlockScroll } = useScrollLock()

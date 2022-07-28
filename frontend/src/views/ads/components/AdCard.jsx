@@ -1,5 +1,5 @@
 import React from 'react'
-import ContentCard from './ContentCardCustom'
+import ContentCard from '@/views/ads/components/ContentCardCustom'
 
 export default function AdCard({ data, maximizePhoto, onBuyButton }) {
     const defineCost = () => {

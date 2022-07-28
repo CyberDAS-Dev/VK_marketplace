@@ -2,9 +2,9 @@ import React from 'react'
 import ReactDOM from 'react-dom'
 import bridge from '@vkontakte/vk-bridge'
 import { ConfigProvider, AdaptivityProvider, usePlatform } from '@vkontakte/vkui'
-import App from './App'
-import useAppearance from './utils/useAppearance'
-import AdvertsContextProvider from './utils/AdvertsContext'
+import App from '@/App'
+import useAppearance from '@/utils/useAppearance'
+import AdvertsContextProvider from '@/utils/AdvertsContext'
 
 // Init VK  Mini App
 bridge.send('VKWebAppInit')

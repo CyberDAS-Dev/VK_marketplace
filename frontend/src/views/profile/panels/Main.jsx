@@ -5,8 +5,8 @@ import {
     Icon28HelpCircleOutline,
     Icon28InfoCircleOutline,
 } from '@vkontakte/icons'
-import logo from '../../../images/logo.svg'
-import avatar from '../images/avatar.png'
+import logo from '@/images/logo.svg'
+import avatar from '@/views/profile/images/avatar.png'
 
 export default function MainPanel({ id, setActivePanel }) {
     return (

@@ -6,7 +6,7 @@ import {
     Icon28ShoppingCartOutline,
     Icon28StorefrontOutline,
 } from '@vkontakte/icons'
-import logo from '../../../images/logo.svg'
+import logo from '@/images/logo.svg'
 
 export default function MainPanel({ id, openCategories }) {
     return (

@@ -7,9 +7,9 @@ import {
 } from '@vkontakte/icons'
 import '@vkontakte/vkui/dist/vkui.css'
 import baseTheme from '@vkontakte/vkui-tokens/themes/vkBase/cssVars/theme'
-import Feed from './views/ads/Feed'
-import ProfileView from './views/profile/Profile'
-import AddNewView from './views/addNew/AddNew'
+import ProfileView from '@/views/profile/Profile'
+import Feed from '@/views/ads/Feed'
+import AddNewView from '@/views/addNew/AddNew'
 
 window.document.body.style.backgroundColor = baseTheme.colorBackground.normal.value
 

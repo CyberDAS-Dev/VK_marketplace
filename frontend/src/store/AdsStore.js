@@ -1,5 +1,5 @@
 import { makeAutoObservable } from 'mobx'
-import fetchAdverts from '../api/fetchAdverts'
+import fetchAdverts from '@/api/fetchAdverts'
 
 class Ads {
     ads = []
