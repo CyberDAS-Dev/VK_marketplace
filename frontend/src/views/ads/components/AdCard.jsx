@@ -1,7 +1,7 @@
 import React from 'react'
 import ContentCard from '@/views/ads/components/ContentCardCustom'
 
-export default function AdCard({ data, maximizePhoto, onBuyButton }) {
+const AdCard = ({ data, maximizePhoto, onBuyButton }) => {
     const defineCost = () => {
         const { cost, bargain } = data
         if (bargain) {
@@ -33,3 +33,5 @@ export default function AdCard({ data, maximizePhoto, onBuyButton }) {
         />
     )
 }
+
+export default React.memo(AdCard)

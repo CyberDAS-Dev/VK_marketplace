@@ -29,9 +29,9 @@ const MainPanel = observer(({ id, onSearchClick, setPopout, closePopout }) => {
         [closePopout, lockScroll, setPopout]
     )
 
-    const onBuyButton = () => {
+    const onBuyButton = React.useCallback(() => {
         alert('Покупай')
-    }
+    }, [])
 
     // eslint-disable-next-line react-hooks/exhaustive-deps
     const applySearch = React.useCallback(
