@@ -1,16 +1,16 @@
 import React, { useEffect } from 'react'
 import { View, ModalRoot, ScreenSpinner } from '@vkontakte/vkui'
+import { observer } from 'mobx-react-lite'
 import MainPanel from './panels/Main'
 import FiltersModal from './modals/Filters'
 import useScrollLock from '../../utils/lockScroll'
-import useAdverts from '../../api/useAdverts'
+import Ads from '../../store/AdsStore'
 
-export default function AdsView({ id }) {
+const AdsView = observer(({ id }) => {
     const { unlockScroll } = useScrollLock()
     const [activePanel] = React.useState('main')
     const [activeModal, setActiveModal] = React.useState(null)
     const [popout, setPopout] = React.useState(null)
-    const { isLoading, data: adverts, fetchNextAdverts, hasNextPage, isError } = useAdverts()
     const closeModal = React.useCallback(() => setActiveModal(null), [])
     const closePopout = React.useCallback(() => {
         unlockScroll()
@@ -20,19 +20,11 @@ export default function AdsView({ id }) {
         (e, data) => {
             e.preventDefault()
             console.log(data)
+            Ads.applyFilters(data)
             closeModal()
         },
         [closeModal]
     )
-
-    useEffect(() => {
-        if (isLoading) {
-            setPopout(<ScreenSpinner />)
-        }
-        if (!isLoading) {
-            setPopout(null)
-        }
-    }, [isLoading])
 
     const modal = (
         <ModalRoot activeModal={activeModal} onClose={closeModal}>
@@ -44,31 +36,13 @@ export default function AdsView({ id }) {
         <View id={id} activePanel={activePanel} modal={modal} popout={popout}>
             <MainPanel
                 id="main"
-                category="Все объявления"
-                cardsInfo={
-                    adverts &&
-                    [].concat(
-                        ...adverts.pages.map((group) => {
-                            return group.map((ad) => {
-                                return {
-                                    id: ad.id,
-                                    title: ad.title,
-                                    description: ad.description,
-                                    cost: ad.cost,
-                                    bargain: ad.bargain,
-                                    image: ad.images,
-                                }
-                            })
-                        })
-                    )
-                }
+                category={Ads.filters.category}
                 onSearchClick={() => setActiveModal('filters')}
                 setPopout={setPopout}
                 closePopout={closePopout}
-                fetchNextAdverts={fetchNextAdverts}
-                hasNextPage={hasNextPage}
-                isError={isError}
             />
         </View>
     )
-}
+})
+
+export default AdsView

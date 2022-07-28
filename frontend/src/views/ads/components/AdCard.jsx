@@ -19,7 +19,7 @@ export default function AdCard({ data, maximizePhoto, onBuyButton }) {
 
     return (
         <ContentCard
-            src={data.image}
+            src={data.images}
             header={data.title}
             text={data.description}
             cost={defineCost()}

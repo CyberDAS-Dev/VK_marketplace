@@ -2,23 +2,17 @@ import React from 'react'
 import { Panel, PanelHeader, Group, Search, CardGrid, Spinner, Placeholder } from '@vkontakte/vkui'
 import { Icon24Filter, Icon56ErrorOutline } from '@vkontakte/icons'
 import InfiniteScroll from 'react-infinite-scroll-component'
+import { observer } from 'mobx-react-lite'
+import debounce from 'lodash.debounce'
 import logo from '../../../images/logo.svg'
 import AdCard from '../components/AdCard'
 import useScrollLock from '../../../utils/lockScroll'
 import PhotoPopout from '../popouts/MaximizePhoto'
+import Ads from '../../../store/AdsStore'
 
-export default function MainPanel({
-    id,
-    category,
-    cardsInfo,
-    onSearchClick,
-    setPopout,
-    closePopout,
-    fetchNextAdverts,
-    hasNextPage,
-    isError,
-}) {
+const MainPanel = observer(({ id, category, onSearchClick, setPopout, closePopout }) => {
     const { lockScroll } = useScrollLock()
+    const [search, setSearch] = React.useState(Ads.filters.search)
 
     const maximizePhoto = React.useCallback(
         (src, index) => {
@@ -32,6 +26,14 @@ export default function MainPanel({
         alert('Покупай')
     }
 
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+    const applySearch = React.useCallback(
+        debounce((value) => {
+            Ads.applyFilters({ search: value })
+        }, 500),
+        []
+    )
+
     return (
         <Panel id={id}>
             <PanelHeader left={<img src={logo} alt="" />}>{category}</PanelHeader>
@@ -41,20 +43,20 @@ export default function MainPanel({
                     placeholder="Поиск"
                     icon={<Icon24Filter />}
                     onIconClick={() => onSearchClick()}
+                    value={search}
+                    onChange={(e) => {
+                        setSearch(e.target.value)
+                        applySearch(e.target.value)
+                    }}
                 />
-                {cardsInfo && (
+                {Ads.ads && (
                     <InfiniteScroll
-                        dataLength={cardsInfo.length}
-                        next={fetchNextAdverts}
-                        hasMore={hasNextPage}
-                        loader={
-                            <div style={{ display: 'flex', justifyContent: 'center' }}>
-                                <Spinner size="regular" style={{ margin: '20px 0' }} />
-                            </div>
-                        }
+                        dataLength={Ads.ads.length}
+                        next={() => Ads.fetchNextAdverts()}
+                        hasMore={Ads.hasMore}
                     >
                         <CardGrid size="l">
-                            {cardsInfo.map((ad) => {
+                            {Ads.ads.map((ad) => {
                                 return (
                                     <AdCard
                                         key={ad.id}
@@ -65,9 +67,14 @@ export default function MainPanel({
                                 )
                             })}
                         </CardGrid>
+                        {Ads.isLoading && (
+                            <div style={{ display: 'flex', justifyContent: 'center' }}>
+                                <Spinner size="regular" style={{ margin: '20px 0' }} />
+                            </div>
+                        )}
                     </InfiniteScroll>
                 )}
-                {isError && (
+                {Ads.isError && (
                     <Placeholder icon={<Icon56ErrorOutline />} header="Ошибка">
                         Не удалось получить список объявлений, попробуйте еще раз.
                     </Placeholder>
@@ -75,4 +82,6 @@ export default function MainPanel({
             </Group>
         </Panel>
     )
-}
+})
+
+export default MainPanel

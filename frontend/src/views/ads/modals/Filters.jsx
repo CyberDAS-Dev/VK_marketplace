@@ -13,14 +13,15 @@ import {
     Input,
 } from '@vkontakte/vkui'
 import { Icon24Dismiss } from '@vkontakte/icons'
+import Ads from '../../../store/AdsStore'
 
-export default function FiltersModal({ id, applyFilters, closeModal }) {
-    const [type, setType] = React.useState('all')
-    const [sortType, setSortType] = React.useState('new')
-    const [category, setCategory] = React.useState(0)
-    const [cost, setCost] = React.useState([0, 2000])
-    const [onlyPhoto, toggleOnlyPhoto] = React.useState(false)
-    const [dontShowBargain, toggleDontShowBargain] = React.useState(false) // инверс к апи
+const FiltersModal = ({ id, applyFilters, closeModal }) => {
+    const [type, setType] = React.useState(Ads.filters.type)
+    const [sort, setSort] = React.useState(Ads.filters.sort)
+    const [category, setCategory] = React.useState(Ads.filters.category)
+    const [cost, setCost] = React.useState(Ads.filters.cost)
+    const [onlyPhoto, toggleOnlyPhoto] = React.useState(Ads.filters.onlyPhoto)
+    const [dontShowBargain, toggleDontShowBargain] = React.useState(Ads.filters.dontShowBargain) // инверс к апи
     return (
         <ModalPage
             id={id}
@@ -42,7 +43,7 @@ export default function FiltersModal({ id, applyFilters, closeModal }) {
                     onSubmit={(e) =>
                         applyFilters(e, {
                             type,
-                            sortType,
+                            sort,
                             category,
                             cost,
                             onlyPhoto,
@@ -78,23 +79,23 @@ export default function FiltersModal({ id, applyFilters, closeModal }) {
                     <FormItem top="Сортировка">
                         <Select
                             name="sort"
-                            value={sortType}
-                            onChange={(e) => setSortType(e.currentTarget.value)}
+                            value={sort}
+                            onChange={(e) => setSort(e.currentTarget.value)}
                             options={[
                                 {
-                                    value: 'new',
+                                    value: 'newer',
                                     label: 'Сначала новые',
                                 },
                                 {
-                                    value: 'old',
+                                    value: 'older',
                                     label: 'Сначала старые',
                                 },
                                 {
-                                    value: 'cheap',
+                                    value: 'cost-asc',
                                     label: 'Сначала дешевые',
                                 },
                                 {
-                                    value: 'expensive',
+                                    value: 'cost-desc',
                                     label: 'Сначала дорогие',
                                 },
                             ]}
@@ -107,35 +108,35 @@ export default function FiltersModal({ id, applyFilters, closeModal }) {
                             onChange={(e) => setCategory(e.currentTarget.value)}
                             options={[
                                 {
-                                    value: '0',
+                                    value: 'all',
                                     label: 'Любая',
                                 },
                                 {
-                                    value: '1',
+                                    value: 'misc',
                                     label: 'Бытовые товары',
                                 },
                                 {
-                                    value: '2',
+                                    value: 'food',
                                     label: 'Еда',
                                 },
                                 {
-                                    value: '3',
+                                    value: 'clothes',
                                     label: 'Одежда',
                                 },
                                 {
-                                    value: '4',
+                                    value: 'books',
                                     label: 'Книги',
                                 },
                                 {
-                                    value: '5',
+                                    value: 'electronics',
                                     label: 'Электроника',
                                 },
                                 {
-                                    value: '6',
+                                    value: 'household',
                                     label: 'Бытовая техника',
                                 },
                                 {
-                                    value: '7',
+                                    value: 'furniture',
                                     label: 'Мебель',
                                 },
                             ]}
@@ -178,3 +179,5 @@ export default function FiltersModal({ id, applyFilters, closeModal }) {
         </ModalPage>
     )
 }
+
+export default FiltersModal
