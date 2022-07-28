@@ -1,5 +1,4 @@
 const categoryDict = (category) => {
-    console.log(category)
     switch (category) {
         case 'all':
             return 'Любая'
