@@ -14,9 +14,16 @@
         "ecmaFeatures": {
             "jsx": true
         },
-        "ecmaVersion": 12,
-        "sourceType": "module"
+        "ecmaVersion": "latest",
+        "sourceType": "module",
+        "requireConfigFile": false,
+        "babelOptions": {
+            "presets": [
+                "@babel/preset-react"
+            ]
+        }
     },
+    "parser": "@babel/eslint-parser",
     "plugins": [
         "react"
     ],
@@ -58,16 +65,5 @@
                 "config": "jsconfig.json"
             }
         }
-    },
-    "overrides": [
-        {
-            "files": [
-                "**/__tests__/**/*.[jt]s?(x)",
-                "**/?(*.)+(spec|test).[jt]s?(x)"
-            ],
-            "extends": [
-                "plugin:testing-library/react"
-            ]
-        }
-    ]
+    }
 }
