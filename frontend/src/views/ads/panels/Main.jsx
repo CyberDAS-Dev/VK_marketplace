@@ -9,8 +9,9 @@ import AdCard from '../components/AdCard'
 import useScrollLock from '../../../utils/lockScroll'
 import PhotoPopout from '../popouts/MaximizePhoto'
 import Ads from '../../../store/AdsStore'
+import categoryDict from '../../../utils/categoryDict'
 
-const MainPanel = observer(({ id, category, onSearchClick, setPopout, closePopout }) => {
+const MainPanel = observer(({ id, onSearchClick, setPopout, closePopout }) => {
     const { lockScroll } = useScrollLock()
     const [search, setSearch] = React.useState(Ads.filters.search)
 
@@ -36,7 +37,9 @@ const MainPanel = observer(({ id, category, onSearchClick, setPopout, closePopou
 
     return (
         <Panel id={id}>
-            <PanelHeader left={<img src={logo} alt="" />}>{category}</PanelHeader>
+            <PanelHeader left={<img src={logo} alt="" />}>
+                {categoryDict(Ads.filters.category)}
+            </PanelHeader>
             <Group>
                 <Search
                     after={null}

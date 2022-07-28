@@ -36,7 +36,6 @@ const AdsView = observer(({ id }) => {
         <View id={id} activePanel={activePanel} modal={modal} popout={popout}>
             <MainPanel
                 id="main"
-                category={Ads.filters.category}
                 onSearchClick={() => setActiveModal('filters')}
                 setPopout={setPopout}
                 closePopout={closePopout}
