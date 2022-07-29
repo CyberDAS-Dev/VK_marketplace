@@ -1,19 +1,13 @@
-import { makeAutoObservable } from 'mobx'
+import { action, flow, makeAutoObservable, onBecomeObserved, onBecomeUnobserved } from 'mobx'
 import fetchAdverts from '@/api/fetchAdverts'
 
 class Ads {
     ads = []
-
     cache = []
-
     hasMore = false
-
     isLoading = false
-
     isError = false
-
     isPulled = false
-
     filters = {
         category: 'all',
         type: 'all',
@@ -25,36 +19,36 @@ class Ads {
     }
 
     constructor() {
-        makeAutoObservable(this, {}, { deep: true })
+        makeAutoObservable(this, {}, { autoBind: true })
+
+        onBecomeObserved(this, 'ads', this.fetchNextAdverts)
+        onBecomeUnobserved(this, 'ads', this.resetAds)
     }
 
-    async hasNextPage() {
-        try {
-            const data = await fetchAdverts(this.ads.length, this.filters).catch(() => {
-                this.isError = true
-                this.isLoading = false
-            })
-            if (this.cache.length === 0) this.cache = [...data]
-            if (data.length > 0) {
-                this.hasMore = true
-            } else {
-                this.hasMore = false
-            }
-        } catch (error) {
+    *hasNextPage() {
+        const data = yield fetchAdverts(this.ads.length, this.filters).catch(() => {
             this.isError = true
+            this.isLoading = false
+        })
+        if (this.cache.length === 0) this.cache = [...data]
+        if (data.length > 0) {
+            this.hasMore = true
+        } else {
+            this.hasMore = false
         }
+
         return this.hasMore
     }
 
-    async fetchNextAdverts() {
+    *fetchNextAdverts() {
         this.isLoading = true
-        await this.hasNextPage()
+        yield this.hasNextPage()
         if (this.hasMore) {
             if (this.cache.length > 0) {
                 this.ads = [...this.ads, ...this.cache]
                 this.cache = []
             } else {
-                const data = await fetchAdverts(this.ads.length, this.filters).catch(() => {
+                const data = yield fetchAdverts(this.ads.length, this.filters).catch(() => {
                     this.isError = true
                     this.isLoading = false
                 })
@@ -64,13 +58,18 @@ class Ads {
         this.isLoading = false
     }
 
-    async refresh() {
+    *refresh() {
         this.isLoading = true
         this.isPulled = true
-        const data = await fetchAdverts(0, this.filters, this.ads.length)
+        const data = yield fetchAdverts(0, this.filters, this.ads.length)
         this.ads = [...data]
         this.isLoading = false
         this.isPulled = false
+    }
+
+    resetAds() {
+        this.ads = []
+        this.hasMore = false
     }
 
     async applyFilters(filters) {
@@ -81,6 +80,5 @@ class Ads {
 }
 
 const ads = new Ads()
-ads.fetchNextAdverts()
 
 export default ads
