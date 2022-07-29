@@ -1,4 +1,4 @@
-import { action, flow, makeAutoObservable, onBecomeObserved, onBecomeUnobserved } from 'mobx'
+import { makeAutoObservable, onBecomeObserved, onBecomeUnobserved } from 'mobx'
 import fetchAdverts from '@/api/fetchAdverts'
 
 class Ads {
