@@ -1,25 +1,18 @@
 import React from 'react'
-import { Panel, PanelHeader, Group, Search, CardGrid, Spinner, Placeholder } from '@vkontakte/vkui'
-import {
-    Icon24Filter,
-    Icon56ErrorOutline,
-    Icon28ChevronUpOutline,
-    Icon28RefreshOutline,
-} from '@vkontakte/icons'
-import InfiniteScroll from 'react-infinite-scroll-component'
+import { Panel, PanelHeader, Group, Search, Placeholder } from '@vkontakte/vkui'
+import { Icon24Filter, Icon56ErrorOutline } from '@vkontakte/icons'
 import { observer } from 'mobx-react-lite'
 import debounce from 'lodash.debounce'
-import baseTheme from '@vkontakte/vkui-tokens/themes/vkBase/cssVars/theme'
 import categoryDict from '@/utils/categoryDict'
 import logo from '@/images/logo.svg'
-import AdCard from '@/views/ads/components/AdCard'
 import useScrollLock from '@/utils/lockScroll'
 import PhotoPopout from '@/views/ads/popouts/MaximizePhoto'
 import Ads from '@/store/AdsStore'
+import InfiniteFeed from '@/views/ads/components/InfiniteFeed'
 
-const MainPanel = observer(({ id, onSearchClick, setPopout, closePopout }) => {
-    const { lockScroll } = useScrollLock()
+const MainPanel = observer(function MainPanel({ id, onSearchClick, setPopout, closePopout }) {
     const [search, setSearch] = React.useState(Ads.filters.search)
+    const { lockScroll } = useScrollLock()
 
     const maximizePhoto = React.useCallback(
         (src, index) => {
@@ -59,59 +52,11 @@ const MainPanel = observer(({ id, onSearchClick, setPopout, closePopout }) => {
                     }}
                 />
                 {Ads.ads && (
-                    <InfiniteScroll
-                        dataLength={Ads.ads.length}
-                        next={() => Ads.fetchNextAdverts()}
-                        hasMore={Ads.hasMore}
-                        pullDownToRefresh
-                        refreshFunction={() => Ads.refresh()}
-                        pullDownToRefreshThreshold={50}
-                        pullDownToRefreshContent={
-                            <div
-                                style={{
-                                    display: 'flex',
-                                    justifyContent: 'center',
-                                }}
-                            >
-                                <Icon28ChevronUpOutline
-                                    style={{ marginBottom: '10px' }}
-                                    fill={baseTheme.colorIconAccent.normal.value}
-                                />
-                            </div>
-                        }
-                        releaseToRefreshContent={
-                            <div
-                                style={{
-                                    display: 'flex',
-                                    justifyContent: 'center',
-                                    alignItems: 'center',
-                                }}
-                            >
-                                <Icon28RefreshOutline
-                                    style={{ marginBottom: '10px' }}
-                                    fill={baseTheme.colorIconAccent.normal.value}
-                                />
-                            </div>
-                        }
-                    >
-                        <CardGrid size="l">
-                            {Ads.ads.map((ad) => {
-                                return (
-                                    <AdCard
-                                        key={ad.id}
-                                        data={ad}
-                                        maximizePhoto={maximizePhoto}
-                                        onBuyButton={onBuyButton}
-                                    />
-                                )
-                            })}
-                        </CardGrid>
-                        {Ads.isLoading && (
-                            <div style={{ display: 'flex', justifyContent: 'center' }}>
-                                <Spinner size="regular" style={{ margin: '20px 0' }} />
-                            </div>
-                        )}
-                    </InfiniteScroll>
+                    <InfiniteFeed
+                        Ads={Ads}
+                        maximizePhoto={maximizePhoto}
+                        onBuyButton={onBuyButton}
+                    />
                 )}
                 {Ads.isError && (
                     <Placeholder icon={<Icon56ErrorOutline />} header="Ошибка">

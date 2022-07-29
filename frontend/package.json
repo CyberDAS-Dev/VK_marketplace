@@ -30,6 +30,7 @@
     },
     "dependencies": {
         "@babel/eslint-parser": "^7.18.9",
+        "@cyberdas/react-infinite-scroll-component": "^6.2.2",
         "@cyberdas/react-instagram-zoom": "^1.0.1",
         "@vkontakte/icons": "1.152.0",
         "@vkontakte/vk-bridge": "2.5.3",
@@ -48,8 +49,7 @@
         "prettier": "^2.4.1",
         "prop-types": "^15.7.2",
         "react": "^17.0.2",
-        "react-dom": "^17.0.2",
-        "react-infinite-scroll-component": "^6.1.0"
+        "react-dom": "^17.0.2"
     },
     "browserslist": {
         "production": [
