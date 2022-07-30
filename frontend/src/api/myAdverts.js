@@ -2,8 +2,8 @@ import http from '@/api/http'
 
 const LIMIT = 15
 
-const myAdverts = async (skip, limit) => {
-    const { data } = await http.get(`/users/me/ads?limit=${limit || LIMIT}&skip=${skip}`)
+const myAdverts = async (skip) => {
+    const { data } = await http.get(`/users/me/ads?limit=${LIMIT}&skip=${skip}`)
     return data
 }
 

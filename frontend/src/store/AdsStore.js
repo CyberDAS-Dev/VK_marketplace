@@ -61,7 +61,7 @@ class Ads {
     *refresh() {
         this.isLoading = true
         this.isPulled = true
-        const data = yield fetchAdverts(0, this.filters, this.ads.length)
+        const data = yield fetchAdverts(0, this.filters)
         this.ads = [...data]
         this.isLoading = false
         this.isPulled = false

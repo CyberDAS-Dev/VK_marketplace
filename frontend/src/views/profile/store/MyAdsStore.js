@@ -52,7 +52,7 @@ class MyAds {
     *refresh() {
         this.isLoading = true
         this.isPulled = true
-        const data = yield myAdverts(0, this.ads.length)
+        const data = yield myAdverts(0)
         this.ads = [...data]
         this.isLoading = false
         this.isPulled = false
