@@ -3,6 +3,7 @@ import { observer } from 'mobx-react-lite'
 import { Card, CardScroll } from '@vkontakte/vkui'
 import { Icon24Dismiss, Icon32CameraOutline } from '@vkontakte/icons'
 import ImageUploading from 'react-images-uploading'
+import ImageCard from './ImageCard'
 
 const ImagesUpload = observer(function ImagesUpload({ images, setImages }) {
     const onChange = (imageList) => {
@@ -21,46 +22,16 @@ const ImagesUpload = observer(function ImagesUpload({ images, setImages }) {
             {({ imageList, onImageUpload, onImageUpdate, onImageRemove }) => {
                 return (
                     <CardScroll size="s">
-                        <Card onClick={onImageUpload}>
-                            <div
-                                style={{
-                                    display: 'flex',
-                                    justifyContent: 'center',
-                                    alignItems: 'center',
-                                    height: '96px',
-                                    color: '#99A2AD',
-                                }}
-                            >
-                                <Icon32CameraOutline />
-                            </div>
-                        </Card>
+                        <ImageCard cardType="add" onImageUpload={onImageUpload} />
                         {imageList.map((image, index) => {
                             return (
-                                <Card
-                                    onClick={() => onImageUpdate(index)}
-                                    style={{ position: 'relative' }}
-                                >
-                                    <div
-                                        style={{
-                                            display: 'flex',
-                                            justifyContent: 'center',
-                                            alignItems: 'center',
-                                            height: '96px',
-                                            color: '#99A2AD',
-                                            backgroundImage: `url(${image.data_url})`,
-                                            backgroundSize: 'cover',
-                                            backgroundPosition: 'center',
-                                            backgroundRepeat: 'no-repeat',
-                                        }}
-                                    />
-                                    <Icon24Dismiss
-                                        style={{ position: 'absolute', top: 5, right: 5 }}
-                                        onClick={(e) => {
-                                            e.stopPropagation()
-                                            onImageRemove(index)
-                                        }}
-                                    />
-                                </Card>
+                                <ImageCard
+                                    key={image.file.lastModified}
+                                    index={index}
+                                    imageData={image.data_url}
+                                    onImageUpdate={onImageUpdate}
+                                    onImageRemove={onImageRemove}
+                                />
                             )
                         })}
                     </CardScroll>
