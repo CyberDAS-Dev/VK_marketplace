@@ -26,6 +26,7 @@ const CategoriesModal = observer(function CategoriesModal({ id, closeModal, sele
             {/* // TODO добавить везде описание (или удалить) */}
             <Group>
                 {CATEGORIES.map((category) => {
+                    if (category.id === 'all') return null
                     return (
                         <CategoryCell
                             key={category.id}

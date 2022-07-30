@@ -3,12 +3,12 @@ import { Panel, PanelHeader, Group, Search, Placeholder } from '@vkontakte/vkui'
 import { Icon24Filter, Icon56ErrorOutline } from '@vkontakte/icons'
 import { observer } from 'mobx-react-lite'
 import debounce from 'lodash.debounce'
-import categoryDict from '@/utils/categoryDict'
 import logo from '@/images/logo.svg'
 import useScrollLock from '@/utils/lockScroll'
 import PhotoPopout from '@/views/ads/popouts/MaximizePhoto'
 import Ads from '@/store/AdsStore'
 import InfiniteFeed from '@/views/ads/components/InfiniteFeed'
+import { CATEGORIES } from '@/utils/constants'
 
 const MainPanel = observer(function MainPanel({ id, onSearchClick, setPopout, closePopout }) {
     const [search, setSearch] = React.useState(Ads.filters.search)
@@ -37,7 +37,11 @@ const MainPanel = observer(function MainPanel({ id, onSearchClick, setPopout, cl
     return (
         <Panel id={id}>
             <PanelHeader left={<img src={logo} alt="" />}>
-                {categoryDict(Ads.filters.category)}
+                {Ads.filters.category === 'all'
+                    ? 'Все объявления'
+                    : CATEGORIES.find((category) => {
+                          return Ads.filters.category === category.id
+                      }).title}
             </PanelHeader>
             <Group>
                 <Search

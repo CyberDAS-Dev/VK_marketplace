@@ -15,6 +15,10 @@ import React from 'react'
 
 export const CATEGORIES = [
     {
+        title: 'Любая',
+        id: 'all',
+    },
+    {
         title: 'Бытовые товары',
         id: 'misc',
         description: 'Будильники, графины, бумага и т. д.',
