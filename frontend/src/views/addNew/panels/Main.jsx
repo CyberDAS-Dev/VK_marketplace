@@ -8,86 +8,31 @@ import {
 } from '@vkontakte/icons'
 import logo from '@/images/logo.svg'
 import { observer } from 'mobx-react-lite'
+import TypeCard from '../components/TypeCard'
+
+const TYPES = [
+    { title: 'Продажа', type: 'sell', icon: <Icon28MoneyCircleOutline /> },
+    { title: 'Покупка', type: 'buy', icon: <Icon28ShoppingCartOutline /> },
+    { title: 'Услуги', type: 'service', icon: <Icon28StorefrontOutline /> },
+    { title: 'Ищу мастера', type: 'performer', icon: <Icon28AdvertisingOutline /> },
+]
 
 const MainPanel = observer(function MainPanel({ id, selectType }) {
     return (
         <Panel id={id}>
             <PanelHeader left={<img src={logo} alt="" />}>Тип объявления</PanelHeader>
             <Group>
-                {/* // TODO автогенерация? + компоненты */}
                 <CardGrid size="l">
-                    <Card mode="shadow" onClick={() => selectType('sell')}>
-                        <div
-                            style={{
-                                display: 'flex',
-                                justifyContent: 'center',
-                                alignItems: 'center',
-                                height: 96,
-                            }}
-                        >
-                            <SimpleCell
-                                hasActive={false}
-                                hasHover={false}
-                                before={<Icon28MoneyCircleOutline />}
-                            >
-                                Продажа
-                            </SimpleCell>
-                        </div>
-                    </Card>
-                    <Card mode="shadow" onClick={() => selectType('buy')}>
-                        <div
-                            style={{
-                                display: 'flex',
-                                justifyContent: 'center',
-                                alignItems: 'center',
-                                height: 96,
-                            }}
-                        >
-                            <SimpleCell
-                                hasActive={false}
-                                hasHover={false}
-                                before={<Icon28ShoppingCartOutline />}
-                            >
-                                Покупка
-                            </SimpleCell>
-                        </div>
-                    </Card>
-                    <Card mode="shadow" onClick={() => selectType('service')}>
-                        <div
-                            style={{
-                                display: 'flex',
-                                justifyContent: 'center',
-                                alignItems: 'center',
-                                height: 96,
-                            }}
-                        >
-                            <SimpleCell
-                                hasActive={false}
-                                hasHover={false}
-                                before={<Icon28StorefrontOutline />}
-                            >
-                                Услуги
-                            </SimpleCell>
-                        </div>
-                    </Card>
-                    <Card mode="shadow" onClick={() => selectType('performer')}>
-                        <div
-                            style={{
-                                display: 'flex',
-                                justifyContent: 'center',
-                                alignItems: 'center',
-                                height: 96,
-                            }}
-                        >
-                            <SimpleCell
-                                hasActive={false}
-                                hasHover={false}
-                                before={<Icon28AdvertisingOutline />}
-                            >
-                                Ищу мастера
-                            </SimpleCell>
-                        </div>
-                    </Card>
+                    {TYPES.map((type) => {
+                        return (
+                            <TypeCard
+                                title={type.title}
+                                type={type.type}
+                                Icon={type.icon}
+                                selectType={selectType}
+                            />
+                        )
+                    })}
                 </CardGrid>
             </Group>
         </Panel>
