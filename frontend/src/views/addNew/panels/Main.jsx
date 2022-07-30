@@ -1,5 +1,5 @@
 import React from 'react'
-import { Card, CardGrid, Group, Panel, PanelHeader, SimpleCell } from '@vkontakte/vkui'
+import { CardGrid, Group, Panel, PanelHeader } from '@vkontakte/vkui'
 import {
     Icon28AdvertisingOutline,
     Icon28MoneyCircleOutline,

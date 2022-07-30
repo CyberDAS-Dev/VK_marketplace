@@ -53,7 +53,6 @@ const AddPanel = observer(function AddPanel({ id, backToMain, submitAd }) {
                         <FormItem
                             top="Название"
                             onChange={(e) => {
-                                console.log(e.target.value)
                                 const value = Number(e.target.value)
                                 if (value === 1) {
                                     toggleBargain(false)
