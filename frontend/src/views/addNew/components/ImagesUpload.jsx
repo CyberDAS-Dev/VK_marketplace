@@ -1,7 +1,6 @@
 import React from 'react'
 import { observer } from 'mobx-react-lite'
-import { Card, CardScroll } from '@vkontakte/vkui'
-import { Icon24Dismiss, Icon32CameraOutline } from '@vkontakte/icons'
+import { CardScroll } from '@vkontakte/vkui'
 import ImageUploading from 'react-images-uploading'
 import ImageCard from './ImageCard'
 
@@ -26,7 +25,7 @@ const ImagesUpload = observer(function ImagesUpload({ images, setImages }) {
                         {imageList.map((image, index) => {
                             return (
                                 <ImageCard
-                                    key={image.file.lastModified}
+                                    key={image.file.size}
                                     index={index}
                                     imageData={image.data_url}
                                     onImageUpdate={onImageUpdate}
