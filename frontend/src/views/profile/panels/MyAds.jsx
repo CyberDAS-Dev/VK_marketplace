@@ -1,10 +1,11 @@
 import React from 'react'
-import { Group, Panel, PanelHeader, PanelHeaderBack, List, Cell } from '@vkontakte/vkui'
+import { Group, Panel, PanelHeader, PanelHeaderBack, List } from '@vkontakte/vkui'
+import { observer } from 'mobx-react-lite'
+import MyAdsList from '@/views/profile/components/MyAdsList'
+import MyAds from '../store/MyAdsStore'
 
-export default function MyAdsPanel({ id, removeList, backToMain }) {
-    React.useEffect(() => {
-        console.log(1)
-    }, [])
+const MyAdsPanel = observer(function MyAdsPanel({ id, backToMain }) {
+    const [myAds] = React.useState(() => new MyAds())
 
     return (
         <Panel id={id}>
@@ -13,21 +14,11 @@ export default function MyAdsPanel({ id, removeList, backToMain }) {
             </PanelHeader>
             <Group>
                 <List>
-                    {removeList.map((el) => {
-                        return (
-                            <Cell
-                                key={el[0]}
-                                expandable
-                                mode="removable"
-                                description={el[1]}
-                                onClick={() => console.log(el)}
-                            >
-                                {el[0]}
-                            </Cell>
-                        )
-                    })}
+                    <MyAdsList myAds={myAds} />
                 </List>
             </Group>
         </Panel>
     )
-}
+})
+
+export default MyAdsPanel
