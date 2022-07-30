@@ -1,4 +1,3 @@
-/* eslint-disable react/no-this-in-sfc */
 import React from 'react'
 import { View, ModalRoot } from '@vkontakte/vkui'
 import CategoriesModal from '@/views/addNew/modals/Categories'
@@ -12,8 +11,6 @@ const AddNewView = observer(function AddNewView({ id }) {
     const [activeModal, setActiveModal] = React.useState(null)
     const [activePanel, setActivePanel] = React.useState('main')
     const [addNew] = React.useState(() => new AddNew())
-
-    injectStores({ addNew })
 
     const closeModal = React.useCallback(() => setActiveModal(null), [])
     const backToMain = React.useCallback(() => setActivePanel('main'), [])
