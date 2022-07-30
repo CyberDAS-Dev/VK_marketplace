@@ -1,8 +1,6 @@
 import React from 'react'
 import {
     Button,
-    Card,
-    CardScroll,
     FormItem,
     FormLayout,
     FormLayoutGroup,
@@ -14,104 +12,63 @@ import {
     Radio,
     Textarea,
 } from '@vkontakte/vkui'
-import { Icon32CameraOutline } from '@vkontakte/icons'
+import { observer } from 'mobx-react-lite'
+import ImagesUpload from '../components/ImagesUpload'
 
-export default function AddPanel({ id, backToMain }) {
+const AddPanel = observer(function AddPanel({ id, backToMain, submitAd }) {
+    const [images, setImages] = React.useState([])
+    const [title, setTitle] = React.useState('')
+    const [cost, setCost] = React.useState('')
+    const [description, setDescription] = React.useState('')
+    const [bargain, toggleBargain] = React.useState(false)
+
     return (
         <Panel id={id}>
             <PanelHeader left={<PanelHeaderBack onClick={backToMain} />}>
                 Новое объявление
             </PanelHeader>
             <Group>
-                <FormLayout>
-                    <CardScroll size="s">
-                        <Card>
-                            <div
-                                style={{
-                                    display: 'flex',
-                                    justifyContent: 'center',
-                                    alignItems: 'center',
-                                    height: '96px',
-                                    color: '#99A2AD',
-                                }}
-                            >
-                                <Icon32CameraOutline />
-                            </div>
-                        </Card>
-                        <Card>
-                            <div
-                                style={{
-                                    display: 'flex',
-                                    justifyContent: 'center',
-                                    alignItems: 'center',
-                                    height: '96px',
-                                    color: '#99A2AD',
-                                }}
-                            >
-                                <Icon32CameraOutline />
-                            </div>
-                        </Card>
-                        <Card>
-                            <div
-                                style={{
-                                    display: 'flex',
-                                    justifyContent: 'center',
-                                    alignItems: 'center',
-                                    height: '96px',
-                                    color: '#99A2AD',
-                                }}
-                            >
-                                <Icon32CameraOutline />
-                            </div>
-                        </Card>
-                        <Card>
-                            <div
-                                style={{
-                                    display: 'flex',
-                                    justifyContent: 'center',
-                                    alignItems: 'center',
-                                    height: '96px',
-                                    color: '#99A2AD',
-                                }}
-                            >
-                                <Icon32CameraOutline />
-                            </div>
-                        </Card>
-                        <Card>
-                            <div
-                                style={{
-                                    display: 'flex',
-                                    justifyContent: 'center',
-                                    alignItems: 'center',
-                                    height: '96px',
-                                    color: '#99A2AD',
-                                }}
-                            >
-                                <Icon32CameraOutline />
-                            </div>
-                        </Card>
-                        <Card>
-                            <div
-                                style={{
-                                    display: 'flex',
-                                    justifyContent: 'center',
-                                    alignItems: 'center',
-                                    height: '96px',
-                                    color: '#99A2AD',
-                                }}
-                            >
-                                <Icon32CameraOutline />
-                            </div>
-                        </Card>
-                    </CardScroll>
+                <FormLayout
+                    onSubmit={(e) => {
+                        e.preventDefault()
+                        submitAd({ title, cost, description, bargain, images })
+                    }}
+                >
+                    <ImagesUpload images={images} setImages={setImages} />
                     <FormItem top="Название">
-                        <Input />
+                        <Input
+                            value={title}
+                            onChange={(e) => {
+                                setTitle(e.target.value)
+                            }}
+                        />
                     </FormItem>
                     <FormLayoutGroup>
-                        <FormItem top="Стоимость">
-                            <Input />
-                        </FormItem>
-                        <FormItem top="Название">
+                        {bargain !== true && cost !== 0 && (
+                            <FormItem top="Стоимость">
+                                <Input value={cost} onChange={(e) => setCost(e.target.value)} />
+                            </FormItem>
+                        )}
+                        {/* // TODO не знаю что надо сделать, но что-то точно надо */}
+                        <FormItem
+                            top="Название"
+                            onChange={(e) => {
+                                console.log(e.target.value)
+                                const value = Number(e.target.value)
+                                if (value === 1) {
+                                    toggleBargain(false)
+                                    setCost('')
+                                }
+                                if (value === 2) {
+                                    toggleBargain(true)
+                                    setCost(0)
+                                }
+                                if (value === 3) {
+                                    toggleBargain(false)
+                                    setCost(0)
+                                }
+                            }}
+                        >
                             <Radio name="price" value="1" defaultChecked>
                                 За деньги
                             </Radio>
@@ -124,15 +81,22 @@ export default function AddPanel({ id, backToMain }) {
                         </FormItem>
                     </FormLayoutGroup>
                     <FormItem top="Описание">
-                        <Textarea />
+                        <Textarea
+                            value={description}
+                            onChange={(e) => {
+                                setDescription(e.target.value)
+                            }}
+                        />
+                    </FormItem>
+                    <FormItem>
+                        <Button type="submit" size="l" stretched>
+                            Подать объявление
+                        </Button>
                     </FormItem>
                 </FormLayout>
-                <FormItem>
-                    <Button type="submit" size="l" stretched>
-                        Подать объявление
-                    </Button>
-                </FormItem>
             </Group>
         </Panel>
     )
-}
+})
+
+export default AddPanel

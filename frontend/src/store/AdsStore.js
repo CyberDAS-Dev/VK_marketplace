@@ -72,7 +72,7 @@ class Ads {
         this.hasMore = false
     }
 
-    async applyFilters(filters) {
+    applyFilters(filters) {
         this.filters = { ...this.filters, ...filters }
         this.ads = []
         this.fetchNextAdverts()

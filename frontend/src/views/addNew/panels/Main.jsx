@@ -7,14 +7,16 @@ import {
     Icon28StorefrontOutline,
 } from '@vkontakte/icons'
 import logo from '@/images/logo.svg'
+import { observer } from 'mobx-react-lite'
 
-export default function MainPanel({ id, openCategories }) {
+const MainPanel = observer(function MainPanel({ id, selectType }) {
     return (
         <Panel id={id}>
             <PanelHeader left={<img src={logo} alt="" />}>Тип объявления</PanelHeader>
             <Group>
+                {/* // TODO автогенерация? + компоненты */}
                 <CardGrid size="l">
-                    <Card mode="shadow" onClick={openCategories}>
+                    <Card mode="shadow" onClick={() => selectType('sell')}>
                         <div
                             style={{
                                 display: 'flex',
@@ -32,7 +34,7 @@ export default function MainPanel({ id, openCategories }) {
                             </SimpleCell>
                         </div>
                     </Card>
-                    <Card mode="shadow">
+                    <Card mode="shadow" onClick={() => selectType('buy')}>
                         <div
                             style={{
                                 display: 'flex',
@@ -40,7 +42,6 @@ export default function MainPanel({ id, openCategories }) {
                                 alignItems: 'center',
                                 height: 96,
                             }}
-                            onClick={(e) => console.log(e)}
                         >
                             <SimpleCell
                                 hasActive={false}
@@ -51,7 +52,7 @@ export default function MainPanel({ id, openCategories }) {
                             </SimpleCell>
                         </div>
                     </Card>
-                    <Card mode="shadow">
+                    <Card mode="shadow" onClick={() => selectType('service')}>
                         <div
                             style={{
                                 display: 'flex',
@@ -59,7 +60,6 @@ export default function MainPanel({ id, openCategories }) {
                                 alignItems: 'center',
                                 height: 96,
                             }}
-                            onClick={(e) => console.log(e)}
                         >
                             <SimpleCell
                                 hasActive={false}
@@ -70,7 +70,7 @@ export default function MainPanel({ id, openCategories }) {
                             </SimpleCell>
                         </div>
                     </Card>
-                    <Card mode="shadow">
+                    <Card mode="shadow" onClick={() => selectType('performer')}>
                         <div
                             style={{
                                 display: 'flex',
@@ -78,7 +78,6 @@ export default function MainPanel({ id, openCategories }) {
                                 alignItems: 'center',
                                 height: 96,
                             }}
-                            onClick={(e) => console.log(e)}
                         >
                             <SimpleCell
                                 hasActive={false}
@@ -93,4 +92,6 @@ export default function MainPanel({ id, openCategories }) {
             </Group>
         </Panel>
     )
-}
+})
+
+export default MainPanel
