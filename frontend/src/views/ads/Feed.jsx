@@ -26,15 +26,17 @@ const AdsView = observer(function AdsView({ id }) {
         [closeModal]
     )
 
-    React.useEffect(() => {
-        autorun(() => {
-            if (Ads.isPulled) {
-                setPopout(<ScreenSpinner />)
-            } else {
-                setPopout(null)
-            }
-        })
-    }, [])
+    React.useEffect(
+        () =>
+            autorun(() => {
+                if (Ads.isPulled) {
+                    setPopout(<ScreenSpinner />)
+                } else {
+                    setPopout(null)
+                }
+            }),
+        []
+    )
 
     const modal = (
         <ModalRoot activeModal={activeModal} onClose={closeModal}>
