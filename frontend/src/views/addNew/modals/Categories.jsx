@@ -2,7 +2,7 @@ import React from 'react'
 import { Group, ModalPage, ModalPageHeader, PanelHeaderButton } from '@vkontakte/vkui'
 import { Icon24Dismiss } from '@vkontakte/icons'
 import { observer } from 'mobx-react-lite'
-import CATEGORIES from '@/utils/constants'
+import { CATEGORIES } from '@/utils/constants'
 import CategoryCell from '../components/CategoryCell'
 
 const CategoriesModal = observer(function CategoriesModal({ id, closeModal, selectCategory }) {

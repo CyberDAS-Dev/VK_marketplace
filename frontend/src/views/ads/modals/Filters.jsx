@@ -15,6 +15,7 @@ import {
 import { Icon24Dismiss } from '@vkontakte/icons'
 import Ads from '@/store/AdsStore'
 import { observer } from 'mobx-react-lite'
+import { CATEGORIES, SORT_TYPES, TYPES } from '@/utils/constants'
 
 const FiltersModal = observer(function FiltersModal({ id, applyFilters, closeModal }) {
     const [type, setType] = React.useState(Ads.filters.type)
@@ -57,24 +58,14 @@ const FiltersModal = observer(function FiltersModal({ id, applyFilters, closeMod
                             name="type"
                             value={type}
                             onChange={(e) => setType(e.currentTarget.value)}
-                            options={[
-                                {
-                                    value: 'all',
-                                    label: 'Все',
-                                },
-                                {
-                                    value: 'sell',
-                                    label: 'Продажа',
-                                },
-                                {
-                                    value: 'buy',
-                                    label: 'Покупка',
-                                },
-                                {
-                                    value: 'service',
-                                    label: 'Услуги',
-                                },
-                            ]}
+                            options={React.useMemo(() => {
+                                return TYPES.map((typeObj) => {
+                                    return {
+                                        value: typeObj.id,
+                                        label: typeObj.title,
+                                    }
+                                })
+                            }, [])}
                         />
                     </FormItem>
                     <FormItem top="Сортировка">
@@ -82,24 +73,9 @@ const FiltersModal = observer(function FiltersModal({ id, applyFilters, closeMod
                             name="sort"
                             value={sort}
                             onChange={(e) => setSort(e.currentTarget.value)}
-                            options={[
-                                {
-                                    value: 'newer',
-                                    label: 'Сначала новые',
-                                },
-                                {
-                                    value: 'older',
-                                    label: 'Сначала старые',
-                                },
-                                {
-                                    value: 'cost-asc',
-                                    label: 'Сначала дешевые',
-                                },
-                                {
-                                    value: 'cost-desc',
-                                    label: 'Сначала дорогие',
-                                },
-                            ]}
+                            options={React.useMemo(() => {
+                                return SORT_TYPES.map((sortType) => sortType)
+                            }, [])}
                         />
                     </FormItem>
                     <FormItem top="Категория">
@@ -107,40 +83,14 @@ const FiltersModal = observer(function FiltersModal({ id, applyFilters, closeMod
                             name="category"
                             value={category}
                             onChange={(e) => setCategory(e.currentTarget.value)}
-                            options={[
-                                {
-                                    value: 'all',
-                                    label: 'Любая',
-                                },
-                                {
-                                    value: 'misc',
-                                    label: 'Бытовые товары',
-                                },
-                                {
-                                    value: 'food',
-                                    label: 'Еда',
-                                },
-                                {
-                                    value: 'clothes',
-                                    label: 'Одежда',
-                                },
-                                {
-                                    value: 'books',
-                                    label: 'Книги',
-                                },
-                                {
-                                    value: 'electronics',
-                                    label: 'Электроника',
-                                },
-                                {
-                                    value: 'household',
-                                    label: 'Бытовая техника',
-                                },
-                                {
-                                    value: 'furniture',
-                                    label: 'Мебель',
-                                },
-                            ]}
+                            options={React.useMemo(() => {
+                                return CATEGORIES.map((categoryObj) => {
+                                    return {
+                                        value: categoryObj.id,
+                                        label: categoryObj.title,
+                                    }
+                                })
+                            }, [])}
                         />
                     </FormItem>
                     <FormLayoutGroup mode="horizontal">

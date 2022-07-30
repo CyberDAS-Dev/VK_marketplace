@@ -1,15 +1,19 @@
 import {
+    Icon28AdvertisingOutline,
     Icon28AppleOutline,
     Icon28ArmchairOutline,
     Icon28BookOutline,
     Icon28CoffeeSteamOutline,
     Icon28HangerOutline,
     Icon28LaptopOutline,
+    Icon28MoneyCircleOutline,
+    Icon28ShoppingCartOutline,
+    Icon28StorefrontOutline,
     Icon28WasherOutline,
 } from '@vkontakte/icons'
 import React from 'react'
 
-const CATEGORIES = [
+export const CATEGORIES = [
     {
         title: 'Бытовые товары',
         id: 'misc',
@@ -48,4 +52,28 @@ const CATEGORIES = [
     },
 ]
 
-export default CATEGORIES
+export const SORT_TYPES = [
+    {
+        value: 'newer',
+        label: 'Сначала новые',
+    },
+    {
+        value: 'older',
+        label: 'Сначала старые',
+    },
+    {
+        value: 'cost-asc',
+        label: 'Сначала дешевые',
+    },
+    {
+        value: 'cost-desc',
+        label: 'Сначала дорогие',
+    },
+]
+
+export const TYPES = [
+    { title: 'Продажа', id: 'sell', icon: <Icon28MoneyCircleOutline /> },
+    { title: 'Покупка', id: 'buy', icon: <Icon28ShoppingCartOutline /> },
+    { title: 'Услуги', id: 'service', icon: <Icon28StorefrontOutline /> },
+    { title: 'Ищу мастера', id: 'performer', icon: <Icon28AdvertisingOutline /> },
+]
