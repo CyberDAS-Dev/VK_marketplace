@@ -13,8 +13,9 @@ import { hasReactNode, isArray } from '@vkontakte/vkjs'
 import '@/views/ads/components/ContentCardCustom.css'
 import { Icon28ChevronDownOutline } from '@vkontakte/icons'
 import Expandable from '@/views/ads/components/Expandable'
+import { observer } from 'mobx-react-lite'
 
-const ContentCard = (props) => {
+const ContentCard = observer(function ContentCard(props) {
     const {
         subtitle,
         header,
@@ -190,7 +191,7 @@ const ContentCard = (props) => {
             </Tappable>
         </Card>
     )
-}
+})
 
 ContentCard.defaultProps = {
     mode: 'shadow',

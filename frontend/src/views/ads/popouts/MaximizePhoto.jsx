@@ -3,8 +3,9 @@ import { IconButton, PopoutWrapper } from '@vkontakte/vkui'
 import React from 'react'
 import Zoomable from '@cyberdas/react-instagram-zoom'
 import GalleryWrapper from '@/views/ads/components/GalleryWrapper'
+import { observer } from 'mobx-react-lite'
 
-export default function PhotoPopout({ src, index, closePopout }) {
+const PhotoPopout = observer(function PhotoPopout({ src, index, closePopout }) {
     return (
         <PopoutWrapper alignY="center" alignX="center" onClick={closePopout}>
             <GalleryWrapper src={src} index={index}>
@@ -48,4 +49,6 @@ export default function PhotoPopout({ src, index, closePopout }) {
             />
         </PopoutWrapper>
     )
-}
+})
+
+export default PhotoPopout

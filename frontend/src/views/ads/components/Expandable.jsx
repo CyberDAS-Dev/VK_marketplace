@@ -1,7 +1,8 @@
 import { Button, Text } from '@vkontakte/vkui'
+import { observer } from 'mobx-react-lite'
 import React from 'react'
 
-export default function Expandable({
+const Expandable = observer(function Expandable({
     children,
     weigth,
     isExpanded,
@@ -30,4 +31,6 @@ export default function Expandable({
             )}
         </>
     )
-}
+})
+
+export default Expandable

@@ -7,7 +7,7 @@ import FiltersModal from '@/views/ads/modals/Filters'
 import useScrollLock from '@/utils/lockScroll'
 import Ads from '@/store/AdsStore'
 
-const AdsView = observer(({ id }) => {
+const AdsView = observer(function AdsView({ id }) {
     const { unlockScroll } = useScrollLock()
     const [activePanel] = React.useState('main')
     const [activeModal, setActiveModal] = React.useState(null)

@@ -1,7 +1,8 @@
 import React from 'react'
 import ContentCard from '@/views/ads/components/ContentCardCustom'
+import { observer } from 'mobx-react-lite'
 
-const AdCard = ({ data, maximizePhoto, onBuyButton }) => {
+const AdCard = observer(function AdCard({ data, maximizePhoto, onBuyButton }) {
     const defineCost = () => {
         const { cost, bargain } = data
         if (bargain) {
@@ -32,6 +33,6 @@ const AdCard = ({ data, maximizePhoto, onBuyButton }) => {
             style={{ contentVisibility: 'auto', containIntrinsicSize: 500 }}
         />
     )
-}
+})
 
-export default React.memo(AdCard)
+export default AdCard

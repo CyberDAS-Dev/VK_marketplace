@@ -14,8 +14,9 @@ import {
 } from '@vkontakte/vkui'
 import { Icon24Dismiss } from '@vkontakte/icons'
 import Ads from '@/store/AdsStore'
+import { observer } from 'mobx-react-lite'
 
-const FiltersModal = ({ id, applyFilters, closeModal }) => {
+const FiltersModal = observer(function FiltersModal({ id, applyFilters, closeModal }) {
     const [type, setType] = React.useState(Ads.filters.type)
     const [sort, setSort] = React.useState(Ads.filters.sort)
     const [category, setCategory] = React.useState(Ads.filters.category)
@@ -178,6 +179,6 @@ const FiltersModal = ({ id, applyFilters, closeModal }) => {
             </Group>
         </ModalPage>
     )
-}
+})
 
 export default FiltersModal
