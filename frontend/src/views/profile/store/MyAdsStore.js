@@ -49,15 +49,6 @@ class MyAds {
         this.isLoading = false
     }
 
-    *refresh() {
-        this.isLoading = true
-        this.isPulled = true
-        const data = yield myAdverts(0)
-        this.ads = [...data]
-        this.isLoading = false
-        this.isPulled = false
-    }
-
     resetAds() {
         this.ads = []
         this.hasMore = false
