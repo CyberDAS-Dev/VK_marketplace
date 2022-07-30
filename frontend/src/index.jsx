@@ -17,11 +17,13 @@ const Index = observer(function Index() {
     const appearance = useAppearance()
     const platform = usePlatform()
 
-    React.useEffect(() => {
-        autorun(() => {
-            User.getUser()
-        })
-    }, [])
+    React.useEffect(
+        () =>
+            autorun(() => {
+                User.getUser()
+            }),
+        []
+    )
 
     return (
         <ConfigProvider platform={platform} appearance={appearance}>
