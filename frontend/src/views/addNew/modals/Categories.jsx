@@ -1,15 +1,6 @@
 import React from 'react'
-import { Group, ModalPage, ModalPageHeader, PanelHeaderButton, SimpleCell } from '@vkontakte/vkui'
-import {
-    Icon24Dismiss,
-    Icon28AppleOutline,
-    Icon28ArmchairOutline,
-    Icon28BookOutline,
-    Icon28CoffeeSteamOutline,
-    Icon28HangerOutline,
-    Icon28LaptopOutline,
-    Icon28WasherOutline,
-} from '@vkontakte/icons'
+import { Group, ModalPage, ModalPageHeader, PanelHeaderButton } from '@vkontakte/vkui'
+import { Icon24Dismiss } from '@vkontakte/icons'
 import { observer } from 'mobx-react-lite'
 import CATEGORIES from '@/utils/constants'
 import CategoryCell from '../components/CategoryCell'
@@ -32,7 +23,7 @@ const CategoriesModal = observer(function CategoriesModal({ id, closeModal, sele
             }
             onClose={closeModal}
         >
-            {/* // TODO сделать автогенерацию категорий? добавить везде описание (или удалить) */}
+            {/* // TODO добавить везде описание (или удалить) */}
             <Group>
                 {CATEGORIES.map((category) => {
                     return (

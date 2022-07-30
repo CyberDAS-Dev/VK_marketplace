@@ -2,9 +2,9 @@ import { Card, SimpleCell } from '@vkontakte/vkui'
 import { observer } from 'mobx-react-lite'
 import React from 'react'
 
-const TypeCard = observer(function TypeCard({ title, type, selectType, Icon }) {
+const TypeCard = observer(function TypeCard({ type, selectType }) {
     return (
-        <Card mode="shadow" onClick={() => selectType(type)}>
+        <Card mode="shadow" onClick={() => selectType(type.id)}>
             <div
                 style={{
                     display: 'flex',
@@ -13,8 +13,8 @@ const TypeCard = observer(function TypeCard({ title, type, selectType, Icon }) {
                     height: 96,
                 }}
             >
-                <SimpleCell hasActive={false} hasHover={false} before={Icon}>
-                    {title}
+                <SimpleCell hasActive={false} hasHover={false} before={type.icon}>
+                    {type.title}
                 </SimpleCell>
             </div>
         </Card>

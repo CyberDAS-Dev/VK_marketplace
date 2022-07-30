@@ -11,10 +11,10 @@ import { observer } from 'mobx-react-lite'
 import TypeCard from '../components/TypeCard'
 
 const TYPES = [
-    { title: 'Продажа', type: 'sell', icon: <Icon28MoneyCircleOutline /> },
-    { title: 'Покупка', type: 'buy', icon: <Icon28ShoppingCartOutline /> },
-    { title: 'Услуги', type: 'service', icon: <Icon28StorefrontOutline /> },
-    { title: 'Ищу мастера', type: 'performer', icon: <Icon28AdvertisingOutline /> },
+    { title: 'Продажа', id: 'sell', icon: <Icon28MoneyCircleOutline /> },
+    { title: 'Покупка', id: 'buy', icon: <Icon28ShoppingCartOutline /> },
+    { title: 'Услуги', id: 'service', icon: <Icon28StorefrontOutline /> },
+    { title: 'Ищу мастера', id: 'performer', icon: <Icon28AdvertisingOutline /> },
 ]
 
 const MainPanel = observer(function MainPanel({ id, selectType }) {
@@ -24,14 +24,7 @@ const MainPanel = observer(function MainPanel({ id, selectType }) {
             <Group>
                 <CardGrid size="l">
                     {TYPES.map((type) => {
-                        return (
-                            <TypeCard
-                                title={type.title}
-                                type={type.type}
-                                Icon={type.icon}
-                                selectType={selectType}
-                            />
-                        )
+                        return <TypeCard key={type.id} type={type} selectType={selectType} />
                     })}
                 </CardGrid>
             </Group>

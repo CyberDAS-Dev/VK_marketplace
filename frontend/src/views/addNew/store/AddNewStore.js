@@ -1,4 +1,4 @@
-import { makeAutoObservable, onBecomeObserved } from 'mobx'
+import { makeAutoObservable } from 'mobx'
 import submitAdvert from '@/api/submitAdvert'
 
 class AddNew {

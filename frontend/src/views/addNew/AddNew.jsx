@@ -36,7 +36,6 @@ const AddNewView = observer(function AddNewView({ id }) {
 
     const submitAd = React.useCallback(
         (props) => {
-            console.log(props)
             addNew.applyProps(props)
             addNew.submitAd()
             backToMain()
