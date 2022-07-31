@@ -8,8 +8,9 @@ import {
 import User from '@/store/UserStore'
 import logo from '@/images/logo.svg'
 import { observer } from 'mobx-react-lite'
+import RedirectConfirm from '../components/RedirectConfirm'
 
-const MainPanel = observer(function MainPanel({ id, setActivePanel }) {
+const MainPanel = observer(function MainPanel({ id, setActivePanel, setPopout }) {
     return (
         <Panel id={id}>
             <PanelHeader left={<img src={logo} alt="" />}>Профиль</PanelHeader>
@@ -29,7 +30,7 @@ const MainPanel = observer(function MainPanel({ id, setActivePanel }) {
             </Group>
             <Group>
                 <SimpleCell
-                    href="https://cyberdas.net/feedback"
+                    onClick={() => setPopout(<RedirectConfirm setPopout={setPopout} />)}
                     before={<Icon28HelpCircleOutline />}
                     expandable
                 >

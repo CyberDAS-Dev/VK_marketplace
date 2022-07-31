@@ -34,7 +34,7 @@ const ProfileView = observer(function ProfileView({ id }) {
 
     return (
         <View id={id} activePanel={activePanel} popout={popout}>
-            <MainPanel id="main" setActivePanel={setActivePanel} />
+            <MainPanel id="main" setActivePanel={setActivePanel} setPopout={setPopout} />
             <MyAdsPanel
                 id="myAds"
                 myAds={myAds}
