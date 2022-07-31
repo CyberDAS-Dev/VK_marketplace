@@ -2,6 +2,7 @@ import React from 'react'
 import { observer } from 'mobx-react-lite'
 import {
     Button,
+    ButtonGroup,
     FormItem,
     FormLayout,
     FormLayoutGroup,
@@ -54,10 +55,16 @@ const EditAdPanel = observer(function EditAdPanel({ id, myAds, backToMain }) {
             </PanelHeader>
             <Group>
                 <FormLayout
-                    onSubmit={(e) => {
+                    onSubmit={async (e) => {
                         e.preventDefault()
-                        myAds.submitAd({ title, cost, description, bargain, images })
-                        backToMain()
+                        const isError = await myAds.submitAd({
+                            title,
+                            cost,
+                            description,
+                            bargain,
+                            images,
+                        })
+                        if (!isError) backToMain()
                     }}
                 >
                     <ImagesUpload images={images} setImages={setImages} />
@@ -111,9 +118,22 @@ const EditAdPanel = observer(function EditAdPanel({ id, myAds, backToMain }) {
                         />
                     </FormItem>
                     <FormItem>
-                        <Button type="submit" size="l" stretched>
-                            Подать объявление
-                        </Button>
+                        <ButtonGroup mode="horizontal" gap="m" stretched>
+                            <Button
+                                appearance="negative"
+                                onClick={async () => {
+                                    const isError = await myAds.deleteAd(myAds.currentAd.id)
+                                    if (!isError) backToMain()
+                                }}
+                                size="l"
+                                stretched
+                            >
+                                Удалить
+                            </Button>
+                            <Button type="submit" size="l" stretched>
+                                Изменить
+                            </Button>
+                        </ButtonGroup>
                     </FormItem>
                 </FormLayout>
             </Group>

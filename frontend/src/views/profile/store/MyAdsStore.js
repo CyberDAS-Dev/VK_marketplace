@@ -1,5 +1,5 @@
 import { makeAutoObservable, onBecomeObserved, onBecomeUnobserved } from 'mobx'
-import { myAdverts, getById, submitAdvert } from '@/api/myAdverts'
+import { myAdverts, getById, submitAdvert, deleteAdvert } from '@/api/myAdverts'
 
 class MyAds {
     ads = []
@@ -67,6 +67,7 @@ class MyAds {
     *editAd(id) {
         this.isPrefetching = true
         this.currentAd = {}
+
         const current = yield getById(id).catch(() => {
             this.isError = true
         })
@@ -80,17 +81,37 @@ class MyAds {
         return this.isError
     }
 
+    *deleteAd(id) {
+        this.isPrefetching = true
+
+        const data = yield deleteAdvert(id).catch(() => {
+            this.isError = true
+        })
+
+        if (data) this.isError = false
+        this.isPrefetching = false
+        this.isPrefetching = false
+
+        return this.isError
+    }
+
     *submitAd(props) {
+        this.isPrefetching = true
+
         const data = yield submitAdvert(this.currentAd.id, props).catch(() => {
             this.isError = true
         })
 
         if (data) this.isError = false
+        this.isPrefetching = false
         this.currentAd = {}
+
+        return this.isError
     }
 
     resetAds() {
         this.ads = []
+        this.currentAd = {}
         this.hasMore = false
     }
 }

@@ -22,3 +22,8 @@ export const submitAdvert = async (id, ad) => {
     })
     return data
 }
+
+export const deleteAdvert = async (id) => {
+    const { data } = await http.delete(`/items/${id}`)
+    return data
+}
