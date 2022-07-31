@@ -29,8 +29,11 @@ const AdsView = observer(function AdsView({ id }) {
     React.useEffect(
         () =>
             autorun(() => {
-                if (Ads.isPulled) {
+                if (Ads.isPulled || Ads.isPrefetching) {
                     setPopout(<ScreenSpinner />)
+                } else if (Ads.isError) {
+                    setPopout(<ScreenSpinner state="error" />)
+                    setTimeout(() => setPopout(null), 1000)
                 } else {
                     setPopout(null)
                 }

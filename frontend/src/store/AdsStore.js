@@ -6,6 +6,7 @@ class Ads {
     cache = []
     hasMore = false
     isLoading = false
+    isPrefetching = false
     isError = false
     isPulled = false
     filters = {
@@ -18,6 +19,7 @@ class Ads {
         search: '',
     }
 
+    // TODO вынести обработку ошибок в axios? подумать над стейтами ошибок и загрузок
     constructor() {
         makeAutoObservable(this, {}, { autoBind: true })
 
@@ -28,10 +30,11 @@ class Ads {
     *hasNextPage() {
         const data = yield fetchAdverts(this.ads.length, this.filters).catch(() => {
             this.isError = true
-            this.isLoading = false
         })
-        if (this.cache.length === 0) this.cache = [...data]
-        if (data.length > 0) {
+
+        if (data && this.cache.length === 0) this.cache = [...data]
+
+        if (data?.length > 0) {
             this.hasMore = true
         } else {
             this.hasMore = false
@@ -41,8 +44,14 @@ class Ads {
     }
 
     *fetchNextAdverts() {
-        this.isLoading = true
+        if (this.ads.length === 0) {
+            this.isPrefetching = true
+        } else {
+            this.isLoading = true
+        }
+
         yield this.hasNextPage()
+
         if (this.hasMore) {
             if (this.cache.length > 0) {
                 this.ads = [...this.ads, ...this.cache]
@@ -50,24 +59,25 @@ class Ads {
             } else {
                 const data = yield fetchAdverts(this.ads.length, this.filters).catch(() => {
                     this.isError = true
-                    this.isLoading = false
                 })
-                this.ads = [...this.ads, ...data]
+                if (data) this.ads = [...this.ads, ...data]
             }
         }
+
         this.isLoading = false
+        this.isPrefetching = false
     }
 
     *refresh() {
-        this.isLoading = true
         this.isPulled = true
+
         const data = yield fetchAdverts(0, this.filters).catch(() => {
             this.isError = true
-            this.isLoading = false
         })
-        if (data.length > 0) this.hasMore = true
-        this.ads = [...data]
-        this.isLoading = false
+
+        if (data?.length > 0) this.hasMore = true
+        if (data) this.ads = [...data]
+
         this.isPulled = false
     }
 
