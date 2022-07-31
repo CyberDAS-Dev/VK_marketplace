@@ -8,7 +8,6 @@ class MyAds {
     isLoading = false
     isError = false
     isPrefetching = false
-    isPulled = false
     currentAd = {}
 
     constructor() {

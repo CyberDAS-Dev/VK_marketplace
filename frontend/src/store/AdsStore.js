@@ -32,6 +32,8 @@ class Ads {
             this.isError = true
         })
 
+        if (data) this.isError = false
+
         if (data && this.cache.length === 0) this.cache = [...data]
 
         if (data?.length > 0) {
@@ -55,12 +57,16 @@ class Ads {
         if (this.hasMore) {
             if (this.cache.length > 0) {
                 this.ads = [...this.ads, ...this.cache]
+                this.isError = false
                 this.cache = []
             } else {
                 const data = yield fetchAdverts(this.ads.length, this.filters).catch(() => {
                     this.isError = true
                 })
-                if (data) this.ads = [...this.ads, ...data]
+                if (data) {
+                    this.ads = [...this.ads, ...data]
+                    this.isError = false
+                }
             }
         }
 
@@ -76,7 +82,10 @@ class Ads {
         })
 
         if (data?.length > 0) this.hasMore = true
-        if (data) this.ads = [...data]
+        if (data) {
+            this.ads = [...data]
+            this.isError = false
+        }
 
         this.isPulled = false
     }
