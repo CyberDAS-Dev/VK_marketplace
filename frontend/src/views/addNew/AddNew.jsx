@@ -4,7 +4,6 @@ import CategoriesModal from '@/views/addNew/modals/Categories'
 import MainPanel from '@/views/addNew/panels/Main'
 import AddPanel from '@/views/addNew/panels/Add'
 import { observer } from 'mobx-react-lite'
-import { injectStores } from '@mobx-devtools/tools'
 import AddNew from './store/AddNewStore'
 
 const AddNewView = observer(function AddNewView({ id }) {
