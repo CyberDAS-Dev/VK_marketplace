@@ -3,7 +3,7 @@ import { SimpleCell, Spinner } from '@vkontakte/vkui'
 import { observer } from 'mobx-react-lite'
 import InfiniteScroll from '@cyberdas/react-infinite-scroll-component'
 
-const MyAdsList = observer(function MyAdsList({ myAds }) {
+const MyAdsList = observer(function MyAdsList({ toEditAdPanel, myAds }) {
     return (
         myAds.ads && (
             <InfiniteScroll
@@ -13,7 +13,15 @@ const MyAdsList = observer(function MyAdsList({ myAds }) {
             >
                 {myAds.ads.map((ad) => {
                     return (
-                        <SimpleCell key={ad.id} expandable description={ad.description}>
+                        <SimpleCell
+                            key={ad.id}
+                            onClick={async () => {
+                                const isError = await myAds.editAd(ad.id)
+                                if (!isError) toEditAdPanel()
+                            }}
+                            expandable
+                            description={ad.description}
+                        >
                             {ad.title}
                         </SimpleCell>
                     )

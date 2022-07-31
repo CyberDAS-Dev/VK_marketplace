@@ -2,10 +2,11 @@ import React from 'react'
 import { Group, Panel, PanelHeader, PanelHeaderBack, List } from '@vkontakte/vkui'
 import { observer } from 'mobx-react-lite'
 import MyAdsList from '@/views/profile/components/MyAdsList'
-import MyAds from '../store/MyAdsStore'
 
-const MyAdsPanel = observer(function MyAdsPanel({ id, backToMain }) {
-    const [myAds] = React.useState(() => new MyAds())
+const MyAdsPanel = observer(function MyAdsPanel({ myAds, id, setActivePanel, backToMain }) {
+    const toEditAdPanel = () => {
+        setActivePanel('editAd')
+    }
 
     return (
         <Panel id={id}>
@@ -14,7 +15,7 @@ const MyAdsPanel = observer(function MyAdsPanel({ id, backToMain }) {
             </PanelHeader>
             <Group>
                 <List>
-                    <MyAdsList myAds={myAds} />
+                    <MyAdsList toEditAdPanel={toEditAdPanel} myAds={myAds} />
                 </List>
             </Group>
         </Panel>
