@@ -111,7 +111,6 @@ class MyAds {
 
     resetAds() {
         this.ads = []
-        this.currentAd = {}
         this.hasMore = false
     }
 }
