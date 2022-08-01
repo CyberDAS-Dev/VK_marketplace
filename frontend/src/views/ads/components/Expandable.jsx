@@ -13,22 +13,18 @@ const Expandable = observer(function Expandable({
 }) {
     const slicedChildren = children.length > limit ? `${children.slice(0, limit)}...` : children
 
-    return (
+    return !isExpanded ? (
+        <Text weigth={weigth} className={className}>
+            {slicedChildren}
+        </Text>
+    ) : (
         <>
-            {!isExpanded ? (
-                <Text weigth={weigth} className={className}>
-                    {slicedChildren}
-                </Text>
-            ) : (
-                <>
-                    <Text weigth={weigth} className={className}>
-                        {children}
-                    </Text>
-                    <Button size="m" style={{ marginTop: 15 }} stretched onClick={onBuyButton}>
-                        {costWording}
-                    </Button>
-                </>
-            )}
+            <Text weigth={weigth} className={className}>
+                {children}
+            </Text>
+            <Button size="m" style={{ marginTop: 15 }} stretched onClick={onBuyButton}>
+                {costWording}
+            </Button>
         </>
     )
 })

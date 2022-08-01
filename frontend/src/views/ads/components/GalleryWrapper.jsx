@@ -9,7 +9,7 @@ const GalleryWrapper = observer(function GalleryWrapper({ children, src, index }
                 {children}
             </Gallery>
         )
-    return <>{children}</>
+    return { children }
 })
 
 export default GalleryWrapper
