@@ -1,11 +1,19 @@
 import { defineConfig } from 'vite'
 import react from '@vitejs/plugin-react'
-import eslint from 'vite-plugin-eslint'
+import checker from 'vite-plugin-checker'
 import path from 'path'
 
 export default ({ mode }) => {
     return defineConfig({
-        plugins: [react(), eslint()],
+        plugins: [
+            react(),
+            checker({
+                overlay: false,
+                eslint: {
+                    lintCommand: 'eslint --max-warnings 0 --ext js,jsx src"', // for example, lint .ts & .tsx
+                },
+            }),
+        ],
         server: {
             port: 3000,
         },
