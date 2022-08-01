@@ -37,7 +37,7 @@ const Index = observer(function Index() {
 ReactDOM.render(<Index />, document.getElementById('root'))
 
 // для режима разработки
-if (process.env.NODE_ENV === 'development') {
+if (import.meta.env.MODE === 'development') {
     // eslint-disable-next-line no-unused-vars
     import('./eruda').then(({ default: eruda }) => {})
     injectStores({ Ads, User })

@@ -12,6 +12,7 @@ npm-debug.log*
 
 # Prod Bundle
 /build
+/dist
 
 .vscode
 .idea
