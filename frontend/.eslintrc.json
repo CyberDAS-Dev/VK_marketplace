@@ -16,13 +16,8 @@
             "jsx": true
         },
         "ecmaVersion": "latest",
-        "sourceType": "module",
-        "requireConfigFile": false,
-        "babelOptions": {
-            "presets": ["@babel/preset-react"]
-        }
+        "sourceType": "module"
     },
-    "parser": "@babel/eslint-parser",
     "plugins": ["react", "mobx"],
     "rules": {
         "lines-between-class-members": [
