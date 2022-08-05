@@ -13,14 +13,62 @@ import {
     Textarea,
 } from '@vkontakte/vkui'
 import { observer } from 'mobx-react-lite'
+import { useForm, Controller, useWatch } from 'react-hook-form'
 import ImagesUpload from '../components/ImagesUpload'
 
 const AddPanel = observer(function AddPanel({ id, backToMain, submitAd }) {
     const [images, setImages] = React.useState([])
-    const [title, setTitle] = React.useState('')
-    const [cost, setCost] = React.useState('')
-    const [description, setDescription] = React.useState('')
-    const [bargain, toggleBargain] = React.useState(false)
+    const { handleSubmit, control, getValues, setValue } = useForm({
+        mode: 'all',
+        defaultValues: {
+            title: '',
+            cost: '',
+            description: '',
+            bargain: false,
+            costType: '1',
+        },
+    })
+
+    const costType = useWatch({
+        control,
+        name: 'costType',
+    })
+
+    React.useEffect(() => {
+        switch (costType) {
+            case '1':
+                setValue('cost', '')
+                setValue('bargain', false)
+                break
+            case '2':
+                setValue('cost', 0)
+                setValue('bargain', true)
+                break
+            case '3':
+                setValue('cost', 0)
+                setValue('bargain', false)
+                break
+            default:
+                break
+        }
+    }, [costType, setValue])
+
+    const getStatus = React.useMemo(
+        () =>
+            ({ invalid }) => {
+                return invalid ? 'error' : 'valid'
+            },
+        []
+    )
+
+    const onSubmit = (data) =>
+        submitAd({
+            data: data.bargain,
+            cost: data.cost,
+            description: data.description,
+            title: data.title,
+            images,
+        })
 
     return (
         <Panel id={id}>
@@ -28,65 +76,63 @@ const AddPanel = observer(function AddPanel({ id, backToMain, submitAd }) {
                 Новое объявление
             </PanelHeader>
             <Group>
-                <FormLayout
-                    onSubmit={(e) => {
-                        e.preventDefault()
-                        submitAd({ title, cost, description, bargain, images })
-                    }}
-                >
+                <FormLayout onSubmit={handleSubmit(onSubmit)}>
                     <ImagesUpload images={images} setImages={setImages} />
-                    <FormItem top="Название">
-                        <Input
-                            value={title}
-                            onChange={(e) => {
-                                setTitle(e.target.value)
-                            }}
-                        />
-                    </FormItem>
-                    <FormLayoutGroup>
-                        {bargain !== true && cost !== 0 && (
-                            <FormItem top="Стоимость">
-                                <Input value={cost} onChange={(e) => setCost(e.target.value)} />
+                    <Controller
+                        name="title"
+                        rules={{ required: true, minLength: 2, maxLength: 15 }}
+                        control={control}
+                        render={({ field, fieldState }) => (
+                            <FormItem top="Название" status={getStatus(fieldState)}>
+                                <Input placeholder="Введите название" {...field} />
                             </FormItem>
                         )}
-                        {/* // TODO не знаю что надо сделать, но что-то точно надо */}
-                        <FormItem
-                            top="Название"
-                            onChange={(e) => {
-                                const value = Number(e.target.value)
-                                if (value === 1) {
-                                    toggleBargain(false)
-                                    setCost('')
-                                }
-                                if (value === 2) {
-                                    toggleBargain(true)
-                                    setCost(0)
-                                }
-                                if (value === 3) {
-                                    toggleBargain(false)
-                                    setCost(0)
-                                }
-                            }}
-                        >
-                            <Radio name="price" value="1" defaultChecked>
-                                За деньги
-                            </Radio>
-                            <Radio name="price" value="2">
-                                Договорная
-                            </Radio>
-                            <Radio name="price" value="3">
-                                Бесплатно
-                            </Radio>
+                    />
+                    <FormLayoutGroup>
+                        {getValues('costType') === '1' ? (
+                            <Controller
+                                name="cost"
+                                rules={{ required: true, min: 0 }}
+                                control={control}
+                                render={({ field, fieldState }) => (
+                                    <FormItem top="Стоимость" status={getStatus(fieldState)}>
+                                        <Input placeholder="Введите стоимость" {...field} />
+                                    </FormItem>
+                                )}
+                            />
+                        ) : null}
+                        <FormItem top="Название">
+                            <Controller
+                                name="costType"
+                                control={control}
+                                render={({ field }) => (
+                                    <>
+                                        <Radio {...field} defaultChecked value="1">
+                                            За деньги
+                                        </Radio>
+                                        <Radio {...field} value="2">
+                                            Договорная
+                                        </Radio>
+                                        <Radio {...field} value="3">
+                                            Бесплатно
+                                        </Radio>
+                                    </>
+                                )}
+                            />
                         </FormItem>
                     </FormLayoutGroup>
-                    <FormItem top="Описание">
-                        <Textarea
-                            value={description}
-                            onChange={(e) => {
-                                setDescription(e.target.value)
-                            }}
-                        />
-                    </FormItem>
+
+                    <Controller
+                        name="description"
+                        control={control}
+                        rules={{ required: true, min: 0 }}
+                        render={({ field, fieldState }) => (
+                            <FormItem top="Описание" status={getStatus(fieldState)}>
+                                <Textarea placeholder="Введите описание" {...field} />
+                            </FormItem>
+                        )}
+                    />
+
                     <FormItem>
                         <Button type="submit" size="l" stretched>
                             Подать объявление

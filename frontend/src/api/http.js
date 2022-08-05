@@ -4,7 +4,7 @@ const isDev = import.meta.env.MODE === 'development'
 const url = 'https://'
 
 const http = axios.create({
-    baseURL: `${isDev ? 'https://localhost:8888/v1' : url}`,
+    baseURL: `${isDev ? 'http://localhost:8888/v1' : url}`,
     headers: {
         'Content-Type': 'application/json',
         Authorization: `Bearer ${
