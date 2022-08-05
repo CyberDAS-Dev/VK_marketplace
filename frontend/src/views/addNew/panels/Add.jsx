@@ -63,8 +63,8 @@ const AddPanel = observer(function AddPanel({ id, backToMain, submitAd }) {
 
     const onSubmit = (data) =>
         submitAd({
-            data: data.bargain,
             cost: data.cost,
+            bargain: data.bargain,
             description: data.description,
             title: data.title,
             images,
@@ -96,7 +96,11 @@ const AddPanel = observer(function AddPanel({ id, backToMain, submitAd }) {
                                 control={control}
                                 render={({ field, fieldState }) => (
                                     <FormItem top="Стоимость" status={getStatus(fieldState)}>
-                                        <Input placeholder="Введите стоимость" {...field} />
+                                        <Input
+                                            type="number"
+                                            placeholder="Введите стоимость"
+                                            {...field}
+                                        />
                                     </FormItem>
                                 )}
                             />
