@@ -16,7 +16,7 @@ const ImagesUpload = observer(function ImagesUpload({ images, setImages }) {
             onChange={onChange}
             maxNumber={5}
             dataURLKey="data_url"
-            acceptType={['jpg']}
+            acceptType={['jpg', 'png']}
         >
             {({ imageList, onImageUpload, onImageUpdate, onImageRemove }) => {
                 return (
@@ -25,7 +25,7 @@ const ImagesUpload = observer(function ImagesUpload({ images, setImages }) {
                         {imageList.map((image, index) => {
                             return (
                                 <ImageCard
-                                    key={image.file.size}
+                                    key={image?.file?.size ? image.file.size : image.data_url}
                                     index={index}
                                     imageData={image.data_url}
                                     onImageUpdate={onImageUpdate}

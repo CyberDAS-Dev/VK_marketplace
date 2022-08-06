@@ -1,4 +1,5 @@
 import http from '@/api/http'
+import uploadImages from './uploadImages'
 
 const LIMIT = 15
 
@@ -13,14 +14,22 @@ export const getById = async (id) => {
 }
 
 export const submitAdvert = async (id, ad) => {
-    const { data } = await http.put(`/items/${id}`, {
-        title: ad.title,
-        description: ad.description,
-        cost: ad.cost,
-        bargain: ad.bargain,
-        images: ad.images,
-    })
-    return data
+    const { images } = ad
+
+    try {
+        const imagesUrls = await uploadImages(images)
+
+        const { data } = await http.put(`/items/${id}`, {
+            title: ad.title,
+            description: ad.description,
+            cost: ad.cost,
+            bargain: ad.bargain,
+            images: imagesUrls,
+        })
+        return data
+    } catch {
+        throw new Error('Ошибка загрузки изображений')
+    }
 }
 
 export const deleteAdvert = async (id) => {

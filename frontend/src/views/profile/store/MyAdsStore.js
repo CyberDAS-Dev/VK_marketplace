@@ -75,6 +75,10 @@ class MyAds {
         if (current) {
             this.isError = false
             this.currentAd = current
+            this.currentAd.images = current.images.map((image) => {
+                if (typeof image === 'string') return { data_url: image }
+                return image
+            })
         }
         this.isPrefetching = false
 
