@@ -2,8 +2,8 @@ import React from 'react'
 import { View, ModalRoot } from '@vkontakte/vkui'
 import CategoriesModal from '@/views/addNew/modals/Categories'
 import MainPanel from '@/views/addNew/panels/Main'
-import AddPanel from '@/views/addNew/panels/Add'
 import { observer } from 'mobx-react-lite'
+import EditAdPanel from '@/shared/components/EditAd'
 import AddNew from './store/AddNewStore'
 
 const AddNewView = observer(function AddNewView({ id }) {
@@ -52,7 +52,7 @@ const AddNewView = observer(function AddNewView({ id }) {
     return (
         <View id={id} activePanel={activePanel} modal={modal}>
             <MainPanel id="main" selectType={selectType} />
-            <AddPanel id="add" backToMain={backToMain} submitAd={submitAd} />
+            <EditAdPanel id="add" backToMain={backToMain} submitAd={submitAd} />
         </View>
     )
 })

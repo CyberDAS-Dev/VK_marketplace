@@ -5,7 +5,7 @@ import MyAdsPanel from '@/views/profile/panels/MyAds'
 import AboutPanel from '@/views/profile/panels/About'
 import MainPanel from '@/views/profile/panels/Main'
 import { autorun } from 'mobx'
-import EditAdPanel from './panels/EditAd'
+import EditAdPanel from '@/shared/components/EditAd'
 import MyAds from './store/MyAdsStore'
 
 const ProfileView = observer(function ProfileView({ id }) {
@@ -32,6 +32,19 @@ const ProfileView = observer(function ProfileView({ id }) {
         []
     )
 
+    const submitAd = React.useCallback(
+        async (data) => {
+            const isError = await myAds.submitAd(data)
+            if (!isError) backToMain()
+        },
+        [backToMain, myAds]
+    )
+
+    const deleteAd = React.useCallback(async () => {
+        const isError = await myAds.deleteAd()
+        if (!isError) backToMain()
+    }, [backToMain, myAds])
+
     return (
         <View id={id} activePanel={activePanel} popout={popout}>
             <MainPanel id="main" setActivePanel={setActivePanel} setPopout={setPopout} />
@@ -42,7 +55,13 @@ const ProfileView = observer(function ProfileView({ id }) {
                 backToMain={backToMain}
             />
             <AboutPanel id="about" backToMain={backToMain} />
-            <EditAdPanel id="editAd" myAds={myAds} backToMain={backToMain} />
+            <EditAdPanel
+                id="editAd"
+                currentAd={myAds.currentAd}
+                deleteAd={deleteAd}
+                submitAd={submitAd}
+                backToMain={backToMain}
+            />
         </View>
     )
 })

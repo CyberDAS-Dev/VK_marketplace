@@ -85,10 +85,10 @@ class MyAds {
         return this.isError
     }
 
-    *deleteAd(id) {
+    *deleteAd() {
         this.isPrefetching = true
 
-        const data = yield deleteAdvert(id).catch(() => {
+        const data = yield deleteAdvert(this.currentAd.id).catch(() => {
             this.isError = true
         })
 
