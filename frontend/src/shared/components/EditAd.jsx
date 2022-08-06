@@ -32,7 +32,7 @@ const EditAdPanel = observer(function EditAdPanel({
             title: currentAd?.title ?? '',
             cost: currentAd?.cost ?? '',
             description: currentAd?.description ?? '',
-            bargain: currentAd?.bargain ?? '',
+            bargain: currentAd?.bargain ?? false,
         },
     })
 
