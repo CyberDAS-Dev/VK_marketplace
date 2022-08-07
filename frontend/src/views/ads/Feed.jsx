@@ -1,38 +1,48 @@
-import React, { useEffect } from 'react'
+import React from 'react'
 import { View, ModalRoot, ScreenSpinner } from '@vkontakte/vkui'
-import MainPanel from './panels/Main'
-import FiltersModal from './modals/Filters'
-import useScrollLock from '../../utils/lockScroll'
-import useAdverts from '../../api/useAdverts'
+import { observer } from 'mobx-react-lite'
+import { autorun } from 'mobx'
+import MainPanel from '@/views/ads/panels/Main'
+import FiltersModal from '@/views/ads/modals/Filters'
+import useScrollLock from '@/utils/lockScroll'
+import Ads from '@/store/AdsStore'
 
-export default function AdsView({ id }) {
+const AdsView = observer(function AdsView({ id }) {
     const { unlockScroll } = useScrollLock()
     const [activePanel] = React.useState('main')
     const [activeModal, setActiveModal] = React.useState(null)
     const [popout, setPopout] = React.useState(null)
-    const { isLoading, data: adverts, fetchNextAdverts, hasNextPage, isError } = useAdverts()
+
     const closeModal = React.useCallback(() => setActiveModal(null), [])
+
     const closePopout = React.useCallback(() => {
         unlockScroll()
         setPopout(null)
     }, [unlockScroll])
+
     const applyFilters = React.useCallback(
         (e, data) => {
             e.preventDefault()
-            console.log(data)
+            Ads.applyFilters(data)
             closeModal()
         },
         [closeModal]
     )
 
-    useEffect(() => {
-        if (isLoading) {
-            setPopout(<ScreenSpinner />)
-        }
-        if (!isLoading) {
-            setPopout(null)
-        }
-    }, [isLoading])
+    React.useEffect(
+        () =>
+            autorun(() => {
+                if (Ads.isPulled || Ads.isPrefetching) {
+                    setPopout(<ScreenSpinner />)
+                } else if (Ads.isError) {
+                    setPopout(<ScreenSpinner state="error" />)
+                    setTimeout(() => setPopout(null), 1000)
+                } else {
+                    setPopout(null)
+                }
+            }),
+        []
+    )
 
     const modal = (
         <ModalRoot activeModal={activeModal} onClose={closeModal}>
@@ -44,31 +54,12 @@ export default function AdsView({ id }) {
         <View id={id} activePanel={activePanel} modal={modal} popout={popout}>
             <MainPanel
                 id="main"
-                category="Все объявления"
-                cardsInfo={
-                    adverts &&
-                    [].concat(
-                        ...adverts.pages.map((group) => {
-                            return group.map((ad) => {
-                                return {
-                                    id: ad.id,
-                                    title: ad.title,
-                                    description: ad.description,
-                                    cost: ad.cost,
-                                    bargain: ad.bargain,
-                                    image: ad.images,
-                                }
-                            })
-                        })
-                    )
-                }
                 onSearchClick={() => setActiveModal('filters')}
                 setPopout={setPopout}
                 closePopout={closePopout}
-                fetchNextAdverts={fetchNextAdverts}
-                hasNextPage={hasNextPage}
-                isError={isError}
             />
         </View>
     )
-}
+})
+
+export default AdsView

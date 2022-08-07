@@ -13,14 +13,17 @@ import {
     Input,
 } from '@vkontakte/vkui'
 import { Icon24Dismiss } from '@vkontakte/icons'
+import Ads from '@/store/AdsStore'
+import { observer } from 'mobx-react-lite'
+import { CATEGORIES, SORT_TYPES, TYPES } from '@/utils/constants'
 
-export default function FiltersModal({ id, applyFilters, closeModal }) {
-    const [type, setType] = React.useState('all')
-    const [sortType, setSortType] = React.useState('new')
-    const [category, setCategory] = React.useState(0)
-    const [cost, setCost] = React.useState([0, 2000])
-    const [onlyPhoto, toggleOnlyPhoto] = React.useState(false)
-    const [dontShowBargain, toggleDontShowBargain] = React.useState(false) // инверс к апи
+const FiltersModal = observer(function FiltersModal({ id, applyFilters, closeModal }) {
+    const [type, setType] = React.useState(Ads.filters.type)
+    const [sort, setSort] = React.useState(Ads.filters.sort)
+    const [category, setCategory] = React.useState(Ads.filters.category)
+    const [cost, setCost] = React.useState(Ads.filters.cost)
+    const [onlyPhoto, toggleOnlyPhoto] = React.useState(Ads.filters.onlyPhoto)
+    const [dontShowBargain, toggleDontShowBargain] = React.useState(Ads.filters.dontShowBargain) // инверс к апи
     return (
         <ModalPage
             id={id}
@@ -42,7 +45,7 @@ export default function FiltersModal({ id, applyFilters, closeModal }) {
                     onSubmit={(e) =>
                         applyFilters(e, {
                             type,
-                            sortType,
+                            sort,
                             category,
                             cost,
                             onlyPhoto,
@@ -55,49 +58,24 @@ export default function FiltersModal({ id, applyFilters, closeModal }) {
                             name="type"
                             value={type}
                             onChange={(e) => setType(e.currentTarget.value)}
-                            options={[
-                                {
-                                    value: 'all',
-                                    label: 'Все',
-                                },
-                                {
-                                    value: 'sell',
-                                    label: 'Продажа',
-                                },
-                                {
-                                    value: 'buy',
-                                    label: 'Покупка',
-                                },
-                                {
-                                    value: 'service',
-                                    label: 'Услуги',
-                                },
-                            ]}
+                            options={React.useMemo(() => {
+                                return TYPES.map((typeObj) => {
+                                    return {
+                                        value: typeObj.id,
+                                        label: typeObj.title,
+                                    }
+                                })
+                            }, [])}
                         />
                     </FormItem>
                     <FormItem top="Сортировка">
                         <Select
                             name="sort"
-                            value={sortType}
-                            onChange={(e) => setSortType(e.currentTarget.value)}
-                            options={[
-                                {
-                                    value: 'new',
-                                    label: 'Сначала новые',
-                                },
-                                {
-                                    value: 'old',
-                                    label: 'Сначала старые',
-                                },
-                                {
-                                    value: 'cheap',
-                                    label: 'Сначала дешевые',
-                                },
-                                {
-                                    value: 'expensive',
-                                    label: 'Сначала дорогие',
-                                },
-                            ]}
+                            value={sort}
+                            onChange={(e) => setSort(e.currentTarget.value)}
+                            options={React.useMemo(() => {
+                                return SORT_TYPES.map((sortType) => sortType)
+                            }, [])}
                         />
                     </FormItem>
                     <FormItem top="Категория">
@@ -105,40 +83,14 @@ export default function FiltersModal({ id, applyFilters, closeModal }) {
                             name="category"
                             value={category}
                             onChange={(e) => setCategory(e.currentTarget.value)}
-                            options={[
-                                {
-                                    value: '0',
-                                    label: 'Любая',
-                                },
-                                {
-                                    value: '1',
-                                    label: 'Бытовые товары',
-                                },
-                                {
-                                    value: '2',
-                                    label: 'Еда',
-                                },
-                                {
-                                    value: '3',
-                                    label: 'Одежда',
-                                },
-                                {
-                                    value: '4',
-                                    label: 'Книги',
-                                },
-                                {
-                                    value: '5',
-                                    label: 'Электроника',
-                                },
-                                {
-                                    value: '6',
-                                    label: 'Бытовая техника',
-                                },
-                                {
-                                    value: '7',
-                                    label: 'Мебель',
-                                },
-                            ]}
+                            options={React.useMemo(() => {
+                                return CATEGORIES.map((categoryObj) => {
+                                    return {
+                                        value: categoryObj.id,
+                                        label: categoryObj.title,
+                                    }
+                                })
+                            }, [])}
                         />
                     </FormItem>
                     <FormLayoutGroup mode="horizontal">
@@ -177,4 +129,6 @@ export default function FiltersModal({ id, applyFilters, closeModal }) {
             </Group>
         </ModalPage>
     )
-}
+})
+
+export default FiltersModal

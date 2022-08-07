@@ -1,17 +1,11 @@
 import React from 'react'
-import { Group, ModalPage, ModalPageHeader, PanelHeaderButton, SimpleCell } from '@vkontakte/vkui'
-import {
-    Icon24Dismiss,
-    Icon28AppleOutline,
-    Icon28ArmchairOutline,
-    Icon28BookOutline,
-    Icon28CoffeeSteamOutline,
-    Icon28HangerOutline,
-    Icon28LaptopOutline,
-    Icon28WasherOutline,
-} from '@vkontakte/icons'
+import { Group, ModalPage, ModalPageHeader, PanelHeaderButton } from '@vkontakte/vkui'
+import { Icon24Dismiss } from '@vkontakte/icons'
+import { observer } from 'mobx-react-lite'
+import { CATEGORIES } from '@/utils/constants'
+import CategoryCell from '../components/CategoryCell'
 
-export default function CategoriesModal({ id, closeModal, switchToAdd }) {
+const CategoriesModal = observer(function CategoriesModal({ id, closeModal, selectCategory }) {
     return (
         <ModalPage
             id={id}
@@ -29,21 +23,21 @@ export default function CategoriesModal({ id, closeModal, switchToAdd }) {
             }
             onClose={closeModal}
         >
+            {/* // TODO добавить везде описание (или удалить) */}
             <Group>
-                <SimpleCell
-                    onClick={switchToAdd}
-                    before={<Icon28CoffeeSteamOutline />}
-                    description="Будильники, графины, бумага и т. д."
-                >
-                    Бытовые товары
-                </SimpleCell>
-                <SimpleCell before={<Icon28AppleOutline />}>Еда</SimpleCell>
-                <SimpleCell before={<Icon28HangerOutline />}>Одежда</SimpleCell>
-                <SimpleCell before={<Icon28BookOutline />}>Книги</SimpleCell>
-                <SimpleCell before={<Icon28LaptopOutline />}>Электроника</SimpleCell>
-                <SimpleCell before={<Icon28WasherOutline />}>Бытовая техника</SimpleCell>
-                <SimpleCell before={<Icon28ArmchairOutline />}>Мебель</SimpleCell>
+                {CATEGORIES.map((category) => {
+                    if (category.id === 'all') return null
+                    return (
+                        <CategoryCell
+                            key={category.id}
+                            category={category}
+                            selectCategory={selectCategory}
+                        />
+                    )
+                })}
             </Group>
         </ModalPage>
     )
-}
+})
+
+export default CategoriesModal

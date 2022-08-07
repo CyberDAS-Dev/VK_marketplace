@@ -1,23 +1,17 @@
 import React from 'react'
-import { Panel, PanelHeader, Group, Search, CardGrid, Spinner, Placeholder } from '@vkontakte/vkui'
+import { Panel, PanelHeader, Group, Search, Placeholder } from '@vkontakte/vkui'
 import { Icon24Filter, Icon56ErrorOutline } from '@vkontakte/icons'
-import InfiniteScroll from 'react-infinite-scroll-component'
-import logo from '../../../images/logo.svg'
-import AdCard from '../components/AdCard'
-import useScrollLock from '../../../utils/lockScroll'
-import PhotoPopout from '../popouts/MaximizePhoto'
+import { observer } from 'mobx-react-lite'
+import debounce from 'lodash.debounce'
+import logo from '@/images/logo.svg'
+import useScrollLock from '@/utils/lockScroll'
+import PhotoPopout from '@/views/ads/popouts/MaximizePhoto'
+import Ads from '@/store/AdsStore'
+import InfiniteFeed from '@/views/ads/components/InfiniteFeed'
+import { CATEGORIES } from '@/utils/constants'
 
-export default function MainPanel({
-    id,
-    category,
-    cardsInfo,
-    onSearchClick,
-    setPopout,
-    closePopout,
-    fetchNextAdverts,
-    hasNextPage,
-    isError,
-}) {
+const MainPanel = observer(function MainPanel({ id, onSearchClick, setPopout, closePopout }) {
+    const [search, setSearch] = React.useState(Ads.filters.search)
     const { lockScroll } = useScrollLock()
 
     const maximizePhoto = React.useCallback(
@@ -28,46 +22,47 @@ export default function MainPanel({
         [closePopout, lockScroll, setPopout]
     )
 
-    const onBuyButton = (e) => {
-        alert('Покупай')
-    }
+    const onBuyButton = React.useCallback((ownerId) => {
+        window.location.href = `https://vk.com/im?sel=${ownerId}`
+    }, [])
+
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+    const applySearch = React.useCallback(
+        debounce((value) => {
+            Ads.applyFilters({ search: value })
+        }, 500),
+        []
+    )
 
     return (
         <Panel id={id}>
-            <PanelHeader left={<img src={logo} alt="" />}>{category}</PanelHeader>
+            <PanelHeader left={<img src={logo} alt="" />}>
+                {Ads.filters.category === 'all'
+                    ? 'Все объявления'
+                    : CATEGORIES.find((category) => {
+                          return Ads.filters.category === category.id
+                      }).title}
+            </PanelHeader>
             <Group>
                 <Search
                     after={null}
                     placeholder="Поиск"
                     icon={<Icon24Filter />}
                     onIconClick={() => onSearchClick()}
+                    value={search}
+                    onChange={(e) => {
+                        setSearch(e.target.value)
+                        applySearch(e.target.value)
+                    }}
                 />
-                {cardsInfo && (
-                    <InfiniteScroll
-                        dataLength={cardsInfo.length}
-                        next={fetchNextAdverts}
-                        hasMore={hasNextPage}
-                        loader={
-                            <div style={{ display: 'flex', justifyContent: 'center' }}>
-                                <Spinner size="regular" style={{ margin: '20px 0' }} />
-                            </div>
-                        }
-                    >
-                        <CardGrid size="l">
-                            {cardsInfo.map((ad) => {
-                                return (
-                                    <AdCard
-                                        key={ad.id}
-                                        data={ad}
-                                        maximizePhoto={maximizePhoto}
-                                        onBuyButton={onBuyButton}
-                                    />
-                                )
-                            })}
-                        </CardGrid>
-                    </InfiniteScroll>
+                {Ads.ads && (
+                    <InfiniteFeed
+                        Ads={Ads}
+                        maximizePhoto={maximizePhoto}
+                        onBuyButton={onBuyButton}
+                    />
                 )}
-                {isError && (
+                {Ads.isError && (
                     <Placeholder icon={<Icon56ErrorOutline />} header="Ошибка">
                         Не удалось получить список объявлений, попробуйте еще раз.
                     </Placeholder>
@@ -75,4 +70,6 @@ export default function MainPanel({
             </Group>
         </Panel>
     )
-}
+})
+
+export default MainPanel

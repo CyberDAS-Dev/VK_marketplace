@@ -1,7 +1,8 @@
 import React from 'react'
 import { Gallery } from '@vkontakte/vkui'
+import { observer } from 'mobx-react-lite'
 
-export default function GalleryWrapper({ children, src, index }) {
+const GalleryWrapper = observer(function GalleryWrapper({ children, src, index }) {
     if (src.length > 1)
         return (
             <Gallery styleWidth="100%" bullets="light" initialSlideIndex={index} showArrows>
@@ -9,4 +10,6 @@ export default function GalleryWrapper({ children, src, index }) {
             </Gallery>
         )
     return <>{children}</>
-}
+})
+
+export default GalleryWrapper

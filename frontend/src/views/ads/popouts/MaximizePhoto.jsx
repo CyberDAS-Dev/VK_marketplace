@@ -1,10 +1,11 @@
 import { Icon24DismissDark } from '@vkontakte/icons'
 import { IconButton, PopoutWrapper } from '@vkontakte/vkui'
 import React from 'react'
-import Zoomable from 'react-instagram-zoom'
-import GalleryWrapper from '../components/GalleryWrapper'
+import Zoomable from '@cyberdas/react-instagram-zoom'
+import GalleryWrapper from '@/views/ads/components/GalleryWrapper'
+import { observer } from 'mobx-react-lite'
 
-export default function PhotoPopout({ src, index, closePopout }) {
+const PhotoPopout = observer(function PhotoPopout({ src, index, closePopout }) {
     return (
         <PopoutWrapper alignY="center" alignX="center" onClick={closePopout}>
             <GalleryWrapper src={src} index={index}>
@@ -18,6 +19,7 @@ export default function PhotoPopout({ src, index, closePopout }) {
                                 backgroundColor: '#222222',
                                 width: '100%',
                                 height: '70vh',
+                                overflow: 'hidden',
                             }}
                         >
                             <Zoomable>
@@ -47,4 +49,6 @@ export default function PhotoPopout({ src, index, closePopout }) {
             />
         </PopoutWrapper>
     )
-}
+})
+
+export default PhotoPopout

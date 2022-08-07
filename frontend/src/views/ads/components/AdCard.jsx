@@ -1,7 +1,8 @@
 import React from 'react'
-import ContentCard from './ContentCardCustom'
+import ContentCard from '@/views/ads/components/ContentCardCustom'
+import { observer } from 'mobx-react-lite'
 
-export default function AdCard({ data, maximizePhoto, onBuyButton }) {
+const AdCard = observer(function AdCard({ data, maximizePhoto, onBuyButton }) {
     const defineCost = () => {
         const { cost, bargain } = data
         if (bargain) {
@@ -19,10 +20,11 @@ export default function AdCard({ data, maximizePhoto, onBuyButton }) {
 
     return (
         <ContentCard
-            src={data.image}
+            src={data.images}
             header={data.title}
             text={data.description}
             cost={defineCost()}
+            ownerId={data.owner_id}
             loading="lazy"
             expandable
             limit={70}
@@ -32,4 +34,6 @@ export default function AdCard({ data, maximizePhoto, onBuyButton }) {
             style={{ contentVisibility: 'auto', containIntrinsicSize: 500 }}
         />
     )
-}
+})
+
+export default AdCard

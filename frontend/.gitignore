@@ -2,7 +2,6 @@
 logs
 *.log
 npm-debug.log*
-*.lock
 
 # Dependency directories
 /node_modules
@@ -12,6 +11,9 @@ npm-debug.log*
 
 # Prod Bundle
 /build
+/dist
 
 .vscode
 .idea
+
+.env.local

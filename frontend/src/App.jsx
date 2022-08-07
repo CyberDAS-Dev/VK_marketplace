@@ -7,13 +7,14 @@ import {
 } from '@vkontakte/icons'
 import '@vkontakte/vkui/dist/vkui.css'
 import baseTheme from '@vkontakte/vkui-tokens/themes/vkBase/cssVars/theme'
-import Feed from './views/ads/Feed'
-import ProfileView from './views/profile/Profile'
-import AddNewView from './views/addNew/AddNew'
+import { observer } from 'mobx-react-lite'
+import ProfileView from '@/views/profile/Profile'
+import Feed from '@/views/ads/Feed'
+import AddNewView from '@/views/addNew/AddNew'
 
 window.document.body.style.backgroundColor = baseTheme.colorBackground.normal.value
 
-function App() {
+const App = observer(function App() {
     const [activeStory, setActiveStory] = React.useState('feed')
     const onStoryChange = (e) => setActiveStory(e.currentTarget.dataset.story)
 
@@ -56,6 +57,6 @@ function App() {
             </Epic>
         </AppRoot>
     )
-}
+})
 
 export default App

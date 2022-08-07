@@ -1,8 +1,9 @@
 import React from 'react'
 import { Group, Panel, PanelHeader, PanelHeaderBack, Div, Text, Link } from '@vkontakte/vkui'
-import bigLogo from '../images/biglogo.png'
+import bigLogo from '@/views/profile/images/biglogo.png'
+import { observer } from 'mobx-react-lite'
 
-export default function AboutPanel({ id, backToMain }) {
+const AboutPanel = observer(function AboutPanel({ id, backToMain }) {
     return (
         <Panel id={id}>
             <PanelHeader left={<PanelHeaderBack onClick={backToMain} />}>О приложении</PanelHeader>
@@ -25,4 +26,6 @@ export default function AboutPanel({ id, backToMain }) {
             </Group>
         </Panel>
     )
-}
+})
+
+export default AboutPanel

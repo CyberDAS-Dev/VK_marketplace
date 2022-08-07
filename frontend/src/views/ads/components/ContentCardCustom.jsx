@@ -10,17 +10,19 @@ import {
     getClassName,
 } from '@vkontakte/vkui'
 import { hasReactNode, isArray } from '@vkontakte/vkjs'
-import './ContentCardCustom.css'
+import '@/views/ads/components/ContentCardCustom.css'
 import { Icon28ChevronDownOutline } from '@vkontakte/icons'
-import Expandable from './Expandable'
+import Expandable from '@/views/ads/components/Expandable'
+import { observer } from 'mobx-react-lite'
 
-const ContentCard = (props) => {
+const ContentCard = observer(function ContentCard(props) {
     const {
         subtitle,
         header,
         text,
         cost,
         onGalleryClick,
+        ownerId,
         onBuyButton,
         expandable,
         limit,
@@ -134,6 +136,7 @@ const ContentCard = (props) => {
                     costWording={cost.wording}
                     limit={limit}
                     onBuyButton={onBuyButton}
+                    ownerId={ownerId}
                 >
                     {text}
                 </Expandable>
@@ -190,7 +193,7 @@ const ContentCard = (props) => {
             </Tappable>
         </Card>
     )
-}
+})
 
 ContentCard.defaultProps = {
     mode: 'shadow',

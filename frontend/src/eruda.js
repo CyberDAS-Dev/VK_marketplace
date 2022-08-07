@@ -1,3 +1,4 @@
+/* eslint-disable import/no-extraneous-dependencies */
 import * as eruda from 'eruda'
 import * as erudaCode from 'eruda-code'
 import * as erudaDom from 'eruda-dom'
