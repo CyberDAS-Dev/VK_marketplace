@@ -42,10 +42,10 @@ const EditAdPanel = observer(function EditAdPanel({
         if (bargain === true) {
             setRadio(2)
         }
-        if (cost === 0) {
+        if (cost === 0 && bargain === false) {
             setRadio(3)
         }
-        if (cost > 0 && bargain === false) {
+        if (cost && bargain === false) {
             setRadio(1)
         }
         // eslint-disable-next-line react-hooks/exhaustive-deps

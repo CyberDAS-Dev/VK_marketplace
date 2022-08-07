@@ -1,14 +1,14 @@
 import axios from 'axios'
 
 const isDev = import.meta.env.MODE === 'development'
-const url = 'https://'
-const devToken = import.meta.env.VITE_VK_USER_TOKEN
+const url = isDev ? 'http://localhost:8888/v1' : 'https://'
+const token = isDev ? import.meta.env.VITE_VK_USER_TOKEN : window.location.search.slice(1)
 
 const http = axios.create({
-    baseURL: `${isDev ? 'http://localhost:8888/v1' : url}`,
+    baseURL: url,
     headers: {
         'Content-Type': 'application/json',
-        Authorization: `Bearer ${isDev ? devToken : window.location.search.slice(1)}`,
+        Authorization: `Bearer ${token}`,
     },
 })
 
