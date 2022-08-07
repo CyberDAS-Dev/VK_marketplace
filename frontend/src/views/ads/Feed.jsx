@@ -12,11 +12,14 @@ const AdsView = observer(function AdsView({ id }) {
     const [activePanel] = React.useState('main')
     const [activeModal, setActiveModal] = React.useState(null)
     const [popout, setPopout] = React.useState(null)
+
     const closeModal = React.useCallback(() => setActiveModal(null), [])
+
     const closePopout = React.useCallback(() => {
         unlockScroll()
         setPopout(null)
     }, [unlockScroll])
+
     const applyFilters = React.useCallback(
         (e, data) => {
             e.preventDefault()

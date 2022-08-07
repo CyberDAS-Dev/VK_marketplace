@@ -22,7 +22,9 @@ const MainPanel = observer(function MainPanel({ id, onSearchClick, setPopout, cl
         [closePopout, lockScroll, setPopout]
     )
 
-    const onBuyButton = React.useCallback(() => {}, [])
+    const onBuyButton = React.useCallback((ownerId) => {
+        window.location.href = `https://vk.com/im?sel=${ownerId}`
+    }, [])
 
     // eslint-disable-next-line react-hooks/exhaustive-deps
     const applySearch = React.useCallback(

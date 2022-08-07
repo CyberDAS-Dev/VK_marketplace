@@ -24,6 +24,7 @@ const AdCard = observer(function AdCard({ data, maximizePhoto, onBuyButton }) {
             header={data.title}
             text={data.description}
             cost={defineCost()}
+            ownerId={data.owner_id}
             loading="lazy"
             expandable
             limit={70}

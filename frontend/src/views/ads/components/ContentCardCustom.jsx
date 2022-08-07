@@ -22,6 +22,7 @@ const ContentCard = observer(function ContentCard(props) {
         text,
         cost,
         onGalleryClick,
+        ownerId,
         onBuyButton,
         expandable,
         limit,
@@ -135,6 +136,7 @@ const ContentCard = observer(function ContentCard(props) {
                     costWording={cost.wording}
                     limit={limit}
                     onBuyButton={onBuyButton}
+                    ownerId={ownerId}
                 >
                     {text}
                 </Expandable>

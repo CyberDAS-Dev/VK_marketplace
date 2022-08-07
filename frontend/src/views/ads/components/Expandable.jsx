@@ -10,6 +10,7 @@ const Expandable = observer(function Expandable({
     limit,
     className,
     onBuyButton,
+    ownerId,
 }) {
     const slicedChildren = children.length > limit ? `${children.slice(0, limit)}...` : children
 
@@ -22,7 +23,12 @@ const Expandable = observer(function Expandable({
             <Text weigth={weigth} className={className}>
                 {children}
             </Text>
-            <Button size="m" style={{ marginTop: 15 }} stretched onClick={onBuyButton}>
+            <Button
+                size="m"
+                style={{ marginTop: 15 }}
+                stretched
+                onClick={() => onBuyButton(ownerId)}
+            >
                 {costWording}
             </Button>
         </>
