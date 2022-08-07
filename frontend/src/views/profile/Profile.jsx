@@ -7,6 +7,7 @@ import MainPanel from '@/views/profile/panels/Main'
 import { autorun } from 'mobx'
 import EditAdPanel from '@/shared/components/EditAd'
 import MyAds from './store/MyAdsStore'
+import DeleteConfirm from './components/DeleteConfirm'
 
 const ProfileView = observer(function ProfileView({ id }) {
     const [myAds] = React.useState(() => new MyAds())
@@ -45,6 +46,10 @@ const ProfileView = observer(function ProfileView({ id }) {
         if (!isError) backToMain()
     }, [backToMain, myAds])
 
+    const openDeleteConfirm = React.useCallback(() => {
+        setPopout(<DeleteConfirm setPopout={setPopout} deleteAd={deleteAd} />)
+    }, [deleteAd])
+
     return (
         <View id={id} activePanel={activePanel} popout={popout}>
             <MainPanel id="main" setActivePanel={setActivePanel} setPopout={setPopout} />
@@ -58,7 +63,7 @@ const ProfileView = observer(function ProfileView({ id }) {
             <EditAdPanel
                 id="editAd"
                 currentAd={myAds.currentAd}
-                deleteAd={deleteAd}
+                deleteAd={openDeleteConfirm}
                 submitAd={submitAd}
                 backToMain={backToMain}
             />
